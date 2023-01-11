@@ -1,0 +1,630 @@
+79 	;are used to draw the Overworld tiles? offset in the Name Table(s) for Overworld redrawing.
+7A 	;are used to draw the Overworld tiles? offset in the Name Table(s) for Overworld redrawing.
+754 	;in_elevator (boolean)
+A7 	;collision bits for Link - 0000ABLR (above,below,left,right)
+479 	;jumping_state (2=going up, 1=coming down, 0=not jumping)
+3E6 	;gravity_counter (each time it overflows, vspeed += 1)
+57D 	;vspeed (Link's vertical velocity, negative is up.)
+29 	;y_pos (Link's y position in sideview)
+400 	;sword_slash_frame (animation frame)
+497 	;crouch_timer (timer for Link crouching after landing)
+70 	;hspeed (Link's horizontal velocity)
+D0 	;jump_spell_on (0=off, 1=on)
+19 	;fall_or_invisible (0=invisible, 1=normal, 2~FF=fall in hole)
+
+A7,x 	;collision bits for Link - 0000ABLR (above,below,left,right)
+479,x 	;jumping_state (2=going up, 1=coming down, 0=not jumping)
+3E6,x 	;gravity_counter (each time it overflows, vspeed += 1)
+57D,x 	;vspeed (Link's vertical velocity, negative is up.)
+29,x 	;y_pos (Link's y position in sideview)
+400,x 	;sword_slash_frame (animation frame)
+497,x 	;crouch_timer (timer for Link crouching after landing)
+70,x 	;hspeed (Link's horizontal velocity)
+19,x 	;fall_or_invisible (0=invisible, 1=normal, 2~FF=fall in hole)
+
+
+69C4 	;STOP_SCROLLING_LEFT_AT_THIS_MAP_PAGE
+69C7 	;STOP_SCROLLING_RIGHT_AT_THIS_MAP_PAGE
+
+53E,Y 	;temp area used to copy from to generate the ppu macro for the spell menu 
+53E 	;temp area used to copy from to generate the ppu macro for the spell menu 
+
+301 	;ppu number of bytes following (counts both instructions and tile data values)
+
+08 	;used as table index for overworld demon spawning (calculated by rng)
+18 	;dark link:	$18	0=duck,1=stand
+
+54 	;projectile x		54,55,56,57,58,59	54,y	? only 56,59confirmed
+42 	;projectile x*255	42,43,44,45,46,47	42,y	?  read from code
+30 	;projectile y		30,31,32,33,34,35	30,y
+66 	;facing dir		66,67,68,69,6A,6B	66,Y
+77 	;projectile speed	77,78,79,7A,7B,7C	77,Y
+87 	;projectile ID		87,88,89,8A,8B,8C	87,Y
+6B 	;projectile color?	6B
+48e  	;used to store item number used in the future	48e,48f,490,491,492,493	0=no item, >0=itemID
+40e 	;flash sprite ?  40e,40f,410,411,412,413
+57e 	;y velocity	57e,57f,580,581,582,583		57d=link
+57D 	; Link's Y Velocity
+57E,X 	; Enemy Y Velocity
+584,X 	; Projectile Y Velocity
+71 	;mon x velocity	71,72,73,74,75,76
+1a 	;draw sprite ?	1a,1b,1c,1d,1e,1f
+2a 	;monster y	2a,2b,2c,2d,2e,2f
+3c 	;monster x*255	3c,3d,3e,3f,40,41
+4e 	;monster x	4e,4f,50,51,52,53
+60 	;monster facing dir	60,61,62,63,64,65
+a8 	;monster ai or state 	a8,a9,aa,ab,ac,ad	 or should  this be A7,X
+bc 	;monster sram pointer?	bc,bd,be,bf,c0,c1	LDY bc,x  ; then LDA ($D6),Y   if bit7 is set it means monster killed?
+b6 	;monster exists		b6,b7,b8,b9,ba,bb	exists:0=no,1=yes,2=kill/give exp
+c2 	;monster monHP		c2,c3,c4,c5,c6,c7
+a1 	;monster monID		a1,a2,a3,a4,a5,a6	1=item,?15=teacher(when combined with something else)
+af 	;monster itemID/ai?	af,b0,b1,b2,b3,b4
+
+FA1 	; Player name value #1
+FA2 	; Player name value #2
+FA3 	; Player name value #3
+FA4 	; Player name value #4
+FA5 	; Player name value #5
+FA6 	; Player name value #6
+FA7 	; Player name value #7
+FA8 	; Player name value #8
+5EB 	; Experience an enemy takes away
+DE 	;prevent movement/actions, occur when a chat is occuring
+CC 	; Link's X Position on Screen
+479 	; Link is in mid-air ? (1 = mid-air, 0 = on ground)
+7D 	;number of pixels to move? automove? on overworld, only partially, causes bug
+076F 	; Magic State, $08 (bit3) is fairy is on
+17 	; Link's Shield Position
+4D 	;link X pos SideScroll		
+29 	;link Y pos SideScroll		
+3B 	;link Pagepos SideScroll		
+72A 	;link Pagepos SideScroll		
+9F 	;link facedir SideScroll		
+562 	;link facedir OverWorld		
+75C 	;start this map page		
+B8 	;? makes link hold up the last ? item he got 
+b9 	;? makes link hold up the last ? item he got 
+26 	; Movement Tally - Increases as you walk in overworld.		; Shooting Star presence in Intro
+36 	; Sword Projectile Y On Screen
+73 	; Overworld Y
+74 	; Overworld X
+80 	; Controller 1 Last Poll
+86 	; Overworld random monster type (00 - None, 01 - Small, 02 - Big, )
+87 	; Overworld random monster type (00 - None, 01 - Small, 02 - Big, )
+88 	; Overworld random monster type (00 - None, 01 - Small, 02 - Big, )
+89 	; Overworld random monster type (00 - None, 01 - Small, 02 - Big, )
+8D 	; Projectile Flag (00 - Inactive, 01 - Active, F2-FF - Disintegrating)
+CC 	; Player X On Screen
+C7 	; Boss Hit Points (00-20)
+CF 	; Sword Projectile X On Screen
+1F0 	; Sprite Memory
+2FF 	; Sprite Memory
+301 	; Used when writing text to screen
+302 	; Used when writing text to screen
+303 	; Letter position when writing to screen
+304 	; Text memory offset?
+305 	; Empty Row Space Character
+306 	; Letter Written to Screen
+307 	; Text memory offset?
+489 	; Text Column
+48A 	; Text Row
+48B 	; Conversation Pointer
+50A 	; Attack Delays
+518 	; Invulnerable Timeout (01-02 - Blinking, 03+ - Not Blinking)
+562 	; Controller 1 Last Poll
+564 	; Magic Points - Display
+565 	; Hit Points - Display
+57D 	; Player Y Delta
+5CA 	; Sword Projectile Timeout
+606 	; P Bag North of Swamp Taken (FF - No, FB - Yes)
+610 	; Trophy Taken Flag (FF - No, F7 - Yes)
+613 	; Container Heart South of Palace 1 Taken Flag (FF - No, DF - Yes)
+616 	; Magic Potion South of Zelda's Palace Taken Flag (FF - No, FF - Yes)
+680 	; Palace 1 Key 1 Taken Flag (FB - No, FA - Yes)
+681 	; Palace 1 Key 2,3 Taken Flag (FF - No, F7 - Yes)
+684 	; Candle Taken Flag (BD - No, 3D - Yes)
+686 	; Palace 1 Key 4 Taken Flag (BF - No, BB - Yes)
+700 	; Lives
+726 	; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
+741 	; Controller 1 Input
+742 	; Controller 1 Input
+743 	; Controller 1 Input
+744 	; Controller 1 Input
+74C 	; Dialog Type (00 - None, 01 - Level Up, 02 - Talking)
+766 	; Dialog Flag (00-01)	wait for B button press
+773 	; Magic Points
+774 	; Hit Points
+775 	; Experience x256
+776 	; Experience x1
+777 	; Attack Level
+778 	; Magic Level
+779 	; Life Level
+793 	; Keys (00-09)
+798 	; Trophy In Inventory (10 - Yes)
+7DD 	; Dialog Counter
+FE 	;does interesting effects when changed, perhaps involves palette? 
+5DF ; count of easy monster killed for item drop
+5E0 ; count of hard monster killed for item drop
+704  ; 0=start bottom of screen, 1=start at top of screen ; elevator
+706 ; overworld index (0=west hyrule, 1=death mtn/maze island, 2=east hyrule)
+707 ; "world" (0=caves, enemy encounters...; 1=west hyrule towns; 2=east hyrule towns; 3=palace 1,2,5 ; 4=palace 3,4,6 ; 5=great palace)
+736 ; Game Mode ; screen intro type
+748 ; area location index (the index of the spot on the overworld that pulled you into the sideview)	; Overworld Area out of Side View
+75C ; start this many 'pages' into the scene	0	1	2	3		;4 = middle?	; Position code when entering area (0-3) (can be 4)
+760 ; I don't know... freezing it doesn't affect anything anywhere but it's in the code so... yeah
+561 ; scene layout index (doesn't affect location)	; Area Code
+76C ; begin a special routine. Changing this value has the most 'automation' ;(00=restart from zelda's castle with 3 lives,  01=no routine, 02=die, 03=wake up zelda, 04=roll credits, 06=show the lives then restart the scene)
+
+10 	; used as monster x register ;draw boss hp bar
+12 	; Frame Counter (ascending)
+13 	; Fairy state (0 = Not in Fairy state)	faery, flip from 8=faery,0=link (set $076F to 0, then set $13 to 0)	setting 76F to ff, changes 76F to 3B which prevents changing $13 from 8 to 0
+14
+17 	; Link's Shield Position (0 = Link ducked)
+19 	; Position Code for Fairy Cursor (Selection Screen)	(and) ;draw link's sprite =yes/no
+1A 	; Saved Game Presence in Slot (1 bit per slot) ?
+1A,X
+1B
+1C
+1D
+1E 	; Cursor position in Name Input Screen
+1F
+20,X 	; Enemy Condition
+27
+28
+29 	; Link's Y Position
+2A,X 	; Enemy Y Position
+30,X 	; Projectile Y Position
+36,X 	; Flying Blade/Flame Y Position
+39
+3B 	; Link's X Position (high byte)
+3C,X 	; Enemy X Position (high byte)
+42,X 	; Projectile X Position (high byte)
+48,X 	; Flying Blade/Flame X Position (high byte)
+4B
+4D 	; Link's X Position (low byte)
+4E,X 	; Enemy X Position (low byte)
+54,X 	; Projectile X Position (low byte)
+5A,X 	; Flying Blade/Flame X Position (low byte)
+5D
+5F 	; Link's facing direction
+60,X 	; Enemy facing direction
+66,X 	; Projectile facing direction
+6D,X
+70 	; Link's X Velocity	; Player X Delta (E8-00, 00-18)
+71,X 	; Enemy X Velocity
+73 	; Y Position on OW (square unit)
+74 	; X Position on OW (square unit)
+75 	; Y Position on OW (Link)
+76 	; X Position on OW (Link)
+77,X 	; Projectile X Velocity
+7D,X 	; X Velocity of Flying Blade/Flame
+$7D		 ;number of pixels to move? on overworld , automovement?
+7E
+7F
+80 	; Current Animation Frame for Link (OW and SS)	;animation frame, powerful: can cause link to attack
+81,X 	; Current Animation Frame for Enemys
+82,X 	; Demon Type (1 = Weak, 2 = Strong, 3 = Fairy) (OW)
+87,X 	; Projectile Type
+8D,X 	; Flying Blade/Flame slot
+90
+91,X
+97,X
+9F 	; Direction arrow pressed (1 = right, 2 = left)
+9D,X
+A0
+A1,X 	; Enemy Code
+A8,X 	; Enemy State
+AE
+AF,X 	; Various enemy state variables
+B5	;2 will make link die in lava	;3 move right like when win game at dark link
+B6 	;set to 10 will make link fall down 
+B6,X 	; Generated Enemy Slot
+BC,X 	; Generated Enemy Y Position ?
+C2,X 	; Enemy Current HP
+C8 	; go outside: set $c8 to 3
+C9
+CA
+CB
+CC 	; Link's X Position on Screen
+CD
+CE
+CF 	; Flying Blade X Position
+D0 	; Jump Spell modifier (1 = Jump spell active)
+D1 	; Area Width (0-3)
+D4
+D5
+D6
+D7
+D9 	; Thunder Spell modifier ?
+DA
+DB
+DC
+DD
+DE 	; Spell Spell modifier (1 = Spell spell active) (and more)	;set to 1 to prevent moving, 0 to allow??
+DF 	; Enemy Code (temporary storage, used for Ironknuckles in Bank 4)
+E0 	; Music Part Offset 
+E1
+E2
+E3
+E4
+E5
+E6 	; Music Note Pitch
+E7 	; Music Note Pitch
+E8 	; Music Note Pitch
+E9
+EA
+EB 	; Music
+EC 	; Sound Effects Type 1
+ED 	; Sound Effects Type 2
+EE 	; Sound Effects Type 3
+EF 	; Sound Effects Type 4
+F5 	; Controller 1 Buttons Pressed
+F6 	; Controller 2 Buttons Pressed
+F7 	; Controller 1 Buttons Held
+F8 	; Controller 2 Buttons Held
+FC
+FD
+FE
+FF 	; Sprite Bank ?
+----
+10A
+10B
+10C 	; Area Palette Group (Type of Area)	
+10C	; Area Ground Type (0-7)
+10D 	; Area Bottom Row Tile Code
+10E
+10F
+112 	; Tile Code 0 for Object
+200 	; Animation frame for Link's OW sprite (part 1)
+201 	; Animation frame for Link's OW sprite (part 2)
+280,X
+281,X
+282,X
+283,X
+284,X
+285,X
+286,X
+287,X
+2B1
+2C0	;write: 	40	70	00		80	this creates a green square	;		Y	Tile	properties	X
+301
+302
+325
+362	; PPU Macro Offset
+363,X
+364,X
+365,X
+366,X
+367,X
+368,X
+369,X
+36A,X
+36B,X
+36C,X
+36D,X
+3A4
+3D6
+3E6,X
+400 	; Sword slash frame code
+401,X
+40E,X 	; Enemy Hit State (0 = not in Hit State)	;	causes flashing
+414,X
+41A,X 	;break block by stab/stepon: ?exists/in-use
+41F,X 	;break block by stab/stepon: map page
+424,X 	;break block by stab/stepon: X
+429,X 	;break block by stab/stepon: y
+42E,X
+433,X 	;break block by stab/stepon: ?addy (low)
+438,X 	;break block by stab/stepon: ?addy (high)
+43E,X
+444,X 	; Enemy Vulnerability, for example: horsehead and helmethead have =2, which prevents hit-with-sword in body and feet, but not head
+44A
+44B
+44C,X
+452,X
+458,X
+45E,X
+464,X
+471,X
+479 	; Link is in mid-air ? (1 = mid-air, 0 = on ground)
+47E
+480
+484
+486 	; Area "No Ceiling" flag
+487
+488
+489 	; Letter X Position offset
+48A 	; Letter Y Position offset
+48B 	; Townfolk Slot				used as X position for monster ID
+48C
+48D 	; Related to Link's flicker after being hit ?
+48E,X 	; Dropped Item Code
+494 	; INC $0494 TO KILL LINK
+495 	; Link ducked ? (1 = ducked)
+497 	; Timer for Link crouching after landing
+49C	;hold item above head: timer
+49D	;hold item above head: item id	; Related to Palace Item
+49E
+49F 	; Related to Big Door
+4A0,X
+4B8
+4D0,X 	; Tile Codes to load in Overworld
+4E8,X
+500 	; Timer frequency		;?Invincibility after stun counter (counts down, nonzero = invincible)
+501 	; Timer
+502 	; Timer
+503 	; Timer for moving left or right (when entering area)
+504 	; Timer for Link graphic to change when walking (OW)	;Timer for Sword in middle swing (SS)
+504,X 	; Timer for Enemy
+50A 	; Timer related to Sword Slash
+50B 	; Timer
+50C 	; Timer for Link being in injured state
+50E,X 	; Timer for Overworld Demon
+516 	; Timer for Overworld Sprites to appear and for each new set
+518 	; Timer for Link being immune from attacks
+51A
+51B,X 	; Randomizer
+51C
+524 ;menu control	(and) ; OVERWORLD: 	set to 1 to pause (will change to 2) , set to 3 to unpause (will change to 0)
+524 	; Routine Index
+525 	; Routine Delay
+526,X
+53E,X 	; Tiles for Dialog Box Rows
+54C,X 	; Tiles for Dialog Box Rows
+551,X
+55A,X
+562 	; Link's facing direction in OW		.... xxxx = up, down, left, right
+563 	; Type of terrain Link is facing in OW
+565
+566 	; Delay between letters (town)		text speed text delay
+567 	; Related to Flute in Overworld		TIMER: can't move on overworld while this occurs
+568 	; Related to Flute in Overworld
+569 	; Pointer to letter 	; High
+56A 	; Pointer to letter 	; Low
+56B 	; Town Code	;used by wise man to pick magic to give?
+56C 	; Palace Code
+56D,X
+575,X
+57D 	; Link's Y Velocity
+57E,X 	; Enemy Y Velocity
+584,X 	; Projectile Y Velocity
+The following are all related to Townfolks
+58D,X
+593,X
+599,X
+59F,X
+5A5,X	;town npc chat counter
+5AB,X
+5B1,X
+5B7,X
+5BD,X
+5C3,X
+5C9
+5CA,X 	; Projectile Lifespan (Flying Blade or Flame) (not sure)
+5CC,X
+5D3,X
+5DA
+5DB
+5DC
+5DD
+5DE,X 	; Current number of enemies killed for magic/bag
+5E2 	; Amount of Magic to restore for Blue Magic Jar
+5E3 	; Amount of Magic to restore for Red Magic Jar
+5E4
+5E5
+5E6
+5E7
+5E8
+5E9 	; Sound Played Out of Area (0 = No Sound)
+700 	; Current number of lives
+701 	; Facing direction when entering area, how Link enters the screen	0=left, 1=right
+705 	; Related to how Link entered the room (walking, falling, elevator...)
+708
+709 	; used for going outside??
+70A 	; Previous Region ?
+70B 	; Graphics Bank for Palaces
+70C 	; Magic to be added to Magic Meter
+70D 	; Life to be added to Life Meter
+70E	;setting to 1 will make link sink (duck into the chimney)
+70F 	; Color of Link after Shield Spell
+710 	; Reflect Spell effect (01 = activated)
+717 	; Screen Number for Objects (0-3)
+71B
+71C
+71D
+71E
+71F 	; ???
+720
+721
+722
+725 	; PPU Macro Selector	
+726
+727
+728 	;_728_FreezeScrolling		= $728	;1=freeze screen, prevent from exiting left/right
+729
+72A 	; Scrolling Offset High Byte
+72B
+72C 	; Scrolling Offset Low Byte
+72D
+72E 	; Area Data Length
+72F 	; Area Data Reading Offset
+730 	; Position of Object Placement
+731 	; Level Object Type and Size
+732
+733
+734
+735
+737
+738
+739
+73B
+73C
+73D 	; Routine Index
+73E
+73F
+740
+741 	; A/B Buttons Pressed
+742 	; Left/Right Buttons Held
+743 	; Up/Down Buttons Held		;elevator was moving up or down: 8=up, 4=down
+744 	; Controller 1 Buttons Held
+746
+747
+
+749 	; Current position of Magic selector
+74A
+74B 	; Spell Flash Counter (bit 7 set = decor flash)
+74C 	; * related to Raft Animation * (and other events, like spell learning)
+74E
+74F 	; Related to Pause Pane
+750
+751 
+752
+753
+754
+755 	; Experience to be added (high byte)
+756 	; Experience to be added (low byte)
+757 	; Position of Elevator in Map
+758 	; Position of Locked Door in Map
+759 	; if not 0, cause fairy spawn at next encounter (??)
+75A
+75B
+75D
+75F 	;at bank0: 0D64: AD 5F07	LDA $075F	then 	STA $EB		; Music Channel	; something to do with music
+761
+762
+763 	; Counter for Big Door in Hidden Kasuto
+764 	; Counter for Big Door in Hidden Kasuto
+765
+766 	; set when conversation occurs? Might prevent other ppu instruction
+767 	; Related to Crystal Placement
+768 	;makes weird ppu effect
+769 	; Bank to switch to (other than 0 or 7)
+76D
+76E 	; Graphics bank to use
+76F 	; Magic State	0=beam projectile only full hp		10=flame projectile
+770 	; Exp. needed for Next Level (high byte)
+771 	; Exp. needed for Next Level (low byte)
+772 	; Current Game Slot (0-2)			;save game slot
+773 	; Current Magic left in meter
+774 	; Current Life left in meter
+775 	; Current Experience (high byte)
+776 	; Current Experience (low byte)
+777 	; Attack Level (1-8)
+778 	; Magic Level (1-8)
+779 	; Life Level (1-8)
+77A
+77B 	; Have Shield spell
+77C 	; Have Jump spell
+77D 	; Have Life spell
+77E 	; Have Fairy spell
+77F 	; Have Fire spell
+780 	; Have Reflect spell
+781 	; Have Spell spell
+782 	; Have Thunder spell
+783 	; Current number of Magic Containers
+784 	; Current number of Heart Containers
+785 	; Have Candle
+786 	; Have Glove
+787 	; Have Raft
+788 	; Have Boot
+789 	; Have Flute
+78A 	; Have Cross
+78B 	; Have Hammer
+78C 	; Have Magic Key
+78D,X 	; Crystals Placed (1 = crystal placed) 02 03 04 05 06
+793 	; Current number of Keys
+794 	; Number of Crystals left
+796 	; Down/Up Techs (and other things)
+797
+798 	; Have collected Trophy (10)
+799 	; Have collected Mirror (01)
+79A 	; Have collected note from Bagu (08) Medicine (40)
+79B 	; Have collected some Water (01)
+79C 	; Have collected Lost Child (20)
+79D 	; Have 7 Magic Containers (08)
+79F 	; Number of Continues used
+7A0 	; this is a new game+ file?, set it up during the save game load for newgame+ settings
+7A1,X 	; Player Name
+7A9 	; Raft Direction (1 = Going Right, 2 = Going Left)
+
+7AA
+7AB
+7AC
+7AD 	; * related to Raft Animation *
+7AE
+7AF
+7B0
+7C0
+7DB 	; Something for Palaces ?
+7E8 	; Noise
+7E9 	; Triangle
+7EA 	; Pulse 2
+7EB 	; Pulse 1
+7EC
+7ED
+7EE
+7F0
+7F1
+7F4
+7F5
+7F6
+7F9
+7FA
+7FB
+7FC
+7FD
+7FE
+7FF
+6000 	; Area Tile Codes (4 * D0 = 340)
+6A00 	; Overworld Area Data
+6A00 	;Area Byte 0 (Y Position)
+6A3F 	;Area Byte 1 (X Position)
+6A7E 	;Area Byte 2 (Map Number)
+6ABD 	;Area Byte 3 (Region/World Code)
+6AFC 	;Connectivity Data
+7000 	; Enemy Data
+740E 	; Number of Magic Containers for Slot 1
+740F 	; Number of Heart Containers for Slot 1
+7440 	; Number of Magic Containers for Slot 2
+7441 	; Number of Heart Containers for Slot 2
+7472 	; Number of Magic Containers for Slot 3
+7473 	; Number of Heart Containers for Slot 3
+751A 	;item availability bitfield?
+7919 	; Palettes
+7C00 	; Overworld Data
+
+
+6957 	;bank0_Table_For_PPU_Instructions_On_GameOverScreen_45_loaded_in_6957 ?
+
+
+6DD5 	; Enemy Attributes Table (palette, exp., etc)
+6DF9 	; Another Enemy Attributes Table
+
+6D8D 	;enemy every-frame routine, store to $E and JMP ($E)
+6D8F 	;enemy every-frame routine, store to $E and JMP ($E)
+6D91 	;enemy every-frame routine, store to $E and JMP ($E)
+6D93 	;enemy every-frame routine, store to $E and JMP ($E)
+6D95 	;enemy every-frame routine, store to $E and JMP ($E)
+6D97 	;enemy every-frame routine, store to $E and JMP ($E)
+6D99 	;enemy every-frame routine, store to $E and JMP ($E)
+6D9B 	;enemy every-frame routine, store to $E and JMP ($E)
+6D9D 	;enemy every-frame routine, store to $E and JMP ($E)
+6D9F 	;enemy every-frame routine, store to $E and JMP ($E)
+6DFF 	;enemy every-frame routine, store to $E and JMP ($E) ???
+
+6E62 	;enemy propery (i.e. cant stab)?
+
+6E65 	;enemy draw routine?
+6E66 	;enemy draw routine?
+
+
+
+EA 	;Global Sound Switch (0 = Sound On)
+4015 	; Sound Channel Switch
+EF 	; Sound Effects Type 4
+EE 	; Sound Effects Type 3
+ED 	; Sound Effects Type 2
+EC 	; Sound Effects Type 1
+EB 	; Music
+
+7B0 	;timer used on GameOverScreen for flashing "SAVE" red and white
