@@ -9,65 +9,65 @@
 ;.setcpu  "6502"                                                               ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-.export L000E     = $000E                                                              ;
-.export L0302     = $0302                                                              ;
-.export L0363     = $0363                                                              ;
-.export L03A4     = $03A4                                                              ;
-.export L05C9     = $05C9                                                              ;
-.export L0600     = $0600                                                              ;
-.export L0620     = $0620                                                              ;
-.export L0640     = $0640                                                              ;
-.export L0660     = $0660                                                              ;
-.export L0680     = $0680                                                              ;
-.export L06A0     = $06A0                                                              ;
-.export L06C0     = $06C0                                                              ;
-.export L6060     = $6060                                                              ;
-.export L6261     = $6261                                                              ;
-.export L696C     = $696C                                                              ;
-.export L70A0     = $70A0                                                              ;
-.export L7800     = $7800                                                              ;
-.export L780E     = $780E                                                              ;
-.export L781C     = $781C                                                              ;
-.export L782A     = $782A                                                              ;
-.export L7838     = $7838                                                              ;
-.export L7846     = $7846                                                              ;
-.export L7854     = $7854                                                              ;
-.export L7862     = $7862                                                              ;
-.export L7870     = $7870                                                              ;
-.export L787E     = $787E                                                              ;
-.export L788C     = $788C                                                              ;
-.export L789A     = $789A                                                              ;
-.export L789F     = $789F                                                              ;
-.export L78A8     = $78A8                                                              ;
-.export L78AD     = $78AD                                                              ;
-.export L78B6     = $78B6                                                              ;
-.export L78BB     = $78BB                                                              ;
-.export L78C4     = $78C4                                                              ;
-.export L78D2     = $78D2                                                              ;
-.export L78E0     = $78E0                                                              ;
-.export L78EE     = $78EE                                                              ;
-.export L78FC     = $78FC                                                              ;
-.export L790A     = $790A                                                              ;
+L000E = $000E
+L0302 = $0302
+L0363 = $0363
+L03A4 = $03A4
+L05C9 = $05C9
+L0600 = $0600
+L0620 = $0620
+L0640 = $0640
+L0660 = $0660
+L0680 = $0680
+L06A0 = $06A0
+L06C0 = $06C0
+L6060 = $6060
+L6261 = $6261
+L696C = $696C
+L70A0 = $70A0
+L7800 = $7800
+L780E = $780E
+L781C = $781C
+L782A = $782A
+L7838 = $7838
+L7846 = $7846
+L7854 = $7854
+L7862 = $7862
+L7870 = $7870
+L787E = $787E
+L788C = $788C
+L789A = $789A
+L789F = $789F
+L78A8 = $78A8
+L78AD = $78AD
+L78B6 = $78B6
+L78BB = $78BB
+L78C4 = $78C4
+L78D2 = $78D2
+L78E0 = $78E0
+L78EE = $78EE
+L78FC = $78FC
+L790A = $790A
+LC24F = $C24F
+LC2A6 = $C2A6
+LC72D = $C72D
+LCB18_fill_hp_or_mp_to_full__provide_x_register__maybe = $CB18 ;???
+LD20A = $D20A
+LD2EC = $D2EC
+LD55E = $D55E
+LDF01 = $DF01
+LDF3F = $DF3F
+LDF56 = $DF56
+LDFD1 = $DFD1
+LDFD2 = $DFD2
+LDFDB = $DFDB
+LE000 = $E000
+LE001 = $E001
+LE024 = $E024
+LE187 = $E187
+LE726 = $E726
+LEC02 = $EC02
 
-.import LC24F
-.import LC2A6
-.import LC72D
-.import LCB18_fill_hp_or_mp_to_full__provide_x_register__maybe
-.import LD20A
-.import LD2EC
-.import LD55E
-.import LDF01
-.import LDF3F
-.import LDF56
-.import LDFD1
-.import LDFD2
-.import LDFDB
-.import LE000
-.import LE001
-.import LE024
-.import LE187
-.import LE726
-.import LEC02
 .import lpointerTable__panes_tile_mappings__9B83
 .import lpointerTable__panes_tile_mappings__9B97
 .import bank7_applyGravityMotion

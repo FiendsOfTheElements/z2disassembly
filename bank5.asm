@@ -9,132 +9,132 @@
 ;.setcpu  "6502"                                                               ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-.export L0000     = $0000                                                              ;
-.export L000E     = $000E                                                              ;
-.export L02AD     = $02AD                                                              ;
-.export L0302     = $0302                                                              ;
-.export L0363     = $0363                                                              ;
-.export L03A4     = $03A4                                                              ;
-.export L05C9     = $05C9                                                              ;
-.export L0600     = $0600                                                              ;
-.export L0620     = $0620                                                              ;
-.export L0640     = $0640                                                              ;
-.export L0660     = $0660                                                              ;
-.export L0680     = $0680                                                              ;
-.export L06A0     = $06A0                                                              ;
-.export L06C0     = $06C0                                                              ;
-.export L07AD     = $07AD                                                              ;
-.export L6002     = $6002                                                              ;
-.export L6034     = $6034                                                              ;
-.export L6060     = $6060                                                              ;
-.export L6066     = $6066                                                              ;
-.export L6098     = $6098                                                              ;
-.export L6178     = $6178                                                              ;
-.export L6258     = $6258                                                              ;
-.export L6261     = $6261                                                              ;
-.export L696C     = $696C                                                              ;
-.export L7000     = $7000                                                              ;
-.export L7001     = $7001                                                              ;
-.export L7004     = $7004                                                              ;
-.export L700B     = $700B                                                              ;
-.export L700E     = $700E                                                              ;
-.export L7013     = $7013                                                              ;
-.export L7018     = $7018                                                              ;
-.export L701D     = $701D                                                              ;
-.export L702A     = $702A                                                              ;
-.export L7033     = $7033                                                              ;
-.export L7038     = $7038                                                              ;
-.export L703D     = $703D                                                              ;
-.export L7042     = $7042                                                              ;
-.export L7045     = $7045                                                              ;
-.export L7048     = $7048                                                              ;
-.export L7051     = $7051                                                              ;
-.export L7054     = $7054                                                              ;
-.export L705F     = $705F                                                              ;
-.export L7064     = $7064                                                              ;
-.export L706F     = $706F                                                              ;
-.export L7072     = $7072                                                              ;
-.export L7079     = $7079                                                              ;
-.export L7084     = $7084                                                              ;
-.export L708B     = $708B                                                              ;
-.export L7090     = $7090                                                              ;
-.export L7097     = $7097                                                              ;
-.export L70A0     = $70A0                                                              ;
-.export L70A5     = $70A5                                                              ;
-.export L70AA     = $70AA                                                              ;
-.export L70AD     = $70AD                                                              ;
-.export L70BA     = $70BA                                                              ;
-.export L70BF     = $70BF                                                              ;
-.export L70C2     = $70C2                                                              ;
-.export L70C5     = $70C5                                                              ;
-.export L70CE     = $70CE                                                              ;
-.export L70D9     = $70D9                                                              ;
-.export L70E0     = $70E0                                                              ;
-.export L70ED     = $70ED                                                              ;
-.export L70F4     = $70F4                                                              ;
-.export L70F9     = $70F9                                                              ;
-.export L70FE     = $70FE                                                              ;
-.export L7103     = $7103                                                              ;
-.export L7106     = $7106                                                              ;
-.export L710F     = $710F                                                              ;
-.export L7114     = $7114                                                              ;
-.export L711B     = $711B                                                              ;
-.export L7120     = $7120                                                              ;
-.export L7123     = $7123                                                              ;
-.export L7126     = $7126                                                              ;
-.export L7129     = $7129                                                              ;
-.export L712C     = $712C                                                              ;
-.export L712F     = $712F                                                              ;
-.export L7132     = $7132                                                              ;
-.export L7135     = $7135                                                              ;
-.export L7400     = $7400                                                              ;
-.export L7402     = $7402                                                              ;
-.export L7434     = $7434                                                              ;
-.export L7466     = $7466                                                              ;
-.export L7498     = $7498                                                              ;
-.export L749A     = $749A                                                              ;
-.export L757A     = $757A                                                              ;
-.export L765A     = $765A                                                              ;
-.export L773A     = $773A                                                              ;
+L0000 = $0000
+L000E = $000E
+L02AD = $02AD
+L0302 = $0302
+L0363 = $0363
+L03A4 = $03A4
+L05C9 = $05C9
+L0600 = $0600
+L0620 = $0620
+L0640 = $0640
+L0660 = $0660
+L0680 = $0680
+L06A0 = $06A0
+L06C0 = $06C0
+L07AD = $07AD
+L6002 = $6002
+L6034 = $6034
+L6060 = $6060
+L6066 = $6066
+L6098 = $6098
+L6178 = $6178
+L6258 = $6258
+L6261 = $6261
+L696C = $696C
+L7000 = $7000
+L7001 = $7001
+L7004 = $7004
+L700B = $700B
+L700E = $700E
+L7013 = $7013
+L7018 = $7018
+L701D = $701D
+L702A = $702A
+L7033 = $7033
+L7038 = $7038
+L703D = $703D
+L7042 = $7042
+L7045 = $7045
+L7048 = $7048
+L7051 = $7051
+L7054 = $7054
+L705F = $705F
+L7064 = $7064
+L706F = $706F
+L7072 = $7072
+L7079 = $7079
+L7084 = $7084
+L708B = $708B
+L7090 = $7090
+L7097 = $7097
+L70A0 = $70A0
+L70A5 = $70A5
+L70AA = $70AA
+L70AD = $70AD
+L70BA = $70BA
+L70BF = $70BF
+L70C2 = $70C2
+L70C5 = $70C5
+L70CE = $70CE
+L70D9 = $70D9
+L70E0 = $70E0
+L70ED = $70ED
+L70F4 = $70F4
+L70F9 = $70F9
+L70FE = $70FE
+L7103 = $7103
+L7106 = $7106
+L710F = $710F
+L7114 = $7114
+L711B = $711B
+L7120 = $7120
+L7123 = $7123
+L7126 = $7126
+L7129 = $7129
+L712C = $712C
+L712F = $712F
+L7132 = $7132
+L7135 = $7135
+L7400 = $7400
+L7402 = $7402
+L7434 = $7434
+L7466 = $7466
+L7498 = $7498
+L749A = $749A
+L757A = $757A
+L765A = $765A
+L773A = $773A
+LC032 = $C032
+LC2A6 = $C2A6
+LC722 = $C722
+LC72D = $C72D
+LCF05 = $CF05
+LD168 = $D168
+LD174 = $D174
+LD293 = $D293
+LD2EC = $D2EC
+LDAC7 = $DAC7
+LDD3D = $DD3D
+LDE3D = $DE3D
+LDE40 = $DE40
+LDE6C = $DE6C
+LDED4 = $DED4
+LDF4C = $DF4C
+LDF56 = $DF56
+LE000 = $E000
+LE3B9 = $E3B9
+LE48A = $E48A
+LE48B = $E48B
+LE4D9 = $E4D9
+LE563 = $E563
+LE5B2 = $E5B2
+LE617 = $E617
+LE726 = $E726
+LE942 = $E942
+LEA18 = $EA18
+LEA1C = $EA1C
+LEA32 = $EA32
+LEC02 = $EC02
+LEF08 = $EF08
+LF0C6 = $F0C6
+LF0CC = $F0CC
+LF0D7 = $F0D7
+LF1F4 = $F1F4
+LF2D3 = $F2D3
+LFCA5 = $FCA5
 
-.import LC032
-.import LC2A6
-.import LC722
-.import LC72D
-.import LCF05
-.import LD168
-.import LD174
-.import LD293
-.import LD2EC
-.import LDAC7
-.import LDD3D
-.import LDE3D
-.import LDE40
-.import LDE6C
-.import LDED4
-.import LDF4C
-.import LDF56
-.import LE000
-.import LE3B9
-.import LE48A
-.import LE48B
-.import LE4D9
-.import LE563
-.import LE5B2
-.import LE617
-.import LE726
-.import LE942
-.import LEA18
-.import LEA1C
-.import LEA32
-.import LEC02
-.import LEF08
-.import LF0C6
-.import LF0CC
-.import LF0D7
-.import LF1F4
-.import LF2D3
-.import LFCA5
 .import bank7_Change_Enemy_Facing_Direction_and_X_Velocity
 .import bank7_code37
 .import bank7_code43

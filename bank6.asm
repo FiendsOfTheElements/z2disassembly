@@ -9,25 +9,25 @@
 ;.setcpu  "6502"                                                               ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-.export L000E     = $000E                                                              ;
-.export L0302     = $0302                                                              ;
-.export L0363     = $0363                                                              ;
-.export L03A4     = $03A4                                                              ;
-.export L05C9     = $05C9                                                              ;
-.export L0600     = $0600                                                              ;
-.export L0620     = $0620                                                              ;
-.export L0640     = $0640                                                              ;
-.export L0660     = $0660                                                              ;
-.export L0680     = $0680                                                              ;
-.export L06A0     = $06A0                                                              ;
-.export L06C0     = $06C0                                                              ;
-.export L6060     = $6060                                                              ;
-.export L6261     = $6261                                                              ;
-.export L696C     = $696C                                                              ;
-.export L70A0     = $70A0                                                              ;
+L000E = $000E
+L0302 = $0302
+L0363 = $0363
+L03A4 = $03A4
+L05C9 = $05C9
+L0600 = $0600
+L0620 = $0620
+L0640 = $0640
+L0660 = $0660
+L0680 = $0680
+L06A0 = $06A0
+L06C0 = $06C0
+L6060 = $6060
+L6261 = $6261
+L696C = $696C
+L70A0 = $70A0
+LE000 = $E000
+LFFF0 = $FFF0
 
-.import LE000
-.import LFFF0
 .import bank7_NMI_Entry_Point
 .import bank7_PowerON_code
 

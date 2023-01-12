@@ -1,86 +1,87 @@
-.import L000E
-.import L0302
-.import L0363
-.import L03A4
-.import L05C9
-.import L0600
-.import L0620
-.import L0640
-.import L0660
-.import L0680
-.import L06A0
-.import L06C0
-.import L6060
-.import L6261
-.import L696C
-.import L70A0
-.import L8001
-.import L800E
-.import L80EE
-.import L812F
-.import L8167
-.import L817B
-.import L81A3
-.import L8368
-.import L83A1
-.import L83CF
-.import L8409
-.import L8470
-.import L84D8
-.import L8500
-.import L8501
-.import L8508
-.import L8509
-.import L850C
-.import L851A
-.import L851B
-.import L851C
-.import L851E
-.import L851F
-.import L8520
-.import L8521
-.import L8522
-.import L8523
-.import L85A1
-.import L861F
-.import L8647
-.import L879B
-.import L8817
-.import L88A0
-.import L89A0
-.import L8AA0
-.import L8B50
-.import L8B69
-.import L8BA0
-.import L8BBF
-.import L8FB7
-.import L9000
-.import L903A
-.import L9624
-.import L9625
-.import L96A8
-.import L9764
-.import L9925
-.import L99E6
-.import L9A04
-.import L9A46
-.import L9B86
-.import LA000
-.import LA07E
-.import LA0FC
-.import LA199
-.import LA256
-.import LA30F
-.import LA315
-.import LA329
-.import LA334
-.import LA338
-.import LA610
-.import LA6A0
-.import LA82A
-.import LB082
-.import LB9CA
-.import LBF00
+L000E = $000E
+L0302 = $0302
+L0363 = $0363
+L03A4 = $03A4
+L05C9 = $05C9
+L0600 = $0600
+L0620 = $0620
+L0640 = $0640
+L0660 = $0660
+L0680 = $0680
+L06A0 = $06A0
+L06C0 = $06C0
+L6060 = $6060
+L6261 = $6261
+L696C = $696C
+L70A0 = $70A0
+L8001 = $8001
+L800E = $800E
+L80EE = $80EE
+L812F = $812F
+L8167 = $8167
+L817B = $817B
+L81A3 = $81A3
+L8368 = $8368
+L83A1 = $83A1
+L83CF = $83CF
+L8409 = $8409
+L8470 = $8470
+L84D8 = $84D8
+L8500 = $8500
+L8501 = $8501
+L8508 = $8508
+L8509 = $8509
+L850C = $850C
+L851A = $851A
+L851B = $851B
+L851C = $851C
+L851E = $851E
+L851F = $851F
+L8520 = $8520
+L8521 = $8521
+L8522 = $8522
+L8523 = $8523
+L85A1 = $85A1
+L861F = $861F
+L8647 = $8647
+L879B = $879B
+L8817 = $8817
+L88A0 = $88A0
+L89A0 = $89A0
+L8AA0 = $8AA0
+L8B50 = $8B50
+L8B69 = $8B69
+L8BA0 = $8BA0
+L8BBF = $8BBF
+L8FB7 = $8FB7
+L9000 = $9000
+L903A = $903A
+L9624 = $9624
+L9625 = $9625
+L96A8 = $96A8
+L9764 = $9764
+L9925 = $9925
+L99E6 = $99E6
+L9A04 = $9A04
+L9A46 = $9A46
+L9B86 = $9B86
+LA000 = $A000
+LA07E = $A07E
+LA0FC = $A0FC
+LA199 = $A199
+LA256 = $A256
+LA30F = $A30F
+LA315 = $A315
+LA329 = $A329
+LA334 = $A334
+LA338 = $A338
+LA610 = $A610
+LA6A0 = $A6A0
+LA82A = $A82A
+LB082 = $B082
+LB9CA = $B9CA
+LBF00 = $BF00
+
 .import bank0_Manual_Save_Game_Routine_UP_AND_A
 .import bank0_Return_of_Ganon_screen_Palettes
 .import bank0_unknown1
