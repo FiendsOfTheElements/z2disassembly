@@ -181,7 +181,7 @@ LBF00 = $BF00
 .export bank7_remove_enemy_or_item
 .export Set_Item_RAM_bit_to_0__Bits_0_3
 
-.segment "BANK7"
+.segment "PRG7"
 
 bank7_PowerON_code:                                                             ;
     LDA      #$00                      ; 0x1c010 $C000 A9 00                   ; A = 00

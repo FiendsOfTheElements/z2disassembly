@@ -1,12 +1,13 @@
-ca65 bank0.asm
-ca65 bank1.asm
-ca65 bank2.asm
-ca65 bank3.asm
-ca65 bank4.asm
-ca65 bank5.asm
-ca65 bank6.asm
-ca65 bank7.asm
+ca65 prg0.asm
+ca65 prg1.asm
+ca65 prg2.asm
+ca65 prg3.asm
+ca65 prg4.asm
+ca65 prg5.asm
+ca65 prg6.asm
+ca65 prg7.asm
 
-ld65 -C nes.cfg bank0.o bank1.o bank2.o bank3.o bank4.o bank5.o bank6.o bank7.o
+ld65 -C nes.cfg prg0.o prg1.o prg2.o prg3.o prg4.o prg5.o prg6.o prg7.o
 
 rm *.o
+rm prg*.bin

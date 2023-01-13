@@ -174,7 +174,7 @@ LF1F4 = $F1F4
 .import bank7_Spawn_New_Projectile
 .import bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
 
-.segment "BANK2"
+.segment "PRG2"
 
 ; ---------------------------------------------------------------------------- ;
 bank2_Pointer_table_for_background_level_data:                                  ;

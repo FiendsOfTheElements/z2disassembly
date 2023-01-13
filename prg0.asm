@@ -107,7 +107,7 @@ LEC02 = $EC02
 .export overworld4
 .export startup_init_begin_game
 
-.segment "BANK0"
+.segment "PRG0"
 
 ; ---------------------------------------------------------------------------- ;
 

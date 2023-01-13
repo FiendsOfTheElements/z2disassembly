@@ -100,7 +100,7 @@ LF1F4 = $F1F4
 .import bank7_Set_tile_and_move_right_1_column
 .import bank7_Simple_Horizontal_Movement
 
-.segment "BANK3"
+.segment "PRG3"
 
 ; ---------------------------------------------------------------------------- ;
 bank3_Pointer_table_for_Background_Areas_Data:                                  ;
