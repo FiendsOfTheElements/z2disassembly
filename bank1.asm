@@ -172,6 +172,8 @@ LF1F4 = $F1F4
 .import bank7_Simple_Vertical_Movement
 .import bank7_Spawn_New_Projectile
 
+.segment "BANK1"
+
 ; ---------------------------------------------------------------------------- ;
 
 bank1_Pointer_table_for_Background_Areas_Data:                                  ;

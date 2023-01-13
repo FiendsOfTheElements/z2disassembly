@@ -191,6 +191,8 @@ LFCA5 = $FCA5
 .import bank7_Spawn_New_Projectile
 .import bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
 
+.segment "BANK5"
+
 ; ---------------------------------------------------------------------------- ;
 bank5_nothing:                                                                  ;
 .byt    $00                            ; 0x14010 $8000 00                      ;

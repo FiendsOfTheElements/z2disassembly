@@ -217,6 +217,8 @@ LF1F4 = $F1F4
 .import bank7_Spawn_New_Projectile
 .import bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
 
+.segment "BANK4"
+
 ; ---------------------------------------------------------------------------- ;
 bank4_Pointer_table_for_Background_Areas_Data:                                  ;
 .word    bank4_Area_Data_for_Palaces_Type_A; 0x10010 $8000 1F 86               ;

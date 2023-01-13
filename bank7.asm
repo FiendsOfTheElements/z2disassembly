@@ -104,6 +104,85 @@ LBF00 = $BF00
 .import startup_init_begin_game
 .import Tables_for_Game_Over_screen_text
 
+.export bank7_Change_Enemy_Facing_Direction_and_X_Velocity
+.export bank7_Check_for_Hidden_Palace_spot_Bank_1
+.export bank7_Controllers_Input
+.export bank7_Desert_Rocks_initialization_routine
+.export bank7_Determine_Enemy_Facing_Direction_relative_to_Link
+.export bank7_Display
+.export bank7_Enemy_Routines1_Ache_and_Acheman
+.export bank7_Enemy_Routines1_Bago_Bago0
+.export bank7_Enemy_Routines1_Bago_Bago1
+.export bank7_Enemy_Routines1_Bago_Bago_Generator
+.export bank7_Enemy_Routines1_Bit
+.export bank7_Enemy_Routines1_Bot
+.export bank7_Enemy_Routines1_Deeler
+.export bank7_Enemy_Routines1_Elevator
+.export bank7_Enemy_Routines1_Fairy
+.export bank7_Enemy_Routines1_Locked_Door
+.export bank7_Enemy_Routines1_Moa
+.export bank7_Enemy_Routines1_Myu
+.export bank7_Enemy_Routines1_Octorok
+.export bank7_Enemy_Routines1_Raising_Bubbles
+.export bank7_Enemy_Routines1_Red_Jar
+.export bank7_Enemy_Routines2_Ache_and_Acheman
+.export bank7_Enemy_Routines2_BagoBago
+.export bank7_Enemy_Routines2_Bot_and_Bit
+.export bank7_Enemy_Routines2_Deeler
+.export bank7_Enemy_Routines2_Elevator
+.export bank7_Enemy_Routines2_Fairy
+.export bank7_Enemy_Routines2_LockedDoor
+.export bank7_Enemy_Routines2_Moa
+.export bank7_Enemy_Routines2_Myu
+.export bank7_Enemy_Routines2_Octorok
+.export bank7_Enemy_Routines2_RedJar
+.export bank7_Enemy_Routines2_unknown
+.export bank7_Enemy_Stops_when_Hit
+.export bank7_Erase_Name_Tables_0and1__set_scroll_to_0_0
+.export bank7_Floor_Y_Position
+.export bank7_Gravity
+.export bank7_Link_Collision_Detection
+.export bank7_Link_Hit_Routine
+.export bank7_Links_Display_Routine
+.export bank7_Mute_music_when_loading_between_areas
+.export bank7_NMI_Entry_Point
+.export bank7_Overworld_Boundaries__Mountain_or_Water_Bank_1
+.export bank7_PowerON_code
+.export bank7_PullAddrFromTableFollowingThisJSR_withIndexOfA_then_JMP
+.export bank7_Remove_All_Sprites
+.export bank7_Remove_All_Sprites_except_Sprite0
+.export bank7_Reset_Memory_Ranges
+.export bank7_Set_0E_0F_pointer_according_to_Object_Group
+.export bank7_Set_Memory_200_4FF_and_00_DF_to_Zero
+.export bank7_Set_RAM_Address_for_Object0E0F
+.export bank7_Set_Ram_Addy_for_Object__0E_0F
+.export bank7_Set_tile_and_go_down_1_row_in_2x2_tiles_units
+.export bank7_Set_tile_and_move_right_1_column
+.export bank7_Simple_Horizontal_Movement
+.export bank7_Simple_Vertical_Movement
+.export bank7_Spawn_New_Projectile
+.export bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
+.export bank7_Turn_Palaces_into_Stone_Bank_1
+.export bank7_XY_Movements_Routine
+.export bank7_applyGravityMotion
+.export bank7_code2
+.export bank7_code33
+.export bank7_code34
+.export bank7_code37
+.export bank7_code39
+.export bank7_code43
+.export bank7_code44
+.export bank7_code45
+.export bank7_code49
+.export bank7_code51
+.export bank7_code55
+.export bank7_forest_chop_with_hammer
+.export bank7_idem__maybe
+.export bank7_remove_enemy_or_item
+.export Set_Item_RAM_bit_to_0__Bits_0_3
+
+.segment "BANK7"
+
 bank7_PowerON_code:                                                             ;
     LDA      #$00                      ; 0x1c010 $C000 A9 00                   ; A = 00
     STA      $2001                     ; 0x1c012 $C002 8D 01 20                ;
@@ -8222,4 +8301,6 @@ bank7_table33:                                                                  
 .byt    $4C,$45,$47,$45,$4E,$44,$20,$4F; 0x1fff0 $FFE0 4C 45 47 45 4E 44 20 4F ;
 .byt    $46,$20,$5A,$45,$4C,$44,$41,$32; 0x1fff8 $FFE8 46 20 5A 45 4C 44 41 32 ;
 .byt    $98,$F2,$DD,$DB,$33,$04,$01,$0F; 0x20000 $FFF0 98 F2 DD DB 33 04 01 0F ;
-.byt    $01,$00,$7B,$C0,$70,$FF,$F0,$FF; 0x20008 $FFF8 01 00 7B C0 70 FF F0 FF ;
+.byt    $01,$00                        ; 0x20008 $FFF8 01 00 7B C0 70 FF F0 FF ;
+.segment "VECTORS"
+.byt            $7B,$C0,$70,$FF,$F0,$FF

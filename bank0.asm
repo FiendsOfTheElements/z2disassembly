@@ -68,8 +68,6 @@ LE187 = $E187
 LE726 = $E726
 LEC02 = $EC02
 
-.import lpointerTable__panes_tile_mappings__9B83
-.import lpointerTable__panes_tile_mappings__9B97
 .import bank7_applyGravityMotion
 .import bank7_Check_for_Hidden_Palace_spot_Bank_1
 .import bank7_code2
@@ -86,6 +84,30 @@ LEC02 = $EC02
 .import bank7_Remove_All_Sprites
 .import bank7_Turn_Palaces_into_Stone_Bank_1
 .import bank7_XY_Movements_Routine
+
+.export bank0_Manual_Save_Game_Routine_UP_AND_A
+.export bank0_Return_of_Ganon_screen_Palettes
+.export bank0_unknown1
+.export bank0_unknown2
+.export bank0_unknown27
+.export bank0_unknown28
+.export bank0_unknown37
+.export bank0_unknown39
+.export bank0_unknown4
+.export Chandeliers_in_North_Castle
+.export Check_for_Fire_Spell
+.export Hub_Update_Routine
+.export Initialization_stuff
+.export LevelUp_Pane__BlankLine_SecondHalfOnly
+.export Side_View_Initialization_when_entering_a_Key_Area
+.export Some_Palettes_Data_related_to_Falling_Animation
+.export Spell_Casting_Routine
+.export Tables_for_Game_Over_screen_text
+.export overworld3
+.export overworld4
+.export startup_init_begin_game
+
+.segment "BANK0"
 
 ; ---------------------------------------------------------------------------- ;
 
@@ -4280,7 +4302,7 @@ Pointer_Table_for_Contents_of_Panes_in_Cartridge_RAM:                           
 Pointer_table_for_Panes_tile_mappings:                                          ;
 .word    LevelUp_Pane_tile_mappings    ; 0x1b90 $9B80 AA 9B                    ;check here for spell menu
 lpointerTable__panes_tile_mappings__9B82:                                       ;
-    LPOinterTable__panes_tile_mappings__9B83 = * + $0001                       ;
+lpointerTable__panes_tile_mappings__9B83 = * + $0001                       ;
 .word    LevelUp_Pane__LineWithBar     ; 0x1b92 $9B82 B8 9B                    ;
 .word    LevelUp_Pane__UpCancel        ; 0x1b94 $9B84 0C 9C                    ;
 L9B86:                                                                          ;
@@ -4293,7 +4315,7 @@ L9B86:                                                                          
 .word    L78E0                         ; 0x1ba2 $9B92 E0 78                    ;
 .word    L78B6                         ; 0x1ba4 $9B94 B6 78                    ;
 lpointerTable__panes_tile_mappings__9B96:                                       ;
-    LPOinterTable__panes_tile_mappings__9B97 = * + $0001                       ;
+lpointerTable__panes_tile_mappings__9B97 = * + $0001                       ;
 .word    LevelUp_Pane__Next            ; 0x1ba6 $9B96 D4 9B                    ;
 .word    LevelUp_Pane__LineWithBar     ; 0x1ba8 $9B98 B8 9B                    ;
 .word    LevelUp_Pane__Attack          ; 0x1baa $9B9A E2 9B                    ;

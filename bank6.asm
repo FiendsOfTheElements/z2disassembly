@@ -31,6 +31,8 @@ LFFF0 = $FFF0
 .import bank7_NMI_Entry_Point
 .import bank7_PowerON_code
 
+.segment "BANK6"
+
 ; ---------------------------------------------------------------------------- ;
 Bank6__Code_0:                                                                  ;
 L8001     = * + $0001                                                          ;
