@@ -8300,7 +8300,11 @@ LFFCC:                                                                          
 bank7_table33:                                                                  ;
 .byt    $4C,$45,$47,$45,$4E,$44,$20,$4F; 0x1fff0 $FFE0 4C 45 47 45 4E 44 20 4F ;
 .byt    $46,$20,$5A,$45,$4C,$44,$41,$32; 0x1fff8 $FFE8 46 20 5A 45 4C 44 41 32 ;
+bank7_irq:
 .byt    $98,$F2,$DD,$DB,$33,$04,$01,$0F; 0x20000 $FFF0 98 F2 DD DB 33 04 01 0F ;
 .byt    $01,$00                        ; 0x20008 $FFF8 01 00 7B C0 70 FF F0 FF ;
 .segment "VECTORS"
-.byt            $7B,$C0,$70,$FF,$F0,$FF
+.word bank7_NMI_Entry_Point
+.word bank7_reset
+.word bank7_irq
+; .byt            $7B,$C0,$70,$FF,$F0,$FF
