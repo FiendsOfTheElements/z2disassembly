@@ -2028,7 +2028,7 @@ bank2_Enemy_Routines1_Lizalfos_Rock_Tossing:                                    
     BEQ      L977C                     ; 0x9745 $9735 F0 45                    ;
     LDY      $0444,x                   ; 0x9747 $9737 BC 44 04                 ; Enemy Vulnerability
     BNE      L9773                     ; 0x974a $973A D0 37                    ;
-    INC       !$81,x                   ; 0x974c $973C FE 81 00                 ; Current Animation Frame for Enemy
+    INC       a:$81,x                   ; 0x974c $973C FE 81 00                 ; Current Animation Frame for Enemy
     CMP      #$02                      ; 0x974f $973F C9 02                    ;
     BEQ      L9778                     ; 0x9751 $9741 F0 35                    ;
     LDA      #$10                      ; 0x9753 $9743 A9 10                    ; A = 10
@@ -2141,7 +2141,7 @@ L97DA:                                                                          
     BCC      L97F0                     ; 0x97f1 $97E1 90 0D                    ;
     LDA      $81,x                     ; 0x97f3 $97E3 B5 81                    ; Current Animation Frame for Enemy
     BNE      L97EF                     ; 0x97f5 $97E5 D0 08                    ;
-    INC       !$81,x                   ; 0x97f7 $97E7 FE 81 00                 ; Current Animation Frame for Enemy
+    INC       a:$81,x                   ; 0x97f7 $97E7 FE 81 00                 ; Current Animation Frame for Enemy
     LDA      #$10                      ; 0x97fa $97EA A9 10                    ; A = 10
     STA      $0444,x                   ; 0x97fc $97EC 9D 44 04                 ; Enemy Vulnerability
 L97EF:                                                                          ;

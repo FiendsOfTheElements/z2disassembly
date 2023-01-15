@@ -2888,9 +2888,9 @@ L9B44:                                                                          
 L9B48:                                                                          ;
     INC      $B6,x                     ; 0x5b58 $9B48 F6 B6                    ;; Generated Enemy Slot
     LDA      #$FF                      ; 0x5b5a $9B4A A9 FF                    ; A = FF
-    STA       !$BC,x                   ; 0x5b5c $9B4C 9D BC 00                 ;
+    STA       a:$BC,x                   ; 0x5b5c $9B4C 9D BC 00                 ;
     LDA      #$03                      ; 0x5b5f $9B4F A9 03                    ; A = 03
-    STA       !$C2,x                   ; 0x5b61 $9B51 9D C2 00                 ; Enemy Current HP
+    STA       a:$C2,x                   ; 0x5b61 $9B51 9D C2 00                 ; Enemy Current HP
     LDA      #$1E                      ; 0x5b64 $9B54 A9 1E                    ; 1E = Moby
     STA      $A1,x                     ; 0x5b66 $9B56 95 A1                    ; Moby assigned to slot #X
     LDA      $051B,x                   ; 0x5b68 $9B58 BD 1B 05                 ; Randomizer

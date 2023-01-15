@@ -2170,7 +2170,7 @@ L9A28:                                                                          
     LDA      $AF,x                     ; 0xda38 $9A28 B5 AF                    ;; Various enemy state variables
     BNE      L9A4F                     ; 0xda3a $9A2A D0 23                    ;
 bank3_Check_for_B_button_to_talk_to_people:                                     ;
-    LDA       !$F5                     ; 0xda3c $9A2C AD F5 00                 ; Controller 1 buttons pressed
+    LDA       a:$F5                     ; 0xda3c $9A2C AD F5 00                 ; Controller 1 buttons pressed
     AND      #$40                      ; 0xda3f $9A2F 29 40                    ; keep bits .x.. .... (B button)
     BEQ      L9A4F                     ; 0xda41 $9A31 F0 1C                    ;
 L9A33:                                                                          ;
@@ -4503,7 +4503,7 @@ LB6F6:                                                                          
     ADC      #$E0                      ; 0xf734 $B724 69 E0                    ;
     ADC      $048A                     ; 0xf736 $B726 6D 8A 04                 ; Letter Y Position offset
     STA      $0303                     ; 0xf739 $B729 8D 03 03                 ;; Letter position when writing to screen
-    LDA       !$03                     ; 0xf73c $B72C AD 03 00                 ;
+    LDA       a:$03                     ; 0xf73c $B72C AD 03 00                 ;
     ADC      #$00                      ; 0xf73f $B72F 69 00                    ;
     STA      L0302                     ; 0xf741 $B731 8D 02 03                 ;; Used when writing text to screen
     LDA      #$82                      ; 0xf744 $B734 A9 82                    ; A = 82

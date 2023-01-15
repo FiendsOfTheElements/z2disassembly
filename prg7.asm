@@ -384,7 +384,7 @@ LC177:                                                                          
 LC17F:                                                                          ;
     DEX                                ; 0x1c18f $C17F CA                      ;
     BPL      LC177                     ; 0x1c190 $C180 10 F5                   ;
-    INC       !$12                     ; 0x1c192 $C182 EE 12 00                ;
+    INC       a:$12                     ; 0x1c192 $C182 EE 12 00                ;
     LDX      #$00                      ; 0x1c195 $C185 A2 00                   ; X = 00
     LDY      #$09                      ; 0x1c197 $C187 A0 09                   ; Y = 09
     LDA      $051A                     ; 0x1c199 $C189 AD 1A 05                ;
@@ -885,7 +885,7 @@ bank7_code13:                                                                   
     LDA      $FF                       ; 0x1c4e8 $C4D8 A5 FF                   ;; Sprite Bank ?
     STA      $2000                     ; 0x1c4ea $C4DA 8D 00 20                ;
     JSR      bank7_Set_Memory_200_4FF_and_00_DF_to_Zero; 0x1c4ed $C4DD 20 9C D2    ; Set Memory 200-4FF and 00-DF to Zero
-    STA       !$FD                     ; 0x1c4f0 $C4E0 8D FD 00                ;
+    STA       a:$FD                     ; 0x1c4f0 $C4E0 8D FD 00                ;
     STA      $0747                     ; 0x1c4f3 $C4E3 8D 47 07                ;
     STA      $072A                     ; 0x1c4f6 $C4E6 8D 2A 07                ; Scrolling Offset High Byte
     STA      $072B                     ; 0x1c4f9 $C4E9 8D 2B 07                ;
@@ -2873,9 +2873,9 @@ LD229:                                                                          
     ROL                                ; 0x1d246 $D236 2A                      ;
     PHA                                ; 0x1d247 $D237 48                      ;
     ROR                                ; 0x1d248 $D238 6A                      ;
-    LDA       !$29,x                   ; 0x1d249 $D239 BD 29 00                ; Link/Enemy Y position
+    LDA       a:$29,x                   ; 0x1d249 $D239 BD 29 00                ; Link/Enemy Y position
     ADC      $00                       ; 0x1d24c $D23C 65 00                   ;
-    STA       !$29,x                   ; 0x1d24e $D23E 9D 29 00                ; Link/Enemy Y position
+    STA       a:$29,x                   ; 0x1d24e $D23E 9D 29 00                ; Link/Enemy Y position
     LDA      $19,x                     ; 0x1d251 $D241 B5 19                   ;;fall_or_invisible (0=invisible, 1=normal, 2~FF=fall in hole)
     ADC      $02                       ; 0x1d253 $D243 65 02                   ;
     STA      $19,x                     ; 0x1d255 $D245 95 19                   ;;fall_or_invisible (0=invisible, 1=normal, 2~FF=fall in hole)

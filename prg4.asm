@@ -4087,7 +4087,7 @@ LAE11:                                                                          
     BMI      LAE1B                     ; 0x12e27 $AE17 30 02                   ;
     ORA      #$40                      ; 0x12e29 $AE19 09 40                   ;;Set Bits:0100_0000
 LAE1B:                                                                          ;
-    LDY       !$97,x                   ; 0x12e2b $AE1B BC 97 00                ;
+    LDY       a:$97,x                   ; 0x12e2b $AE1B BC 97 00                ;
     BNE      LAE43                     ; 0x12e2e $AE1E D0 23                   ;
 LAE20:                                                                          ;
     LDA      $12                       ; 0x12e30 $AE20 A5 12                   ;; Frame Counter (ascending)
@@ -5243,7 +5243,7 @@ LB5A6:                                                                          
 LB5AE:                                                                          ;
     LDA      $2A,x                     ; 0x135be $B5AE B5 2A                   ;; Enemy Y Position
     STA      L0000                     ; 0x135c0 $B5B0 85 00                   ;
-    LDA       !$CD                     ; 0x135c2 $B5B2 AD CD 00                ;
+    LDA       a:$CD                     ; 0x135c2 $B5B2 AD CD 00                ;
     STA      $01                       ; 0x135c5 $B5B5 85 01                   ;
     LDA      $60,x                     ; 0x135c7 $B5B7 B5 60                   ;; Enemy facing direction
     STA      $02                       ; 0x135c9 $B5B9 85 02                   ;
@@ -5333,7 +5333,7 @@ LB653:                                                                          
 LB656:                                                                          ;
     STY      $05                       ; 0x13666 $B656 84 05                   ;
     LDY      $60,x                     ; 0x13668 $B658 B4 60                   ;; Enemy facing direction
-    LDA       !$CD                     ; 0x1366a $B65A AD CD 00                ;
+    LDA       a:$CD                     ; 0x1366a $B65A AD CD 00                ;
     CLC                                ; 0x1366d $B65D 18                      ;
     ADC      LB589,y                   ; 0x1366e $B65E 79 89 B5                ;
     DEY                                ; 0x13671 $B661 88                      ;
@@ -5381,7 +5381,7 @@ LB671:                                                                          
     ADC      #$08                      ; 0x136b9 $B6A9 69 08                   ;
     TAY                                ; 0x136bb $B6AB A8                      ;
 LB6AC:                                                                          ;
-    LDA       !$CD                     ; 0x136bc $B6AC AD CD 00                ;
+    LDA       a:$CD                     ; 0x136bc $B6AC AD CD 00                ;
     CLC                                ; 0x136bf $B6AF 18                      ;
     ADC      LB58C,y                   ; 0x136c0 $B6B0 79 8C B5                ;
     LDY      $60,x                     ; 0x136c3 $B6B3 B4 60                   ;; Enemy facing direction

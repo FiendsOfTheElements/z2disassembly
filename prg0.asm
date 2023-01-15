@@ -1426,7 +1426,7 @@ L88B2:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 L88B3:                                                                          ;
-    LDA       !$7E                     ; 0x8c3 $88B3 AD 7E 00                  ;
+    LDA       a:$7E                     ; 0x8c3 $88B3 AD 7E 00                  ;
     JSR      bank7_PullAddrFromTableFollowingThisJSR_withIndexOfA_then_JMP; 0x8c6 $88B6 20 85 D3;
 unknown_pointer_table1:                                                         ;
 .word    L8BFE                         ; 0x8c9 $88B9 FE 8B                     ;
@@ -1895,7 +1895,7 @@ L8BA0:                                                                          
 L8BA8:                                                                          ;
     LDA      #$00                      ; 0xbb8 $8BA8 A9 00                     ; A = 00
     STA      $0305,x                   ; 0xbba $8BAA 9D 05 03                  ;
-    LDY       !$72                     ; 0xbbd $8BAD AC 72 00                  ;
+    LDY       a:$72                     ; 0xbbd $8BAD AC 72 00                  ;
     LDX      $04D0,y                   ; 0xbc0 $8BB0 BE D0 04                  ;
     LDA      bank0_Overworld_Palette_Codes_0_3,x; 0xbc3 $8BB3 BD E3 87             ; refer to table at $07E3
     JSR      L8BF5                     ; 0xbc6 $8BB6 20 F5 8B                  ;
@@ -2036,7 +2036,7 @@ L8C86:                                                                          
     LDY      $06                       ; 0xc99 $8C89 A4 06                     ;
     LDA      #$01                      ; 0xc9b $8C8B A9 01                     ; A = 01
     STA      $08                       ; 0xc9d $8C8D 85 08                     ;
-    LDA       !$7E                     ; 0xc9f $8C8F AD 7E 00                  ;
+    LDA       a:$7E                     ; 0xc9f $8C8F AD 7E 00                  ;
     CMP      #$02                      ; 0xca2 $8C92 C9 02                     ;
     BEQ      L8C97                     ; 0xca4 $8C94 F0 01                     ;
     INX                                ; 0xca6 $8C96 E8                        ;
@@ -2125,7 +2125,7 @@ L8CF7:                                                                          
     AND      #$01                      ; 0xd4c $8D3C 29 01                     ; keep bits .... ...x
     STA      $0746                     ; 0xd4e $8D3E 8D 46 07                  ;
     LDA      $69B3,y                   ; 0xd51 $8D41 B9 B3 69                  ;
-    STA       !$FD                     ; 0xd54 $8D44 8D FD 00                  ;
+    STA       a:$FD                     ; 0xd54 $8D44 8D FD 00                  ;
     LDA      $69AC,y                   ; 0xd57 $8D47 B9 AC 69                  ;
     STA      $072C                     ; 0xd5a $8D4A 8D 2C 07                  ; Scrolling Offset Low Byte
     AND      #$10                      ; 0xd5d $8D4D 29 10                     ; keep bits .... ..x.
@@ -2509,7 +2509,7 @@ bank0_unknown12:                                                                
     LDX      #$00                      ; 0xffa $8FEA A2 00                     ; X = 00
     STX      $11                       ; 0xffc $8FEC 86 11                     ;
     JSR      LEC02                     ; 0xffe $8FEE 20 02 EC                  ;
-    LDA       !$12                     ; 0x1001 $8FF1 AD 12 00                 ;
+    LDA       a:$12                     ; 0x1001 $8FF1 AD 12 00                 ;
 ;LDA $0012                                                                     ;
     AND      #$01                      ; 0x1004 $8FF4 29 01                    ; keep bits .... ...x
     BNE      L9039                     ; 0x1006 $8FF6 D0 41                    ;
@@ -2746,7 +2746,7 @@ L9188:                                                                          
 ; ---------------------------------------------------------------------------- ;
 L918E:                                                                          ;
     LDA      #$00                      ; 0x119e $918E A9 00                    ; A = 00
-    STA       !$14                     ; 0x11a0 $9190 8D 14 00                 ;
+    STA       a:$14                     ; 0x11a0 $9190 8D 14 00                 ;
     LDA      $29                       ; 0x11a3 $9193 A5 29                    ; Link's Y Position
     CMP      #$D0                      ; 0x11a5 $9195 C9 D0                    ;
     BCC      L919C                     ; 0x11a7 $9197 90 03                    ;
@@ -2916,7 +2916,7 @@ L92B4:                                                                          
 ; ---------------------------------------------------------------------------- ;
 bank0_Side_View3:                                                               ;
     LDX      #$00                      ; 0x12cf $92BF A2 00                    ; X = 00
-    STX       !$14                     ; 0x12d1 $92C1 8E 14 00                 ;
+    STX       a:$14                     ; 0x12d1 $92C1 8E 14 00                 ;
     LDA      $070E                     ; 0x12d4 $92C4 AD 0E 07                 ;;setting to 1 will make link sink (duck into the chimney)
     BEQ      L92E9                     ; 0x12d7 $92C7 F0 20                    ;
     INC      $070E                     ; 0x12d9 $92C9 EE 0E 07                 ;;setting to 1 will make link sink (duck into the chimney)
@@ -2943,7 +2943,7 @@ L92E9:                                                                          
     LDA      $0752                     ; 0x12fd $92ED AD 52 07                 ;
     ORA      $0753                     ; 0x1300 $92F0 0D 53 07                 ;
     STA      $0753                     ; 0x1303 $92F3 8D 53 07                 ;
-    LDA       !$13                     ; 0x1306 $92F6 AD 13 00                 ;
+    LDA       a:$13                     ; 0x1306 $92F6 AD 13 00                 ;
     BEQ      L9341                     ; 0x1309 $92F9 F0 46                    ;
     LDA      #$00                      ; 0x130b $92FB A9 00                    ; A = 00
     STA      $70                       ; 0x130d $92FD 85 70                    ;;hspeed (Link's horizontal velocity); Link's X Velocity	; Player X Delta (E8-00, 00-18)
@@ -3413,7 +3413,7 @@ L95B5:                                                                          
     BNE      L95C3                     ; 0x15d0 $95C0 D0 01                    ; if Down is held, skip to $15C3
     INY                                ; 0x15d2 $95C2 C8                       ;
 L95C3:                                                                          ;
-    STY       !$17                     ; 0x15d3 $95C3 8C 17 00                 ; Link's Shield Position
+    STY       a:$17                     ; 0x15d3 $95C3 8C 17 00                 ; Link's Shield Position
     LDA      $F7                       ; 0x15d6 $95C6 A5 F7                    ; Controller 1 buttons held
     AND      #$03                      ; 0x15d8 $95C8 29 03                    ; check if Left/Right are held
     STA      $0742                     ; 0x15da $95CA 8D 42 07                 ; Left/Right buttons held
@@ -3798,7 +3798,7 @@ bank0_unknown19:                                                                
     ADC      #$00                      ; 0x1835 $9825 69 00                    ;
     STA      $48,x                     ; 0x1837 $9827 95 48                    ; Flying Blade/Flame X Position (high byte)
     LDA      $29                       ; 0x1839 $9829 A5 29                    ; Link's Y Position
-    LDY       !$17                     ; 0x183b $982B AC 17 00                 ; Link's Shield Position (0 = ducked)
+    LDY       a:$17                     ; 0x183b $982B AC 17 00                 ; Link's Shield Position (0 = ducked)
     ADC      Table_for_Flying_Blade_Flame,y; 0x183e $982E 79 15 98                 ; refer to table at $1815
     STA      $36,x                     ; 0x1841 $9831 95 36                    ; Flying Blade/Flame Y Position
     LDA      #$01                      ; 0x1843 $9833 A9 01                    ; A = 01
@@ -3954,7 +3954,7 @@ L9925:                                                                          
     LDA      $0728                     ; 0x1939 $9929 AD 28 07                 ;728	1=freeze screen, prevent from exiting left/right
     BNE      L9924                     ; 0x193c $992C D0 F6                    ;if frozen, rts
     STA      L05C9                     ; 0x193e $992E 8D C9 05                 ;
-    LDA       !$14                     ; 0x1941 $9931 AD 14 00                 ;
+    LDA       a:$14                     ; 0x1941 $9931 AD 14 00                 ;
     STA      $00                       ; 0x1944 $9934 85 00                    ;
     LDX      $5F                       ; 0x1946 $9936 A6 5F                    ; Link's facing direction
     LDA      $072A                     ; 0x1948 $9938 AD 2A 07                 ; Scrolling Offset High Byte
@@ -6004,8 +6004,8 @@ LA7C1:                                                                          
     STA      $2000                     ; 0x27d4 $A7C4 8D 00 20                 ;
     STX      $2005                     ; 0x27d7 $A7C7 8E 05 20                 ;
     STY      $2005                     ; 0x27da $A7CA 8C 05 20                 ;
-    INC       !$12                     ; 0x27dd $A7CD EE 12 00                 ;
-    LDA       !$12                     ; 0x27e0 $A7D0 AD 12 00                 ;
+    INC       a:$12                     ; 0x27dd $A7CD EE 12 00                 ;
+    LDA       a:$12                     ; 0x27e0 $A7D0 AD 12 00                 ;
     AND      #$07                      ; 0x27e3 $A7D3 29 07                    ; keep bits .... .xxx
     BNE      LA829                     ; 0x27e5 $A7D5 D0 52                    ;
     LDY      #$09                      ; 0x27e7 $A7D7 A0 09                    ; Y = 09

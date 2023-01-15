@@ -3470,7 +3470,7 @@ L9DBA:                                                                          
     JSR      bank7_Floor_Y_Position    ; 0x15dd0 $9DC0 20 C1 DA                ;
 L9DC3:                                                                          ;
     JSR      L9E42                     ; 0x15dd3 $9DC3 20 42 9E                ;
-    LDA       !$F5                     ; 0x15dd6 $9DC6 AD F5 00                ;
+    LDA       a:$F5                     ; 0x15dd6 $9DC6 AD F5 00                ;
     AND      #$40                      ; 0x15dd9 $9DC9 29 40                   ;;Keep Bits:0100_0000
     BEQ      L9DD2                     ; 0x15ddb $9DCB F0 05                   ;
     LDA      $17                       ; 0x15ddd $9DCD A5 17                   ;; Link's Shield Position; Link's Shield Position (0 = Link ducked)
@@ -4670,7 +4670,7 @@ LA658:
 LA687:                                                                          ;
     STA      $0744                     ; 0x16697 $A687 8D 44 07                ;; Controller 1 Input; Controller 1 Buttons Held
     JSR      bank7_Controllers_Input   ; 0x1669a $A68A 20 46 D3                ;
-    INC       !$12                     ; 0x1669d $A68D EE 12 00                ;
+    INC       a:$12                     ; 0x1669d $A68D EE 12 00                ;
     JSR      LA6D9                     ; 0x166a0 $A690 20 D9 A6                ;
     LDA      $2002                     ; 0x166a3 $A693 AD 02 20                ;
     LDA      $FF                       ; 0x166a6 $A696 A5 FF                   ;; Sprite Bank ?
@@ -5877,7 +5877,7 @@ LB380:                                                                          
     STA      $1B                       ; 0x17392 $B382 85 1B                   ; Y Position of Fairy cursor
 LB384:                                                                          ;
     LDA      #$1C                      ; 0x17394 $B384 A9 1C                   ; A = 1C
-    STA       !$4D                     ; 0x17396 $B386 8D 4D 00                ; X Position of Fairy cursor
+    STA       a:$4D                     ; 0x17396 $B386 8D 4D 00                ; X Position of Fairy cursor
     LDY      $1B                       ; 0x17399 $B389 A4 1B                   ; Y Position of Fairy cursor
     JSR      LB574                     ; 0x1739b $B38B 20 74 B5                ;
     LDA      #$40                      ; 0x1739e $B38E A9 40                   ; A = 40 (Y Position of Link tiles)
@@ -6083,7 +6083,7 @@ LB4D5:                                                                          
     LDA      bank5_table12,x           ; 0x174e7 $B4D7 BD 21 B4                ;
     STA      $1B                       ; 0x174ea $B4DA 85 1B                   ;
     LDA      #$4C                      ; 0x174ec $B4DC A9 4C                   ; A = 4C
-    STA       !$4D                     ; 0x174ee $B4DE 8D 4D 00                ;
+    STA       a:$4D                     ; 0x174ee $B4DE 8D 4D 00                ;
     LDY      $1B                       ; 0x174f1 $B4E1 A4 1B                   ;
     DEY                                ; 0x174f3 $B4E3 88                      ;
     DEY                                ; 0x174f4 $B4E4 88                      ;
@@ -6188,7 +6188,7 @@ LB580:                                                                          
     STY      $0200                     ; 0x17592 $B582 8C 00 02                ;; Animation frame for Link's OW sprite (part 1)
     LDA      #$01                      ; 0x17595 $B585 A9 01                   ; A = 01
     STA      $0202                     ; 0x17597 $B587 8D 02 02                ;
-    LDA       !$4D                     ; 0x1759a $B58A AD 4D 00                ;
+    LDA       a:$4D                     ; 0x1759a $B58A AD 4D 00                ;
     STA      $0203                     ; 0x1759d $B58D 8D 03 02                ;
     LDA      $1C                       ; 0x175a0 $B590 A5 1C                   ;
     STA      $0201                     ; 0x175a2 $B592 8D 01 02                ;; Animation frame for Link's OW sprite (part 2)
@@ -6399,7 +6399,7 @@ LB6E4:                                                                          
     LDA      bank5_table12,x           ; 0x176f6 $B6E6 BD 21 B4                ;
     STA      $1B                       ; 0x176f9 $B6E9 85 1B                   ;
     LDA      #$4C                      ; 0x176fb $B6EB A9 4C                   ; A = 4C
-    STA       !$4D                     ; 0x176fd $B6ED 8D 4D 00                ;
+    STA       a:$4D                     ; 0x176fd $B6ED 8D 4D 00                ;
     LDY      $1B                       ; 0x17700 $B6F0 A4 1B                   ;
     DEY                                ; 0x17702 $B6F2 88                      ;
     DEY                                ; 0x17703 $B6F3 88                      ;
