@@ -5,6 +5,9 @@ Originally pulled from https://lemmy.neocities.org/zelda2/zelda2
 Original disassembly by Trax
 
 ## Instructions
+To build a new Zelda 2 ROM, you'll need the data for the CHR banks (the game's graphics).
+You can extract these from an original ROM using `rip-chr.sh`, or you can swap in your own edited graphics.
+
 The build script is written for Bash, and assumes you have ca65 and ld65 installed.
 To do this in Linux, just use yum or apt:
 ```bash
