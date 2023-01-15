@@ -660,7 +660,7 @@ bank7_pointer_table4:                                                           
 bank7_code7:                                                                    ;
     LDA      #$05                      ; 0x1c34c $C33C A9 05                   ; A = 05
     JSR      SwapPRG                     ; 0x1c34e $C33E 20 CC FF                ;
-    JSR      bank7_chr_bank_switch__load_A; 0x1c351 $C341 20 B1 FF                ;
+    JSR      SwapCHR; 0x1c351 $C341 20 B1 FF                ;
     LDA      #$80                      ; 0x1c354 $C344 A9 80                   ; A = 80
     STA      $0100                     ; 0x1c356 $C346 8D 00 01                ;
     LDA      #$00                      ; 0x1c359 $C349 A9 00                   ; A = 00
@@ -741,7 +741,7 @@ bank7_code10:                                                                   
 ; ---------------------------------------------------------------------------- ;
 bank7_Load_Lives_Remaining_Screen:                                              ;
     LDA      $076E                     ; 0x1c3c5 $C3B5 AD 6E 07                ; Graphics bank to use
-    JSR      bank7_chr_bank_switch__load_A; 0x1c3c8 $C3B8 20 B1 FF                ;
+    JSR      SwapCHR; 0x1c3c8 $C3B8 20 B1 FF                ;
     JSR      bank7_Erase_Name_Tables_0and1__set_scroll_to_0_0; 0x1c3cb $C3BB 20 66 D2;
     LDY      #$13                      ; 0x1c3ce $C3BE A0 13                   ; Y = 13
 LC3C0:                                                                          ;
@@ -884,7 +884,7 @@ bank7_code13:                                                                   
     LDA      #$30                      ; 0x1c4db $C4CB A9 30                   ; A = 30
     STA      $2000                     ; 0x1c4dd $C4CD 8D 00 20                ;
     LDA      #$0E                      ; 0x1c4e0 $C4D0 A9 0E                   ; A = 0E
-    JSR      bank7_Config_Register     ; 0x1c4e2 $C4D2 20 9D FF                ;
+    JSR      ConfigureMMC1     ; 0x1c4e2 $C4D2 20 9D FF                ;
     JSR      SwapToSavedPRG; 0x1c4e5 $C4D5 20 C9 FF                ;
     LDA      $FF                       ; 0x1c4e8 $C4D8 A5 FF                   ;; Sprite Bank ?
     STA      $2000                     ; 0x1c4ea $C4DA 8D 00 20                ;
@@ -1068,7 +1068,7 @@ LC5F9:                                                                          
 ; ---------------------------------------------------------------------------- ;
 LC62F:                                                                          ;
     LDA      $076E                     ; 0x1c63f $C62F AD 6E 07                ; Graphics bank to use
-    JSR      bank7_chr_bank_switch__load_A; 0x1c642 $C632 20 B1 FF                ;
+    JSR      SwapCHR; 0x1c642 $C632 20 B1 FF                ;
     JSR      SwapToPRG0; 0x1c645 $C635 20 C5 FF                ;
     JMP      Side_View_Initialization_when_entering_a_Key_Area; 0x1c648 $C638 4C E1 8C;
                                                                                ;
@@ -1643,7 +1643,7 @@ bank7_code15:                                                                   
     LDA      #$0F                      ; 0x1ca18 $CA08 A9 0F                   ; A = 0F
     STA      $696F                     ; 0x1ca1a $CA0A 8D 6F 69                ;
     LDA      #$10                      ; 0x1ca1d $CA0D A9 10                   ; A = 10
-    JSR      bank7_chr_bank_switch__load_A; 0x1ca1f $CA0F 20 B1 FF                ;
+    JSR      SwapCHR; 0x1ca1f $CA0F 20 B1 FF                ;
     INC      $0736                     ; 0x1ca22 $CA12 EE 36 07                ; Game Mode
 LCA15:                                                                          ;
     LDA      #$04                      ; 0x1ca25 $CA15 A9 04                   ; A = 04
@@ -2583,14 +2583,14 @@ LD041:                                                                          
 ; ---------------------------------------------------------------------------- ;
 LD042:                                                                          ;
     LDA      #$02                      ; 0x1d052 $D042 A9 02                   ; A = 02
-    JSR      bank7_chr_bank_switch__load_A; 0x1d054 $D044 20 B1 FF                ;
+    JSR      SwapCHR; 0x1d054 $D044 20 B1 FF                ;
     JSR      bank7_Erase_Name_Tables_0and1__set_scroll_to_0_0; 0x1d057 $D047 20 66 D2;
     JMP      LCF05                     ; 0x1d05a $D04A 4C 05 CF                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LD04D:                                                                          ;
     LDA      #$06                      ; 0x1d05d $D04D A9 06                   ; A = 06
-    JSR      bank7_chr_bank_switch__load_A; 0x1d05f $D04F 20 B1 FF                ;
+    JSR      SwapCHR; 0x1d05f $D04F 20 B1 FF                ;
     JSR      bank7_JmpToRoutine_at_Index_073D_in_Table_Address_from_the_top_of_the_Stack_The_Pointer_Table_immediately_follows_the_JSR_to_D382; 0x1d062 $D052 20 82 D3;
 bank7_pointer_table14:                                                          ;
 .word    bank7_Erase_Name_Tables_0and1__set_scroll_to_0_0; 0x1d065 $D055 66 D2 ;
@@ -8250,45 +8250,45 @@ LFF78:                                                                          
     STX      bank7_PowerON_code        ; 0x1ff97 $FF87 8E 00 C0                ;
     STX      LE000                     ; 0x1ff9a $FF8A 8E 00 E0                ;
     LDA      #$0F                      ; 0x1ff9d $FF8D A9 0F                   ; A = 0F
-    JSR      bank7_Config_Register     ; 0x1ff9f $FF8F 20 9D FF                ;
-    JSR      bank7_chr_bank_switch__load_A; 0x1ffa2 $FF92 20 B1 FF                ;
+    JSR      ConfigureMMC1     ; 0x1ff9f $FF8F 20 9D FF                ;
+    JSR      SwapCHR; 0x1ffa2 $FF92 20 B1 FF                ;
     LDA      #$07                      ; 0x1ffa5 $FF95 A9 07                   ; A = 07
     JSR      SwapPRG                     ; 0x1ffa7 $FF97 20 CC FF                ;
     JMP      bank7_PowerON_code        ; 0x1ffaa $FF9A 4C 00 C0                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_Config_Register:                                                          ;
-    STA      Tables_for_Game_Over_screen_text; 0x1ffad $FF9D 8D 00 80              ;
+ConfigureMMC1:                                                                 ;
+    STA      MMC1_Control              ; 0x1ffad $FF9D 8D 00 80                ;
     LSR                                ; 0x1ffb0 $FFA0 4A                      ;
-    STA      Tables_for_Game_Over_screen_text; 0x1ffb1 $FFA1 8D 00 80              ;
+    STA      MMC1_Control              ; 0x1ffb1 $FFA1 8D 00 80                ;
     LSR                                ; 0x1ffb4 $FFA4 4A                      ;
-    STA      Tables_for_Game_Over_screen_text; 0x1ffb5 $FFA5 8D 00 80              ;
+    STA      MMC1_Control              ; 0x1ffb5 $FFA5 8D 00 80                ;
     LSR                                ; 0x1ffb8 $FFA8 4A                      ;
-    STA      Tables_for_Game_Over_screen_text; 0x1ffb9 $FFA9 8D 00 80              ;
+    STA      MMC1_Control              ; 0x1ffb9 $FFA9 8D 00 80                ;
     LSR                                ; 0x1ffbc $FFAC 4A                      ;
-    STA      Tables_for_Game_Over_screen_text; 0x1ffbd $FFAD 8D 00 80              ;
+    STA      MMC1_Control              ; 0x1ffbd $FFAD 8D 00 80                ;
     RTS                                ; 0x1ffc0 $FFB0 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_chr_bank_switch__load_A:                                                  ;
-    STA      LA000                     ; 0x1ffc1 $FFB1 8D 00 A0                ;
+SwapCHR:                                                  ;
+    STA      MMC1_CHR0_bank            ; 0x1ffc1 $FFB1 8D 00 A0                ;
     LSR                                ; 0x1ffc4 $FFB4 4A                      ;
-    STA      LA000                     ; 0x1ffc5 $FFB5 8D 00 A0                ;
+    STA      MMC1_CHR0_bank            ; 0x1ffc5 $FFB5 8D 00 A0                ;
     LSR                                ; 0x1ffc8 $FFB8 4A                      ;
-    STA      LA000                     ; 0x1ffc9 $FFB9 8D 00 A0                ;
+    STA      MMC1_CHR0_bank            ; 0x1ffc9 $FFB9 8D 00 A0                ;
     LSR                                ; 0x1ffcc $FFBC 4A                      ;
-    STA      LA000                     ; 0x1ffcd $FFBD 8D 00 A0                ;
+    STA      MMC1_CHR0_bank            ; 0x1ffcd $FFBD 8D 00 A0                ;
     LSR                                ; 0x1ffd0 $FFC0 4A                      ;
-    STA      LA000                     ; 0x1ffd1 $FFC1 8D 00 A0                ;
+    STA      MMC1_CHR0_bank            ; 0x1ffd1 $FFC1 8D 00 A0                ;
     RTS                                ; 0x1ffd4 $FFC4 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-SwapToPRG0:                                                    ;
+SwapToPRG0:                                                                    ;
     LDA      #$00                      ; 0x1ffd5 $FFC5 A9 00                   ; A = 00
-    BEQ      SwapPRG                     ; 0x1ffd7 $FFC7 F0 03                   ;
-SwapToSavedPRG:                                                  ;
-    LDA      PRG_bank                     ; 0x1ffd9 $FFC9 AD 69 07                ;; Bank to switch to (other than 0 or 7)
-SwapPRG:                                                                          ;
+    BEQ      SwapPRG                   ; 0x1ffd7 $FFC7 F0 03                   ;
+SwapToSavedPRG:                                                                ;
+    LDA      PRG_bank                  ; 0x1ffd9 $FFC9 AD 69 07                ; Bank to switch to (other than 0 or 7)
+SwapPRG:                                                                       ;
     STA      MMC1_PRG_bank             ; 0x1ffdc $FFCC 8D 00 E0                ;
     LSR                                ; 0x1ffdf $FFCF 4A                      ;
     STA      MMC1_PRG_bank             ; 0x1ffe0 $FFD0 8D 00 E0                ;
@@ -8301,7 +8301,7 @@ SwapPRG:                                                                        
     RTS                                ; 0x1ffef $FFDF 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_table33:                                                                  ;
+bank7_table33:                                                                 ;
 .byt    "LEGEND OF ZELDA2"
 bank7_irq:
 .byt    $98,$F2,$DD,$DB,$33,$04,$01,$0F; 0x20000 $FFF0 98 F2 DD DB 33 04 01 0F ;
