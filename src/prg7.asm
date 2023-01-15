@@ -2159,9 +2159,9 @@ bank7_code18:                                                                   
 LCD57:                                                                          ;
     LDA      #$02                      ; 0x1cd67 $CD57 A9 02                   ; A = 02;cd57 ;Load bank 2
 LCD59:                                                                          ;
-    STA      $0769                     ; 0x1cd69 $CD59 8D 69 07                ; Bank to switch to;cd59 ;Store desired bank number                 
+    STA      PRG_bank                     ; 0x1cd69 $CD59 8D 69 07                ; Bank to switch to;cd59 ;Store desired bank number                 
     JSR      SwapPRG                     ; 0x1cd6c $CD5C 20 CC FF                ; Bank Switch
-    LDA      $0769                     ; 0x1cd6f $CD5F AD 69 07                ; Bank to switch to
+    LDA      PRG_bank                     ; 0x1cd6f $CD5F AD 69 07                ; Bank to switch to
     LDY      $0707                     ; 0x1cd72 $CD62 AC 07 07                ; Current World
     CPY      #$03                      ; 0x1cd75 $CD65 C0 03                   ;
     BCC      LCD78                     ; 0x1cd77 $CD67 90 0F                   ;
@@ -8287,7 +8287,7 @@ SwapToPRG0:                                                    ;
     LDA      #$00                      ; 0x1ffd5 $FFC5 A9 00                   ; A = 00
     BEQ      SwapPRG                     ; 0x1ffd7 $FFC7 F0 03                   ;
 SwapToSavedPRG:                                                  ;
-    LDA      $0769                     ; 0x1ffd9 $FFC9 AD 69 07                ;; Bank to switch to (other than 0 or 7)
+    LDA      PRG_bank                     ; 0x1ffd9 $FFC9 AD 69 07                ;; Bank to switch to (other than 0 or 7)
 SwapPRG:                                                                          ;
     STA      MMC1_PRG_bank             ; 0x1ffdc $FFCC 8D 00 E0                ;
     LSR                                ; 0x1ffdf $FFCF 4A                      ;
