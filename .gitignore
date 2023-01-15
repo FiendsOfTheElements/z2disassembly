@@ -1,3 +1,4 @@
 *.nes
 *.o
 prg*.bin
+chr*.bin
