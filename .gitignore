@@ -1,4 +1,4 @@
-*.nes
-*.o
-prg*.bin
-chr*.bin
+**/*.nes
+**/*.o
+**/prg*.bin
+**/chr*.bin
