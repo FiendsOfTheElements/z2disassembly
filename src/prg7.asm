@@ -1,3 +1,7 @@
+.include "nes.asm"
+.include "mmc1.asm"
+.include "variables.asm"
+
 L000E = $000E
 L0302 = $0302
 L0363 = $0363
@@ -188,7 +192,7 @@ bank7_PowerON_code:                                                             
     STA      $2001                     ; 0x1c012 $C002 8D 01 20                ;
     STA      $2000                     ; 0x1c015 $C005 8D 00 20                ;
     LDA      #$05                      ; 0x1c018 $C008 A9 05                   ;;A = #$05 0000_0101
-    JSR      LFFCC                     ; 0x1c01a $C00A 20 CC FF                ; Load Bank 5
+    JSR      SwapPRG                     ; 0x1c01a $C00A 20 CC FF                ; Load Bank 5
     JSR      LA6A0                     ; 0x1c01d $C00D 20 A0 A6                ;
 LC010:                                                                          ;
     LDA      $0736                     ; 0x1c020 $C010 AD 36 07                ; Game Mode
@@ -209,7 +213,7 @@ LC01B:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
     LDA      #$06                      ; 0x1c042 $C032 A9 06                   ; A = 06
-    JSR      LFFCC                     ; 0x1c044 $C034 20 CC FF                ;
+    JSR      SwapPRG                     ; 0x1c044 $C034 20 CC FF                ;
     JSR      Tables_for_Game_Over_screen_text; 0x1c047 $C037 20 00 80              ;
     JMP      LC388                     ; 0x1c04a $C03A 4C 88 C3                ;
                                                                                ;
@@ -242,9 +246,9 @@ bank7_code1:                                                                    
     TYA                                ; 0x1c073 $C063 98                      ;
     PHA                                ; 0x1c074 $C064 48                      ;
     LDA      #$06                      ; 0x1c075 $C065 A9 06                   ; A = 06
-    JSR      LFFCC                     ; 0x1c077 $C067 20 CC FF                ; Load Bank 6
+    JSR      SwapPRG                     ; 0x1c077 $C067 20 CC FF                ; Load Bank 6
     JSR      L9000                     ; 0x1c07a $C06A 20 00 90                ; Play Sounds
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1c07d $C06D 20 C9 FF                ; Load Bank X at 0x8000 (X = $0769)
+    JSR      SwapToSavedPRG; 0x1c07d $C06D 20 C9 FF                ; Load Bank X at 0x8000 (X = $0769)
     PLA                                ; 0x1c080 $C070 68                      ;
     TAY                                ; 0x1c081 $C071 A8                      ;
     PLA                                ; 0x1c082 $C072 68                      ;
@@ -421,9 +425,9 @@ bank7_code2:                                                                    
     BCC      LC1CC                     ; 0x1c1cf $C1BF 90 0B                   ;
 bank7_related_to_sound:                                                         ;
     LDA      #$06                      ; 0x1c1d1 $C1C1 A9 06                   ; A = 06
-    JSR      LFFCC                     ; 0x1c1d3 $C1C3 20 CC FF                ; bank switch routine
+    JSR      SwapPRG                     ; 0x1c1d3 $C1C3 20 CC FF                ; bank switch routine
     JSR      L9000                     ; 0x1c1d6 $C1C6 20 00 90                ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1c1d9 $C1C9 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1c1d9 $C1C9 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC1CC:                                                                          ;
@@ -431,12 +435,12 @@ LC1CC:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_related_to_Pause_Pane_routine:                                            ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1c1dd $C1CD 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1c1dd $C1CD 20 C5 FF                ; Load Bank 0
     LDA      $0736                     ; 0x1c1e0 $C1D0 AD 36 07                ; Game Mode
     CMP      #$0B                      ; 0x1c1e3 $C1D3 C9 0B                   ; 0B = sidescroll mode
     BNE      LC220                     ; 0x1c1e5 $C1D5 D0 49                   ;
     JSR      LC1DD                     ; 0x1c1e7 $C1D7 20 DD C1                ;
-    JMP      bank7_Load_Bank_769_at_0x8000; 0x1c1ea $C1DA 4C C9 FF                ;
+    JMP      SwapToSavedPRG; 0x1c1ea $C1DA 4C C9 FF                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC1DD:                                                                          ;
@@ -502,14 +506,14 @@ bank7_pointer_table1:                                                           
 .word    LD7B0                         ; 0x1c257 $C247 B0 D7                   ;
 ; ---------------------------------------------------------------------------- ;
 bank7_code4:                                                                    ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1c259 $C249 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1c259 $C249 20 C9 FF                ; Load Bank $0769
     JMP      LB082                     ; 0x1c25c $C24C 4C 82 B0                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC24F:                                                                          ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1c25f $C24F 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1c25f $C24F 20 C9 FF                ; Load Bank $0769
     JSR      LC258                     ; 0x1c262 $C252 20 58 C2                ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1c265 $C255 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1c265 $C255 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC258:                                                                          ;
@@ -655,7 +659,7 @@ bank7_pointer_table4:                                                           
 ; ---------------------------------------------------------------------------- ;
 bank7_code7:                                                                    ;
     LDA      #$05                      ; 0x1c34c $C33C A9 05                   ; A = 05
-    JSR      LFFCC                     ; 0x1c34e $C33E 20 CC FF                ;
+    JSR      SwapPRG                     ; 0x1c34e $C33E 20 CC FF                ;
     JSR      bank7_chr_bank_switch__load_A; 0x1c351 $C341 20 B1 FF                ;
     LDA      #$80                      ; 0x1c354 $C344 A9 80                   ; A = 80
     STA      $0100                     ; 0x1c356 $C346 8D 00 01                ;
@@ -665,7 +669,7 @@ bank7_code7:                                                                    
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC34F:                                                                          ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1c35f $C34F 20 C5 FF                ;
+    JSR      SwapToPRG0; 0x1c35f $C34F 20 C5 FF                ;
     JSR      LD293                     ; 0x1c362 $C352 20 93 D2                ;
     JSR      startup_init_begin_game   ; 0x1c365 $C355 20 08 AA                ;
 bank7_Reset_Number_of_Lives__to_3_:                                             ;
@@ -705,7 +709,7 @@ LC382:                                                                          
 ; ---------------------------------------------------------------------------- ;
 LC388:                                                                          ;
     LDA      #$05                      ; 0x1c398 $C388 A9 05                   ; A = 05
-    JMP      LFFCC                     ; 0x1c39a $C38A 4C CC FF                ; Switch to Bank 5
+    JMP      SwapPRG                     ; 0x1c39a $C38A 4C CC FF                ; Switch to Bank 5
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC38D:                                                                          ;
@@ -881,7 +885,7 @@ bank7_code13:                                                                   
     STA      $2000                     ; 0x1c4dd $C4CD 8D 00 20                ;
     LDA      #$0E                      ; 0x1c4e0 $C4D0 A9 0E                   ; A = 0E
     JSR      bank7_Config_Register     ; 0x1c4e2 $C4D2 20 9D FF                ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1c4e5 $C4D5 20 C9 FF                ;
+    JSR      SwapToSavedPRG; 0x1c4e5 $C4D5 20 C9 FF                ;
     LDA      $FF                       ; 0x1c4e8 $C4D8 A5 FF                   ;; Sprite Bank ?
     STA      $2000                     ; 0x1c4ea $C4DA 8D 00 20                ;
     JSR      bank7_Set_Memory_200_4FF_and_00_DF_to_Zero; 0x1c4ed $C4DD 20 9C D2    ; Set Memory 200-4FF and 00-DF to Zero
@@ -1065,11 +1069,11 @@ LC5F9:                                                                          
 LC62F:                                                                          ;
     LDA      $076E                     ; 0x1c63f $C62F AD 6E 07                ; Graphics bank to use
     JSR      bank7_chr_bank_switch__load_A; 0x1c642 $C632 20 B1 FF                ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1c645 $C635 20 C5 FF                ;
+    JSR      SwapToPRG0; 0x1c645 $C635 20 C5 FF                ;
     JMP      Side_View_Initialization_when_entering_a_Key_Area; 0x1c648 $C638 4C E1 8C;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-    JMP      bank7_Load_Bank_769_at_0x8000; 0x1c64b $C63B 4C C9 FF                ; Load Bank $0769
+    JMP      SwapToSavedPRG; 0x1c64b $C63B 4C C9 FF                ; Load Bank $0769
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC63E:                                                                          ;
@@ -1078,7 +1082,7 @@ LC63E:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_take_elevator_exit:                                                       ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1c654 $C644 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1c654 $C644 20 C9 FF                ; Load Bank $0769
     LDA      $0561                     ; 0x1c657 $C647 AD 61 05                ; Area Code
     ASL                                ; 0x1c65a $C64A 0A                      ;
     ASL                                ; 0x1c65b $C64B 0A                      ;
@@ -1116,7 +1120,7 @@ LC67C:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LC68A:                                                                          ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1c69a $C68A 20 C5 FF                ;
+    JSR      SwapToPRG0; 0x1c69a $C68A 20 C5 FF                ;
     JMP      LC67C                     ; 0x1c69d $C68D 4C 7C C6                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
@@ -1831,7 +1835,7 @@ bank7_Height_of_frontier_between_North_and_South:                               
 .byt    $3C,$4B,$4C                    ; 0x1cb42 $CB32 3C 4B 4C                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_code17:                                                                   ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1cb45 $CB35 20 C9 FF                ; Load Bank in $0769
+    JSR      SwapToSavedPRG; 0x1cb45 $CB35 20 C9 FF                ; Load Bank in $0769
     LDY      $0748                     ; 0x1cb48 $CB38 AC 48 07                ;; area location index (the index of the spot on the overworld that pulled you into the sideview)	; Overworld Area out of Side View
     CPY      #$FF                      ; 0x1cb4b $CB3B C0 FF                   ;
     BNE      LCB42                     ; 0x1cb4d $CB3D D0 03                   ;
@@ -2076,7 +2080,7 @@ LCCF2:                                                                          
     DEC      $74                       ; 0x1cd05 $CCF5 C6 74                   ; X Position on OW (square unit)
     DEC      $74                       ; 0x1cd07 $CCF7 C6 74                   ;; Overworld X; X Position on OW (square unit)
 LCCF9:                                                                          ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1cd09 $CCF9 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1cd09 $CCF9 20 C5 FF                ; Load Bank 0
     JMP      LCF05                     ; 0x1cd0c $CCFC 4C 05 CF                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
@@ -2156,7 +2160,7 @@ LCD57:                                                                          
     LDA      #$02                      ; 0x1cd67 $CD57 A9 02                   ; A = 02;cd57 ;Load bank 2
 LCD59:                                                                          ;
     STA      $0769                     ; 0x1cd69 $CD59 8D 69 07                ; Bank to switch to;cd59 ;Store desired bank number                 
-    JSR      LFFCC                     ; 0x1cd6c $CD5C 20 CC FF                ; Bank Switch
+    JSR      SwapPRG                     ; 0x1cd6c $CD5C 20 CC FF                ; Bank Switch
     LDA      $0769                     ; 0x1cd6f $CD5F AD 69 07                ; Bank to switch to
     LDY      $0707                     ; 0x1cd72 $CD62 AC 07 07                ; Current World
     CPY      #$03                      ; 0x1cd75 $CD65 C0 03                   ;
@@ -2418,9 +2422,9 @@ LCF1D:                                                                          
 ; ---------------------------------------------------------------------------- ;
 LCF21_SaveGameWhenChooseSAVEwhenDead__maybe:                                    ;
     LDA      #$05                      ; 0x1cf31 $CF21 A9 05                   ; A = 05
-    JSR      LFFCC                     ; 0x1cf33 $CF23 20 CC FF                ;
+    JSR      SwapPRG                     ; 0x1cf33 $CF23 20 CC FF                ;
     JSR      LB9CA                     ; 0x1cf36 $CF26 20 CA B9                ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1cf39 $CF29 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1cf39 $CF29 20 C9 FF                ; Load Bank $0769
     INC      $0738                     ; 0x1cf3c $CF2C EE 38 07                ;
     RTS                                ; 0x1cf3f $CF2F 60                      ;
                                                                                ;
@@ -2436,7 +2440,7 @@ bank7_FUNCTION_CONVERT_706_and_707_to_Rx5plusW:                                 
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LCF3C:                                                                          ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1cf4c $CF3C 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1cf4c $CF3C 20 C9 FF                ; Load Bank $0769
     JSR      bank7_JmpToRoutine_at_Index_073D_in_Table_Address_from_the_top_of_the_Stack_The_Pointer_Table_immediately_follows_the_JSR_to_D382; 0x1cf4f $CF3F 20 82 D3;
 bank7_pointer_table13:                                                          ;
 .word    LD25E                         ; 0x1cf52 $CF42 5E D2                   ;
@@ -2447,7 +2451,7 @@ bank7_pointer_table13:                                                          
 ; ---------------------------------------------------------------------------- ;
 bank7_take_side_exit:                                                           ;
     JSR      bank7_Remove_All_Sprites  ; 0x1cf5c $CF4C 20 4C D2                ; Remove All Sprites
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1cf5f $CF4F 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1cf5f $CF4F 20 C9 FF                ; Load Bank $0769
     LDA      $0561                     ; 0x1cf62 $CF52 AD 61 05                ; Area Code
     LDY      $0707                     ; 0x1cf65 $CF55 AC 07 07                ; Current World
     BNE      LCF60                     ; 0x1cf68 $CF58 D0 06                   ;
@@ -2539,7 +2543,7 @@ LCFF8:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_take_door_exit:                                                           ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1d00c $CFFC 20 C9 FF                ; Load Bank in $0769
+    JSR      SwapToSavedPRG; 0x1d00c $CFFC 20 C9 FF                ; Load Bank in $0769
 LD000     = * + $0001                                                          ;
     LDA      $0561                     ; 0x1d00f $CFFF AD 61 05                ; Area Code
     ASL                                ; 0x1d012 $D002 0A                      ;
@@ -2680,7 +2684,7 @@ bank7_table12:                                                                  
 .byt    $4C,$02,$03                    ; 0x1d109 $D0F9 4C 02 03                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_code19:                                                                   ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1d10c $D0FC 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1d10c $D0FC 20 C5 FF                ; Load Bank 0
     LDA      #$80                      ; 0x1d10f $D0FF A9 80                   ; A = 80
     STA      $074F                     ; 0x1d111 $D101 8D 4F 07                ;; Related to Pause Pane
     STA      $0750                     ; 0x1d114 $D104 8D 50 07                ;
@@ -2697,9 +2701,9 @@ LD11A:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LD120:                                                                          ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1d130 $D120 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1d130 $D120 20 C5 FF                ; Load Bank 0
     JSR      L9A04                     ; 0x1d133 $D123 20 04 9A                ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1d136 $D126 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1d136 $D126 20 C9 FF                ; Load Bank $0769
 bank7_function_find_a_free_enemy_slot__maybe:                                   ;
     LDX      #$05                      ; 0x1d139 $D129 A2 05                   ; X = 05
 LD12B:                                                                          ;
@@ -3145,7 +3149,7 @@ bank7_check_if_link_died_0494__linkdeath:                                       
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LD3E9:                                                                          ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1d3f9 $D3E9 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1d3f9 $D3E9 20 C5 FF                ; Load Bank 0
     JSR      Spell_Casting_Routine     ; 0x1d3fc $D3EC 20 C3 8D                ; Spell Casting Routine
     LDA      $12                       ; 0x1d3ff $D3EF A5 12                   ;; Frame Counter (ascending)
     AND      #$01                      ; 0x1d401 $D3F1 29 01                   ; keep bits .... ...x				
@@ -3281,9 +3285,9 @@ LD4F3:                                                                          
     STA      $0754                     ; 0x1d508 $D4F8 8D 54 07                ;;in_elevator (boolean)
     STA      $05E7                     ; 0x1d50b $D4FB 8D E7 05                ;
     JSR      L9925                     ; 0x1d50e $D4FE 20 25 99                ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1d511 $D501 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1d511 $D501 20 C9 FF                ; Load Bank $0769
     JSR      bank7_code21              ; 0x1d514 $D504 20 A7 D5                ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1d517 $D507 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1d517 $D507 20 C5 FF                ; Load Bank 0
     JSR      Chandeliers_in_North_Castle; 0x1d51a $D50A 20 E5 80                ; North Castle Chandeliers
     JSR      Check_for_Fire_Spell      ; 0x1d51d $D50D 20 47 98                ;
     JSR      bank0_unknown37           ; 0x1d520 $D510 20 D2 A6                ;
@@ -4935,15 +4939,15 @@ LDFD1:                                                                          
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LDFD2:                                                                          ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1dfe2 $DFD2 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1dfe2 $DFD2 20 C9 FF                ; Load Bank $0769
     JSR      bank7_forest_chop_with_hammer; 0x1dfe5 $DFD5 20 79 DF                ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1dfe8 $DFD8 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1dfe8 $DFD8 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LDFDB:                                                                          ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1dfeb $DFDB 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1dfeb $DFDB 20 C9 FF                ; Load Bank $0769
     JSR      bank7_Set_0E_0F_pointer_according_to_Object_Group; 0x1dfee $DFDE 20 E4 DF;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1dff1 $DFE1 4C C5 FF                ;
+    JMP      SwapToPRG0; 0x1dff1 $DFE1 4C C5 FF                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Set_0E_0F_pointer_according_to_Object_Group:                              ;
@@ -4956,20 +4960,20 @@ bank7_Set_0E_0F_pointer_according_to_Object_Group:                              
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Overworld_Boundaries__Mountain_or_Water_Bank_1:                           ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1dfff $DFEF 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1dfff $DFEF 20 C9 FF                ; Load Bank $0769
     JSR      L83CF                     ; 0x1e002 $DFF2 20 CF 83                ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1e005 $DFF5 4C C5 FF                ;
+    JMP      SwapToPRG0; 0x1e005 $DFF5 4C C5 FF                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Check_for_Hidden_Palace_spot_Bank_1:                                      ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1e008 $DFF8 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1e008 $DFF8 20 C9 FF                ; Load Bank $0769
     JSR      L8368                     ; 0x1e00b $DFFB 20 68 83                ;
 LE000     = * + $0002                                                          ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1e00e $DFFE 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1e00e $DFFE 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LE001:                                                                          ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1e011 $E001 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1e011 $E001 20 C9 FF                ; Load Bank $0769
     LDA      (L000E),y                 ; 0x1e014 $E004 B1 0E                   ;
     AND      #$0F                      ; 0x1e016 $E006 29 0F                   ; keep bits .... xxxx
     STA      $02                       ; 0x1e018 $E008 85 02                   ;
@@ -4982,21 +4986,21 @@ LE001:                                                                          
     ADC      $03                       ; 0x1e021 $E011 65 03                   ;
     STA      $03                       ; 0x1e023 $E013 85 03                   ;
     PHA                                ; 0x1e025 $E015 48                      ;
-    JSR      bank7_Load_Bank_0_at_0x8000; 0x1e026 $E016 20 C5 FF                ; Load Bank 0
+    JSR      SwapToPRG0; 0x1e026 $E016 20 C5 FF                ; Load Bank 0
     PLA                                ; 0x1e029 $E019 68                      ;
     RTS                                ; 0x1e02a $E01A 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Turn_Palaces_into_Stone_Bank_1:                                           ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1e02b $E01B 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1e02b $E01B 20 C9 FF                ; Load Bank $0769
     JSR      L879B                     ; 0x1e02e $E01E 20 9B 87                ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1e031 $E021 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1e031 $E021 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 LE024:                                                                          ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1e034 $E024 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1e034 $E024 20 C9 FF                ; Load Bank $0769
     JSR      L83A1                     ; 0x1e037 $E027 20 A1 83                ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1e03a $E02A 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1e03a $E02A 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_table20:                                                                  ;
@@ -5030,9 +5034,9 @@ bank7_table21:                                                                  
 .byt    $04,$08                        ; 0x1e07e $E06E 04 08                   ;
 ; ---------------------------------------------------------------------------- ;
 bank7_code34:                                                                   ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1e080 $E070 20 C9 FF                ;
+    JSR      SwapToSavedPRG; 0x1e080 $E070 20 C9 FF                ;
     JSR      bank7_Related_to_Link_falling_in_Lava_Water; 0x1e083 $E073 20 79 E0   ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1e086 $E076 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1e086 $E076 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Related_to_Link_falling_in_Lava_Water:                                    ;
@@ -5260,9 +5264,9 @@ LE1DB:                                                                          
 .byt    $04                            ; 0x1e1eb $E1DB 04                      ;
 .byt    $FC                            ; 0x1e1ec $E1DC FC                      ;
 bank7_related_to_breakable_block:                                               ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1e1ed $E1DD 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1e1ed $E1DD 20 C9 FF                ; Load Bank $0769
     JSR      bank7_Related_to_Breakable_Blocks; 0x1e1f0 $E1E0 20 E6 E1             ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1e1f3 $E1E3 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1e1f3 $E1E3 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Related_to_Breakable_Blocks:                                              ;
@@ -8149,7 +8153,7 @@ bank7_UNUSED_FEAA:                                                              
 .byt    $FF,$FF,$FF,$FF,$FF,$FF        ; 0x1feda $FECA FF FF FF FF FF FF       ;
 ; ---------------------------------------------------------------------------- ;
 bank7_code55:                                                                   ;
-    JSR      bank7_Load_Bank_769_at_0x8000; 0x1fee0 $FED0 20 C9 FF                ; Load Bank $0769
+    JSR      SwapToSavedPRG; 0x1fee0 $FED0 20 C9 FF                ; Load Bank $0769
 LFED3:                                                                          ;
     STX      $01                       ; 0x1fee3 $FED3 86 01                   ;
     LDA      $0464,x                   ; 0x1fee5 $FED5 BD 64 04                ;
@@ -8219,7 +8223,7 @@ LFF36:                                                                          
     INX                                ; 0x1ff54 $FF44 E8                      ;
     CPX      #$0D                      ; 0x1ff55 $FF45 E0 0D                   ;
     BCC      LFED3                     ; 0x1ff57 $FF47 90 8A                   ;
-    JMP      bank7_Load_Bank_0_at_0x8000; 0x1ff59 $FF49 4C C5 FF                ; Load Bank 0
+    JMP      SwapToPRG0; 0x1ff59 $FF49 4C C5 FF                ; Load Bank 0
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_UNUSED_FF4C:                                                              ;
@@ -8249,7 +8253,7 @@ LFF78:                                                                          
     JSR      bank7_Config_Register     ; 0x1ff9f $FF8F 20 9D FF                ;
     JSR      bank7_chr_bank_switch__load_A; 0x1ffa2 $FF92 20 B1 FF                ;
     LDA      #$07                      ; 0x1ffa5 $FF95 A9 07                   ; A = 07
-    JSR      LFFCC                     ; 0x1ffa7 $FF97 20 CC FF                ;
+    JSR      SwapPRG                     ; 0x1ffa7 $FF97 20 CC FF                ;
     JMP      bank7_PowerON_code        ; 0x1ffaa $FF9A 4C 00 C0                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
@@ -8279,32 +8283,31 @@ bank7_chr_bank_switch__load_A:                                                  
     RTS                                ; 0x1ffd4 $FFC4 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_Load_Bank_0_at_0x8000:                                                    ;
+SwapToPRG0:                                                    ;
     LDA      #$00                      ; 0x1ffd5 $FFC5 A9 00                   ; A = 00
-    BEQ      LFFCC                     ; 0x1ffd7 $FFC7 F0 03                   ;
-bank7_Load_Bank_769_at_0x8000:                                                  ;
+    BEQ      SwapPRG                     ; 0x1ffd7 $FFC7 F0 03                   ;
+SwapToSavedPRG:                                                  ;
     LDA      $0769                     ; 0x1ffd9 $FFC9 AD 69 07                ;; Bank to switch to (other than 0 or 7)
-LFFCC:                                                                          ;
-    STA      LE000                     ; 0x1ffdc $FFCC 8D 00 E0                ;
+SwapPRG:                                                                          ;
+    STA      MMC1_PRG_bank             ; 0x1ffdc $FFCC 8D 00 E0                ;
     LSR                                ; 0x1ffdf $FFCF 4A                      ;
-    STA      LE000                     ; 0x1ffe0 $FFD0 8D 00 E0                ;
+    STA      MMC1_PRG_bank             ; 0x1ffe0 $FFD0 8D 00 E0                ;
     LSR                                ; 0x1ffe3 $FFD3 4A                      ;
-    STA      LE000                     ; 0x1ffe4 $FFD4 8D 00 E0                ;
+    STA      MMC1_PRG_bank             ; 0x1ffe4 $FFD4 8D 00 E0                ;
     LSR                                ; 0x1ffe7 $FFD7 4A                      ;
-    STA      LE000                     ; 0x1ffe8 $FFD8 8D 00 E0                ;
+    STA      MMC1_PRG_bank             ; 0x1ffe8 $FFD8 8D 00 E0                ;
     LSR                                ; 0x1ffeb $FFDB 4A                      ;
-    STA      LE000                     ; 0x1ffec $FFDC 8D 00 E0                ;
+    STA      MMC1_PRG_bank             ; 0x1ffec $FFDC 8D 00 E0                ;
     RTS                                ; 0x1ffef $FFDF 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_table33:                                                                  ;
-.byt    $4C,$45,$47,$45,$4E,$44,$20,$4F; 0x1fff0 $FFE0 4C 45 47 45 4E 44 20 4F ;
-.byt    $46,$20,$5A,$45,$4C,$44,$41,$32; 0x1fff8 $FFE8 46 20 5A 45 4C 44 41 32 ;
+.byt    "LEGEND OF ZELDA2"
 bank7_irq:
 .byt    $98,$F2,$DD,$DB,$33,$04,$01,$0F; 0x20000 $FFF0 98 F2 DD DB 33 04 01 0F ;
 .byt    $01,$00                        ; 0x20008 $FFF8 01 00 7B C0 70 FF F0 FF ;
+; .byt          $7B,$C0,$70,$FF,$F0,$FF
 .segment "VECTORS"
 .word bank7_NMI_Entry_Point
 .word bank7_reset
 .word bank7_irq
-; .byt            $7B,$C0,$70,$FF,$F0,$FF

@@ -1,11 +1,11 @@
-ca65 src/prg0.asm
-ca65 src/prg1.asm
-ca65 src/prg2.asm
-ca65 src/prg3.asm
-ca65 src/prg4.asm
-ca65 src/prg5.asm
-ca65 src/prg6.asm
-ca65 src/prg7.asm
+ca65 -I inc src/prg0.asm
+ca65 -I inc src/prg1.asm
+ca65 -I inc src/prg2.asm
+ca65 -I inc src/prg3.asm
+ca65 -I inc src/prg4.asm
+ca65 -I inc src/prg5.asm
+ca65 -I inc src/prg6.asm
+ca65 -I inc src/prg7.asm
 
 ld65 -C nes.cfg \
 	src/prg0.o \
