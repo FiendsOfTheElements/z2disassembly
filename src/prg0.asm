@@ -84,6 +84,8 @@ LEC02 = $EC02
 .import bank7_Remove_All_Sprites
 .import bank7_Turn_Palaces_into_Stone_Bank_1
 .import bank7_XY_Movements_Routine
+.import SwapCHR
+.import ConfigureMMC1
 
 .export bank0_Manual_Save_Game_Routine_UP_AND_A
 .export bank0_Return_of_Ganon_screen_Palettes
@@ -282,9 +284,9 @@ bank0_unknown1:                                                                 
 ; ---------------------------------------------------------------------------- ;
 Initialization_stuff:                                                           ;
     LDA      #$0F                      ; 0x159 $8149 A9 0F                     ; A = 0F
-    JSR      bank0_Set_Mapper_Parameters_at_0x8000; 0x15b $814B 20 9D BF           ; Set Mapper Parameters at 0x8000
+    JSR      ConfigureMMC1             ; 0x15b $814B 20 9D BF           ; Set Mapper Parameters at 0x8000
     LDA      #$10                      ; 0x15e $814E A9 10                     ; A = 10
-    JSR      bank0_Set_Mapper_Parameters_at_0xA000; 0x160 $8150 20 B1 BF           ; Set Mapper Parameters at 0xA000
+    JSR      SwapCHR                   ; 0x160 $8150 20 B1 BF           ; Set Mapper Parameters at 0xA000
     JSR      bank7_Turn_Palaces_into_Stone_Bank_1; 0x163 $8153 20 1B E0            ;
     LDA      #$FC                      ; 0x166 $8156 A9 FC                     ; A = FC
     STA      $81                       ; 0x168 $8158 85 81                     ;
@@ -6081,7 +6083,7 @@ bank0_unknown42:                                                                
 ; ---------------------------------------------------------------------------- ;
 bank0_unknown43:                                                                ;
     LDA      #$02                      ; 0x2879 $A869 A9 02                    ; A = 02
-    JSR      bank0_Set_Mapper_Parameters_at_0xA000; 0x287b $A86B 20 B1 BF          ;
+    JSR      SwapCHR                   ; 0x287b $A86B 20 B1 BF          ;
     LDA      $FF                       ; 0x287e $A86E A5 FF                    ;; Sprite Bank ?
     AND      #$FB                      ; 0x2880 $A870 29 FB                    ; keep bits xxxx x.xx
     STA      $2000                     ; 0x2882 $A872 8D 00 20                 ;
@@ -6888,77 +6890,77 @@ LBF00:                                                                          
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x3f70 $BF60 FF FF FF FF FF FF FF FF  ;
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x3f78 $BF68 FF FF FF FF FF FF FF FF  ;
 ; ---------------------------------------------------------------------------- ;
-bank0_ending_routines:                                                          ;
-    SEI                                ; 0x3f80 $BF70 78                       ;
-    CLD                                ; 0x3f81 $BF71 D8                       ;
-    LDX      #$00                      ; 0x3f82 $BF72 A2 00                    ; X = 00
-    STX      $2000                     ; 0x3f84 $BF74 8E 00 20                 ;
-    INX                                ; 0x3f87 $BF77 E8                       ;
-LBF78:                                                                          ;
-    LDA      $2002                     ; 0x3f88 $BF78 AD 02 20                 ;
-    BPL      LBF78                     ; 0x3f8b $BF7B 10 FB                    ;
-    DEX                                ; 0x3f8d $BF7D CA                       ;
-    BEQ      LBF78                     ; 0x3f8e $BF7E F0 F8                    ;
-    TXS                                ; 0x3f90 $BF80 9A                       ;
-    STX      Tables_for_Game_Over_screen_text; 0x3f91 $BF81 8E 00 80               ;
-    STX      LA000                     ; 0x3f94 $BF84 8E 00 A0                 ;
-    STX      bank7_PowerON_code        ; 0x3f97 $BF87 8E 00 C0                 ;
-    STX      LE000                     ; 0x3f9a $BF8A 8E 00 E0                 ;
-    LDA      #$0F                      ; 0x3f9d $BF8D A9 0F                    ; A = 0F
-    JSR      bank0_Set_Mapper_Parameters_at_0x8000; 0x3f9f $BF8F 20 9D BF          ;
-    JSR      bank0_Set_Mapper_Parameters_at_0xA000; 0x3fa2 $BF92 20 B1 BF          ;
-    LDA      #$07                      ; 0x3fa5 $BF95 A9 07                    ; A = 07
-    JSR      LBFCC                     ; 0x3fa7 $BF97 20 CC BF                 ;
-    JMP      bank7_PowerON_code        ; 0x3faa $BF9A 4C 00 C0                 ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-bank0_Set_Mapper_Parameters_at_0x8000:                                          ;
-    STA      Tables_for_Game_Over_screen_text; 0x3fad $BF9D 8D 00 80               ;
-    LSR                                ; 0x3fb0 $BFA0 4A                       ;
-    STA      Tables_for_Game_Over_screen_text; 0x3fb1 $BFA1 8D 00 80               ;
-    LSR                                ; 0x3fb4 $BFA4 4A                       ;
-    STA      Tables_for_Game_Over_screen_text; 0x3fb5 $BFA5 8D 00 80               ;
-    LSR                                ; 0x3fb8 $BFA8 4A                       ;
-    STA      Tables_for_Game_Over_screen_text; 0x3fb9 $BFA9 8D 00 80               ;
-    LSR                                ; 0x3fbc $BFAC 4A                       ;
-    STA      Tables_for_Game_Over_screen_text; 0x3fbd $BFAD 8D 00 80               ;
-    RTS                                ; 0x3fc0 $BFB0 60                       ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-bank0_Set_Mapper_Parameters_at_0xA000:                                          ;
-    STA      LA000                     ; 0x3fc1 $BFB1 8D 00 A0                 ;
-    LSR                                ; 0x3fc4 $BFB4 4A                       ;
-    STA      LA000                     ; 0x3fc5 $BFB5 8D 00 A0                 ;
-    LSR                                ; 0x3fc8 $BFB8 4A                       ;
-    STA      LA000                     ; 0x3fc9 $BFB9 8D 00 A0                 ;
-    LSR                                ; 0x3fcc $BFBC 4A                       ;
-    STA      LA000                     ; 0x3fcd $BFBD 8D 00 A0                 ;
-    LSR                                ; 0x3fd0 $BFC0 4A                       ;
-    STA      LA000                     ; 0x3fd1 $BFC1 8D 00 A0                 ;
-    RTS                                ; 0x3fd4 $BFC4 60                       ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-    LDA      #$00                      ; 0x3fd5 $BFC5 A9 00                    ; A = 00
-    BEQ      LBFCC                     ; 0x3fd7 $BFC7 F0 03                    ;
-    LDA      $0769                     ; 0x3fd9 $BFC9 AD 69 07                 ;; Bank to switch to (other than 0 or 7)
-LBFCC:                                                                          ;
-    STA      LE000                     ; 0x3fdc $BFCC 8D 00 E0                 ;
-    LSR                                ; 0x3fdf $BFCF 4A                       ;
-    STA      LE000                     ; 0x3fe0 $BFD0 8D 00 E0                 ;
-    LSR                                ; 0x3fe3 $BFD3 4A                       ;
-    STA      LE000                     ; 0x3fe4 $BFD4 8D 00 E0                 ;
-    LSR                                ; 0x3fe7 $BFD7 4A                       ;
-    STA      LE000                     ; 0x3fe8 $BFD8 8D 00 E0                 ;
-    LSR                                ; 0x3feb $BFDB 4A                       ;
-    STA      LE000                     ; 0x3fec $BFDC 8D 00 E0                 ;
-    RTS                                ; 0x3fef $BFDF 60                       ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-bank0_ending_bytes:                                                             ;
-.byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x3ff0 $BFE0 FF FF FF FF FF FF FF FF  ;
-.byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x3ff8 $BFE8 FF FF FF FF FF FF FF FF  ;
-.byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x4000 $BFF0 FF FF FF FF FF FF FF FF  ;
-.byt    $FF,$FF,$7B,$C0,$70,$BF,$F0,$FF; 0x4008 $BFF8 FF FF 7B C0 70 BF F0 FF  ;
-; ---------------------------------------------------------------------------- ;
-                                                                               ;
-                                                                               ;
+; bank0_ending_routines:                                                          ;
+;     SEI                                ; 0x3f80 $BF70 78                       ;
+;     CLD                                ; 0x3f81 $BF71 D8                       ;
+;     LDX      #$00                      ; 0x3f82 $BF72 A2 00                    ; X = 00
+;     STX      $2000                     ; 0x3f84 $BF74 8E 00 20                 ;
+;     INX                                ; 0x3f87 $BF77 E8                       ;
+; LBF78:                                                                          ;
+;     LDA      $2002                     ; 0x3f88 $BF78 AD 02 20                 ;
+;     BPL      LBF78                     ; 0x3f8b $BF7B 10 FB                    ;
+;     DEX                                ; 0x3f8d $BF7D CA                       ;
+;     BEQ      LBF78                     ; 0x3f8e $BF7E F0 F8                    ;
+;     TXS                                ; 0x3f90 $BF80 9A                       ;
+;     STX      Tables_for_Game_Over_screen_text; 0x3f91 $BF81 8E 00 80               ;
+;     STX      LA000                     ; 0x3f94 $BF84 8E 00 A0                 ;
+;     STX      bank7_PowerON_code        ; 0x3f97 $BF87 8E 00 C0                 ;
+;     STX      LE000                     ; 0x3f9a $BF8A 8E 00 E0                 ;
+;     LDA      #$0F                      ; 0x3f9d $BF8D A9 0F                    ; A = 0F
+;     JSR      bank0_Set_Mapper_Parameters_at_0x8000; 0x3f9f $BF8F 20 9D BF          ;
+;     JSR      bank0_Set_Mapper_Parameters_at_0xA000; 0x3fa2 $BF92 20 B1 BF          ;
+;     LDA      #$07                      ; 0x3fa5 $BF95 A9 07                    ; A = 07
+;     JSR      LBFCC                     ; 0x3fa7 $BF97 20 CC BF                 ;
+;     JMP      bank7_PowerON_code        ; 0x3faa $BF9A 4C 00 C0                 ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+; bank0_Set_Mapper_Parameters_at_0x8000:                                          ;
+;     STA      Tables_for_Game_Over_screen_text; 0x3fad $BF9D 8D 00 80               ;
+;     LSR                                ; 0x3fb0 $BFA0 4A                       ;
+;     STA      Tables_for_Game_Over_screen_text; 0x3fb1 $BFA1 8D 00 80               ;
+;     LSR                                ; 0x3fb4 $BFA4 4A                       ;
+;     STA      Tables_for_Game_Over_screen_text; 0x3fb5 $BFA5 8D 00 80               ;
+;     LSR                                ; 0x3fb8 $BFA8 4A                       ;
+;     STA      Tables_for_Game_Over_screen_text; 0x3fb9 $BFA9 8D 00 80               ;
+;     LSR                                ; 0x3fbc $BFAC 4A                       ;
+;     STA      Tables_for_Game_Over_screen_text; 0x3fbd $BFAD 8D 00 80               ;
+;     RTS                                ; 0x3fc0 $BFB0 60                       ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+; bank0_Set_Mapper_Parameters_at_0xA000:                                          ;
+;     STA      LA000                     ; 0x3fc1 $BFB1 8D 00 A0                 ;
+;     LSR                                ; 0x3fc4 $BFB4 4A                       ;
+;     STA      LA000                     ; 0x3fc5 $BFB5 8D 00 A0                 ;
+;     LSR                                ; 0x3fc8 $BFB8 4A                       ;
+;     STA      LA000                     ; 0x3fc9 $BFB9 8D 00 A0                 ;
+;     LSR                                ; 0x3fcc $BFBC 4A                       ;
+;     STA      LA000                     ; 0x3fcd $BFBD 8D 00 A0                 ;
+;     LSR                                ; 0x3fd0 $BFC0 4A                       ;
+;     STA      LA000                     ; 0x3fd1 $BFC1 8D 00 A0                 ;
+;     RTS                                ; 0x3fd4 $BFC4 60                       ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+;     LDA      #$00                      ; 0x3fd5 $BFC5 A9 00                    ; A = 00
+;     BEQ      LBFCC                     ; 0x3fd7 $BFC7 F0 03                    ;
+;     LDA      $0769                     ; 0x3fd9 $BFC9 AD 69 07                 ;; Bank to switch to (other than 0 or 7)
+; LBFCC:                                                                          ;
+;     STA      LE000                     ; 0x3fdc $BFCC 8D 00 E0                 ;
+;     LSR                                ; 0x3fdf $BFCF 4A                       ;
+;     STA      LE000                     ; 0x3fe0 $BFD0 8D 00 E0                 ;
+;     LSR                                ; 0x3fe3 $BFD3 4A                       ;
+;     STA      LE000                     ; 0x3fe4 $BFD4 8D 00 E0                 ;
+;     LSR                                ; 0x3fe7 $BFD7 4A                       ;
+;     STA      LE000                     ; 0x3fe8 $BFD8 8D 00 E0                 ;
+;     LSR                                ; 0x3feb $BFDB 4A                       ;
+;     STA      LE000                     ; 0x3fec $BFDC 8D 00 E0                 ;
+;     RTS                                ; 0x3fef $BFDF 60                       ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+; bank0_ending_bytes:                                                             ;
+; .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x3ff0 $BFE0 FF FF FF FF FF FF FF FF  ;
+; .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x3ff8 $BFE8 FF FF FF FF FF FF FF FF  ;
+; .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x4000 $BFF0 FF FF FF FF FF FF FF FF  ;
+; .byt    $FF,$FF,$7B,$C0,$70,$BF,$F0,$FF; 0x4008 $BFF8 FF FF 7B C0 70 BF F0 FF  ;
+; ; ---------------------------------------------------------------------------- ;
+;                                                                                ;
+;                                                                                ;

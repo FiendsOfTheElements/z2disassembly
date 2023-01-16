@@ -184,6 +184,11 @@ LBF00 = $BF00
 .export bank7_idem__maybe
 .export bank7_remove_enemy_or_item
 .export Set_Item_RAM_bit_to_0__Bits_0_3
+.export ConfigureMMC1
+.export SwapCHR
+.export SwapPRG
+.export SwapToPRG0
+.export SwapToSavedPRG
 
 .segment "PRG7"
 
