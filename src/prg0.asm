@@ -5840,7 +5840,6 @@ bank0_unknown35:                                                                
     LDA      bank0_unknown34,y         ; 0x26a6 $A696 B9 88 A6                 ; refer to table at $2688
     STA      $0525                     ; 0x26a9 $A699 8D 25 05                 ;; Routine Delay
     JSR      bank0_Pause_Pane_LOAD_FROM_ROM_TO_RAM_FOR_MENU_TEXT__LEVELUP; 0x26ac $A69C 20 47 A6;
-LA6A0     = * + $0001                                                          ;
     JSR      part_of__bank0_Pause_Pane_LOAD_FROM_ROM_TO_RAM_FOR_MENU_TEXT__SPELL; 0x26af $A69F 20 5F A3;
     PLA                                ; 0x26b2 $A6A2 68                       ;
     STA      $0525                     ; 0x26b3 $A6A3 8D 25 05                 ;; Routine Delay

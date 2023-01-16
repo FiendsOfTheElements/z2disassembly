@@ -192,6 +192,9 @@ LFCA5 = $FCA5
 .import bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
 .import SwapCHR
 .import ConfigureMMC1
+.import L_Bank6Code0
+
+.export bank5_PowerON__Reset_Memory
 
 .segment "PRG5"
 
@@ -4667,7 +4670,7 @@ LA658:
     STY      $0725                     ; 0x1668b $A67B 8C 25 07                ;; PPU Macro Selector	
     DEY                                ; 0x1668e $A67E 88                      ;
     STY      L0302                     ; 0x1668f $A67F 8C 02 03                ;; Used when writing text to screen
-    JSR      LC032                     ; 0x16692 $A682 20 32 C0                ;
+    JSR      L_Bank6Code0              ; 0x16692 $A682 20 32 C0                ;
     LDA      $F7                       ; 0x16695 $A685 A5 F7                   ;; Controller 1 Buttons Held
 LA687:                                                                          ;
     STA      $0744                     ; 0x16697 $A687 8D 44 07                ;; Controller 1 Input; Controller 1 Buttons Held

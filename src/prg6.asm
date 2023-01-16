@@ -31,10 +31,12 @@ LFFF0 = $FFF0
 .import bank7_NMI_Entry_Point
 .import bank7_PowerON_code
 
+.export Bank6Code0
+
 .segment "PRG6"
 
 ; ---------------------------------------------------------------------------- ;
-Bank6__Code_0:                                                                  ;
+Bank6Code0:                                                                  ;
 L8001     = * + $0001                                                          ;
     LDA      #$FF                      ; 0x18010 $8000 A9 FF                   ;;A = #$ff 1111_1111
     STA      $4017                     ; 0x18012 $8002 8D 17 40                ;

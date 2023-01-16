@@ -80,7 +80,6 @@ LA329 = $A329
 LA334 = $A334
 LA338 = $A338
 LA610 = $A610
-LA6A0 = $A6A0
 LA82A = $A82A
 LB082 = $B082
 LB9CA = $B9CA
@@ -95,6 +94,8 @@ LBF00 = $BF00
 .import bank0_unknown37
 .import bank0_unknown39
 .import bank0_unknown4
+.import bank5_PowerON__Reset_Memory
+.import Bank6Code0
 .import Chandeliers_in_North_Castle
 .import Check_for_Fire_Spell
 .import Hub_Update_Routine
@@ -189,41 +190,43 @@ LBF00 = $BF00
 .export SwapPRG
 .export SwapToPRG0
 .export SwapToSavedPRG
+.export L_Bank6Code0
 
 .segment "PRG7"
 
-bank7_PowerON_code:                                                             ;
+bank7_PowerON_code:                                                            ;
     LDA      #$00                      ; 0x1c010 $C000 A9 00                   ; A = 00
-    STA      $2001                     ; 0x1c012 $C002 8D 01 20                ;
-    STA      $2000                     ; 0x1c015 $C005 8D 00 20                ;
-    LDA      #$05                      ; 0x1c018 $C008 A9 05                   ;;A = #$05 0000_0101
-    JSR      SwapPRG                     ; 0x1c01a $C00A 20 CC FF                ; Load Bank 5
-    JSR      LA6A0                     ; 0x1c01d $C00D 20 A0 A6                ;
-LC010:                                                                          ;
+    STA      PPU_MASK                  ; 0x1c012 $C002 8D 01 20                ;
+    STA      PPU_CTRL                  ; 0x1c015 $C005 8D 00 20                ;
+    LDA      #$05                      ; 0x1c018 $C008 A9 05                   ; A = #$05 0000_0101
+    JSR      SwapPRG                   ; 0x1c01a $C00A 20 CC FF                ; Load Bank 5
+    JSR      bank5_PowerON__Reset_Memory; 0x1c01d $C00D 20 A0 A6               ;
+@Loop:                                                                         ;
     LDA      $0736                     ; 0x1c020 $C010 AD 36 07                ; Game Mode
     CMP      #$08                      ; 0x1c023 $C013 C9 08                   ;
-    BEQ      LC01B                     ; 0x1c025 $C015 F0 04                   ;
+    BEQ      :+                        ; 0x1c025 $C015 F0 04                   ;
     CMP      #$14                      ; 0x1c027 $C017 C9 14                   ;
-    BNE      LC010                     ; 0x1c029 $C019 D0 F5                   ;
-LC01B:                                                                          ;
-    LDA      $076C                     ; 0x1c02b $C01B AD 6C 07                ;; (00=restart from zelda's castle with 3 lives,  01=no routine, 02=die, 03=wake up zelda, 04=roll credits, 06=show the lives then restart the scene)
+    BNE      @Loop                     ; 0x1c029 $C019 D0 F5                   ;
+:                                                                              ;
+    LDA      $076C                     ; 0x1c02b $C01B AD 6C 07                ; (00=restart from zelda's castle with 3 lives,  01=no routine, 02=die, 03=wake up zelda, 04=roll credits, 06=show the lives then restart the scene)
     CMP      #$01                      ; 0x1c02e $C01E C9 01                   ;
-    BNE      LC010                     ; 0x1c030 $C020 D0 EE                   ;
-    LDA      #$40                      ; 0x1c032 $C022 A9 40                   ;;A = #$40 0100_0000
+    BNE      @Loop                     ; 0x1c030 $C020 D0 EE                   ;
+    LDA      #$40                      ; 0x1c032 $C022 A9 40                   ; A = #$40 0100_0000
     STA      $0100                     ; 0x1c034 $C024 8D 00 01                ;
     JSR      bank7_code13              ; 0x1c037 $C027 20 CB C4                ;
-    LDA      #$C0                      ; 0x1c03a $C02A A9 C0                   ;;A = #$c0 1100_0000
+    LDA      #$C0                      ; 0x1c03a $C02A A9 C0                   ; A = #$c0 1100_0000
     STA      $0100                     ; 0x1c03c $C02C 8D 00 01                ;
-    JMP      LC010                     ; 0x1c03f $C02F 4C 10 C0                ;
+    JMP      @Loop                     ; 0x1c03f $C02F 4C 10 C0                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
+L_Bank6Code0:
     LDA      #$06                      ; 0x1c042 $C032 A9 06                   ; A = 06
-    JSR      SwapPRG                     ; 0x1c044 $C034 20 CC FF                ;
-    JSR      Tables_for_Game_Over_screen_text; 0x1c047 $C037 20 00 80              ;
+    JSR      SwapPRG                   ; 0x1c044 $C034 20 CC FF                ;
+    JSR      Bank6Code0                ; 0x1c047 $C037 20 00 80                ;
     JMP      LC388                     ; 0x1c04a $C03A 4C 88 C3                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_PPU_Adresses_according_to_725_as_index:                                   ;
+bank7_PPU_Adresses_according_to_725_as_index:                                  ;
 .word    L0302                         ; 0x1c04d $C03D 02 03                   ;; Used when writing text to screen
 .word    L0363                         ; 0x1c04f $C03F 63 03                   ;
 .word    L03A4                         ; 0x1c051 $C041 A4 03                   ;
@@ -894,7 +897,7 @@ bank7_code13:                                                                   
     LDA      $FF                       ; 0x1c4e8 $C4D8 A5 FF                   ;; Sprite Bank ?
     STA      $2000                     ; 0x1c4ea $C4DA 8D 00 20                ;
     JSR      bank7_Set_Memory_200_4FF_and_00_DF_to_Zero; 0x1c4ed $C4DD 20 9C D2    ; Set Memory 200-4FF and 00-DF to Zero
-    STA       a:$FD                     ; 0x1c4f0 $C4E0 8D FD 00                ;
+    STA      a:$FD                     ; 0x1c4f0 $C4E0 8D FD 00                ;
     STA      $0747                     ; 0x1c4f3 $C4E3 8D 47 07                ;
     STA      $072A                     ; 0x1c4f6 $C4E6 8D 2A 07                ; Scrolling Offset High Byte
     STA      $072B                     ; 0x1c4f9 $C4E9 8D 2B 07                ;
@@ -8238,27 +8241,27 @@ bank7_UNUSED_FF4C:                                                              
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x1ff74 $FF64 FF FF FF FF FF FF FF FF ;
 .byt    $FF,$FF,$FF,$FF                ; 0x1ff7c $FF6C FF FF FF FF             ;
 ; ---------------------------------------------------------------------------- ;
-bank7_reset:                                                                    ;
+bank7_reset:                                                                   ;
     SEI                                ; 0x1ff80 $FF70 78                      ;
     CLD                                ; 0x1ff81 $FF71 D8                      ;
     LDX      #$00                      ; 0x1ff82 $FF72 A2 00                   ; X = 00
     STX      $2000                     ; 0x1ff84 $FF74 8E 00 20                ;
     INX                                ; 0x1ff87 $FF77 E8                      ;
-LFF78:                                                                          ;
-    LDA      $2002                     ; 0x1ff88 $FF78 AD 02 20                ;
-    BPL      LFF78                     ; 0x1ff8b $FF7B 10 FB                   ;
+@PPUSpin:                                                                      ;
+    LDA      $2002                     ; 0x1ff88 $FF78 AD 02 20                ; Wait 2 frames for PPU to warm up
+    BPL      @PPUSpin                  ; 0x1ff8b $FF7B 10 FB                   ;
     DEX                                ; 0x1ff8d $FF7D CA                      ;
-    BEQ      LFF78                     ; 0x1ff8e $FF7E F0 F8                   ;
+    BEQ      @PPUSpin                  ; 0x1ff8e $FF7E F0 F8                   ;
     TXS                                ; 0x1ff90 $FF80 9A                      ;
-    STX      Tables_for_Game_Over_screen_text; 0x1ff91 $FF81 8E 00 80              ;
-    STX      LA000                     ; 0x1ff94 $FF84 8E 00 A0                ;
-    STX      bank7_PowerON_code        ; 0x1ff97 $FF87 8E 00 C0                ;
-    STX      LE000                     ; 0x1ff9a $FF8A 8E 00 E0                ;
+    STX      MMC1_Control              ; 0x1ff91 $FF81 8E 00 80                ; Clear MMC1 registers
+    STX      MMC1_CHR0_bank            ; 0x1ff94 $FF84 8E 00 A0                ;
+    STX      MMC1_CHR1_bank            ; 0x1ff97 $FF87 8E 00 C0                ;
+    STX      MMC1_PRG_bank             ; 0x1ff9a $FF8A 8E 00 E0                ;
     LDA      #$0F                      ; 0x1ff9d $FF8D A9 0F                   ; A = 0F
-    JSR      ConfigureMMC1     ; 0x1ff9f $FF8F 20 9D FF                ;
-    JSR      SwapCHR; 0x1ffa2 $FF92 20 B1 FF                ;
+    JSR      ConfigureMMC1             ; 0x1ff9f $FF8F 20 9D FF                ;
+    JSR      SwapCHR                   ; 0x1ffa2 $FF92 20 B1 FF                ;
     LDA      #$07                      ; 0x1ffa5 $FF95 A9 07                   ; A = 07
-    JSR      SwapPRG                     ; 0x1ffa7 $FF97 20 CC FF                ;
+    JSR      SwapPRG                   ; 0x1ffa7 $FF97 20 CC FF                ;
     JMP      bank7_PowerON_code        ; 0x1ffaa $FF9A 4C 00 C0                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
