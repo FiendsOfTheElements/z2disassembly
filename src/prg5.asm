@@ -190,6 +190,8 @@ LFCA5 = $FCA5
 .import bank7_Simple_Vertical_Movement
 .import bank7_Spawn_New_Projectile
 .import bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
+.import SwapCHR
+.import ConfigureMMC1
 
 .segment "PRG5"
 
@@ -4743,7 +4745,7 @@ bank5_pointer_table3:                                                           
 bank5_code20:                                                                   ;
     JSR      bank7_Set_Memory_200_4FF_and_00_DF_to_Zero; 0x1671f $A70F 20 9C D2    ;
     LDA      #$0F                      ; 0x16722 $A712 A9 0F                   ; A = 0F
-    JSR      LBF9D                     ; 0x16724 $A714 20 9D BF                ;
+    JSR      ConfigureMMC1             ; 0x16724 $A714 20 9D BF                ;
     LDA      $0568                     ; 0x16727 $A717 AD 68 05                ;; Related to Flute in Overworld
     BNE      LA723                     ; 0x1672a $A71A D0 07                   ;
     LDA      #$01                      ; 0x1672c $A71C A9 01                   ; A = 01
@@ -4752,7 +4754,7 @@ bank5_code20:                                                                   
 LA723:                                                                          ;
     JSR      bank5_code_ADE0           ; 0x16733 $A723 20 E0 AD                ;
     LDA      #$00                      ; 0x16736 $A726 A9 00                   ; A = 00
-    JSR      LBFB1                     ; 0x16738 $A728 20 B1 BF                ;
+    JSR      SwapCHR                   ; 0x16738 $A728 20 B1 BF                ;
     JMP      LC722                     ; 0x1673b $A72B 4C 22 C7                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
@@ -7365,77 +7367,77 @@ bank5_table_Some_palettes:                                                      
 .byt    $0F,$30,$12,$16,$0F,$08,$28,$38; 0x17f70 $BF60 0F 30 12 16 0F 08 28 38 ;
 .byt    $0F,$08,$16,$30,$0F,$3C,$1C,$0C; 0x17f78 $BF68 0F 08 16 30 0F 3C 1C 0C ;
 ; ---------------------------------------------------------------------------- ;
-bank5_codeEND:                                                                  ;
-    SEI                                ; 0x17f80 $BF70 78                      ;
-    CLD                                ; 0x17f81 $BF71 D8                      ;
-    LDX      #$00                      ; 0x17f82 $BF72 A2 00                   ; X = 00
-    STX      $2000                     ; 0x17f84 $BF74 8E 00 20                ;
-    INX                                ; 0x17f87 $BF77 E8                      ;
-LBF78:                                                                          ;
-    LDA      $2002                     ; 0x17f88 $BF78 AD 02 20                ;
-    BPL      LBF78                     ; 0x17f8b $BF7B 10 FB                   ;
-    DEX                                ; 0x17f8d $BF7D CA                      ;
-    BEQ      LBF78                     ; 0x17f8e $BF7E F0 F8                   ;
-    TXS                                ; 0x17f90 $BF80 9A                      ;
-    STX      bank5_nothing             ; 0x17f91 $BF81 8E 00 80                ;
-    STX      LA000                     ; 0x17f94 $BF84 8E 00 A0                ;
-    STX      bank7_PowerON_code        ; 0x17f97 $BF87 8E 00 C0                ;
-    STX      LE000                     ; 0x17f9a $BF8A 8E 00 E0                ;
-    LDA      #$0F                      ; 0x17f9d $BF8D A9 0F                   ; A = 0F
-    JSR      LBF9D                     ; 0x17f9f $BF8F 20 9D BF                ;
-    JSR      LBFB1                     ; 0x17fa2 $BF92 20 B1 BF                ;
-    LDA      #$07                      ; 0x17fa5 $BF95 A9 07                   ; A = 07
-    JSR      LBFCC                     ; 0x17fa7 $BF97 20 CC BF                ;
-    JMP      bank7_PowerON_code        ; 0x17faa $BF9A 4C 00 C0                ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-LBF9D:                                                                          ;
-    STA      bank5_nothing             ; 0x17fad $BF9D 8D 00 80                ;
-    LSR                                ; 0x17fb0 $BFA0 4A                      ;
-    STA      bank5_nothing             ; 0x17fb1 $BFA1 8D 00 80                ;
-    LSR                                ; 0x17fb4 $BFA4 4A                      ;
-    STA      bank5_nothing             ; 0x17fb5 $BFA5 8D 00 80                ;
-    LSR                                ; 0x17fb8 $BFA8 4A                      ;
-    STA      bank5_nothing             ; 0x17fb9 $BFA9 8D 00 80                ;
-    LSR                                ; 0x17fbc $BFAC 4A                      ;
-    STA      bank5_nothing             ; 0x17fbd $BFAD 8D 00 80                ;
-    RTS                                ; 0x17fc0 $BFB0 60                      ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-LBFB1:                                                                          ;
-    STA      LA000                     ; 0x17fc1 $BFB1 8D 00 A0                ;
-    LSR                                ; 0x17fc4 $BFB4 4A                      ;
-    STA      LA000                     ; 0x17fc5 $BFB5 8D 00 A0                ;
-    LSR                                ; 0x17fc8 $BFB8 4A                      ;
-    STA      LA000                     ; 0x17fc9 $BFB9 8D 00 A0                ;
-    LSR                                ; 0x17fcc $BFBC 4A                      ;
-    STA      LA000                     ; 0x17fcd $BFBD 8D 00 A0                ;
-    LSR                                ; 0x17fd0 $BFC0 4A                      ;
-    STA      LA000                     ; 0x17fd1 $BFC1 8D 00 A0                ;
-    RTS                                ; 0x17fd4 $BFC4 60                      ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-    LDA      #$00                      ; 0x17fd5 $BFC5 A9 00                   ; A = 00
-    BEQ      LBFCC                     ; 0x17fd7 $BFC7 F0 03                   ;
-    LDA      $0769                     ; 0x17fd9 $BFC9 AD 69 07                ;; Bank to switch to (other than 0 or 7)
-LBFCC:                                                                          ;
-    STA      LE000                     ; 0x17fdc $BFCC 8D 00 E0                ;
-    LSR                                ; 0x17fdf $BFCF 4A                      ;
-    STA      LE000                     ; 0x17fe0 $BFD0 8D 00 E0                ;
-    LSR                                ; 0x17fe3 $BFD3 4A                      ;
-    STA      LE000                     ; 0x17fe4 $BFD4 8D 00 E0                ;
-    LSR                                ; 0x17fe7 $BFD7 4A                      ;
-    STA      LE000                     ; 0x17fe8 $BFD8 8D 00 E0                ;
-    LSR                                ; 0x17feb $BFDB 4A                      ;
-    STA      LE000                     ; 0x17fec $BFDC 8D 00 E0                ;
-    RTS                                ; 0x17fef $BFDF 60                      ;
-                                                                               ;
-; ---------------------------------------------------------------------------- ;
-bank5_UNUSED_BFE0:                                                              ;
-.byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x17ff0 $BFE0 FF FF FF FF FF FF FF FF ;
-.byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x17ff8 $BFE8 FF FF FF FF FF FF FF FF ;
-.byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x18000 $BFF0 FF FF FF FF FF FF FF FF ;
-.byt    $FF,$FF                        ; 0x18008 $BFF8 FF FF                   ;
-bank5_NMI_Reset_and_Break_Vectors:                                              ;
-.byt    $7B,$C0,$70,$BF,$F0,$FF        ; 0x1800a $BFFA 7B C0 70 BF F0 FF       ;
-; ---------------------------------------------------------------------------- ;
+; bank5_codeEND:                                                                  ;
+;     SEI                                ; 0x17f80 $BF70 78                      ;
+;     CLD                                ; 0x17f81 $BF71 D8                      ;
+;     LDX      #$00                      ; 0x17f82 $BF72 A2 00                   ; X = 00
+;     STX      $2000                     ; 0x17f84 $BF74 8E 00 20                ;
+;     INX                                ; 0x17f87 $BF77 E8                      ;
+; LBF78:                                                                          ;
+;     LDA      $2002                     ; 0x17f88 $BF78 AD 02 20                ;
+;     BPL      LBF78                     ; 0x17f8b $BF7B 10 FB                   ;
+;     DEX                                ; 0x17f8d $BF7D CA                      ;
+;     BEQ      LBF78                     ; 0x17f8e $BF7E F0 F8                   ;
+;     TXS                                ; 0x17f90 $BF80 9A                      ;
+;     STX      bank5_nothing             ; 0x17f91 $BF81 8E 00 80                ;
+;     STX      LA000                     ; 0x17f94 $BF84 8E 00 A0                ;
+;     STX      bank7_PowerON_code        ; 0x17f97 $BF87 8E 00 C0                ;
+;     STX      LE000                     ; 0x17f9a $BF8A 8E 00 E0                ;
+;     LDA      #$0F                      ; 0x17f9d $BF8D A9 0F                   ; A = 0F
+;     JSR      LBF9D                     ; 0x17f9f $BF8F 20 9D BF                ;
+;     JSR      LBFB1                     ; 0x17fa2 $BF92 20 B1 BF                ;
+;     LDA      #$07                      ; 0x17fa5 $BF95 A9 07                   ; A = 07
+;     JSR      LBFCC                     ; 0x17fa7 $BF97 20 CC BF                ;
+;     JMP      bank7_PowerON_code        ; 0x17faa $BF9A 4C 00 C0                ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+; LBF9D:                                                                          ;
+;     STA      bank5_nothing             ; 0x17fad $BF9D 8D 00 80                ;
+;     LSR                                ; 0x17fb0 $BFA0 4A                      ;
+;     STA      bank5_nothing             ; 0x17fb1 $BFA1 8D 00 80                ;
+;     LSR                                ; 0x17fb4 $BFA4 4A                      ;
+;     STA      bank5_nothing             ; 0x17fb5 $BFA5 8D 00 80                ;
+;     LSR                                ; 0x17fb8 $BFA8 4A                      ;
+;     STA      bank5_nothing             ; 0x17fb9 $BFA9 8D 00 80                ;
+;     LSR                                ; 0x17fbc $BFAC 4A                      ;
+;     STA      bank5_nothing             ; 0x17fbd $BFAD 8D 00 80                ;
+;     RTS                                ; 0x17fc0 $BFB0 60                      ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+; LBFB1:                                                                          ;
+;     STA      LA000                     ; 0x17fc1 $BFB1 8D 00 A0                ;
+;     LSR                                ; 0x17fc4 $BFB4 4A                      ;
+;     STA      LA000                     ; 0x17fc5 $BFB5 8D 00 A0                ;
+;     LSR                                ; 0x17fc8 $BFB8 4A                      ;
+;     STA      LA000                     ; 0x17fc9 $BFB9 8D 00 A0                ;
+;     LSR                                ; 0x17fcc $BFBC 4A                      ;
+;     STA      LA000                     ; 0x17fcd $BFBD 8D 00 A0                ;
+;     LSR                                ; 0x17fd0 $BFC0 4A                      ;
+;     STA      LA000                     ; 0x17fd1 $BFC1 8D 00 A0                ;
+;     RTS                                ; 0x17fd4 $BFC4 60                      ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+;     LDA      #$00                      ; 0x17fd5 $BFC5 A9 00                   ; A = 00
+;     BEQ      LBFCC                     ; 0x17fd7 $BFC7 F0 03                   ;
+;     LDA      $0769                     ; 0x17fd9 $BFC9 AD 69 07                ;; Bank to switch to (other than 0 or 7)
+; LBFCC:                                                                          ;
+;     STA      LE000                     ; 0x17fdc $BFCC 8D 00 E0                ;
+;     LSR                                ; 0x17fdf $BFCF 4A                      ;
+;     STA      LE000                     ; 0x17fe0 $BFD0 8D 00 E0                ;
+;     LSR                                ; 0x17fe3 $BFD3 4A                      ;
+;     STA      LE000                     ; 0x17fe4 $BFD4 8D 00 E0                ;
+;     LSR                                ; 0x17fe7 $BFD7 4A                      ;
+;     STA      LE000                     ; 0x17fe8 $BFD8 8D 00 E0                ;
+;     LSR                                ; 0x17feb $BFDB 4A                      ;
+;     STA      LE000                     ; 0x17fec $BFDC 8D 00 E0                ;
+;     RTS                                ; 0x17fef $BFDF 60                      ;
+;                                                                                ;
+; ; ---------------------------------------------------------------------------- ;
+; bank5_UNUSED_BFE0:                                                              ;
+; .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x17ff0 $BFE0 FF FF FF FF FF FF FF FF ;
+; .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x17ff8 $BFE8 FF FF FF FF FF FF FF FF ;
+; .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x18000 $BFF0 FF FF FF FF FF FF FF FF ;
+; .byt    $FF,$FF                        ; 0x18008 $BFF8 FF FF                   ;
+; bank5_NMI_Reset_and_Break_Vectors:                                              ;
+; .byt    $7B,$C0,$70,$BF,$F0,$FF        ; 0x1800a $BFFA 7B C0 70 BF F0 FF       ;
+; ; ---------------------------------------------------------------------------- ;
