@@ -9,6 +9,11 @@
 ;.setcpu  "6502"                                                               ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
+
+.include "nes.asm"
+.include "mmc1.asm"
+.include "variables.asm"
+
 L000E = $000E
 L0302 = $0302
 L0363 = $0363
@@ -32,6 +37,7 @@ LFFF0 = $FFF0
 .import bank7_PowerON_code
 
 .export Bank6Code0
+.export Bank6Code2
 
 .segment "PRG6"
 
@@ -1113,14 +1119,14 @@ L8FB7:                                                                          
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x19007 $8FF7 FF FF FF FF FF FF FF FF ;
 .byt    $FF                            ; 0x1900f $8FFF FF                      ;
 ; ---------------------------------------------------------------------------- ;
-Bank6__Code_2:                                                                  ;
-    LDA      $EA                       ; 0x19010 $9000 A5 EA                   ;;Global Sound Switch (0 = Sound On)
-    BEQ      L900B                     ; 0x19012 $9002 F0 07                   ;
-    LDA      #$00                      ; 0x19014 $9004 A9 00                   ;;A = #$00 0000_0000
-    STA      $4015                     ; 0x19016 $9006 8D 15 40                ;; Sound Channel Switch
-    BEQ      L9030                     ; 0x19019 $9009 F0 25                   ;
-L900B:                                                                          ;
-    LDA      #$FF                      ; 0x1901b $900B A9 FF                   ;;A = #$ff 1111_1111
+Bank6Code2:                                                                    ;
+    LDA      $EA                       ; 0x19010 $9000 A5 EA                   ; Global Sound Switch (0 = Sound On)
+    BEQ      @Cont                     ; 0x19012 $9002 F0 07                   ;
+    LDA      #$00                      ; 0x19014 $9004 A9 00                   ; A = #$00 0000_0000
+    STA      SND_CHN                   ; 0x19016 $9006 8D 15 40                ; Sound Channel Switch
+    BEQ      @Ret                      ; 0x19019 $9009 F0 25                   ;
+@Cont:                                                                         ;
+    LDA      #$FF                      ; 0x1901b $900B A9 FF                   ; A = #$ff 1111_1111
     STA      $4017                     ; 0x1901d $900D 8D 17 40                ;
     JSR      Bank6__Code_3             ; 0x19020 $9010 20 0B 92                ;
     JSR      L990B                     ; 0x19023 $9013 20 0B 99                ;
@@ -1128,14 +1134,14 @@ L900B:                                                                          
     JSR      L9408                     ; 0x19029 $9019 20 08 94                ;
     JSR      L95A7                     ; 0x1902c $901C 20 A7 95                ;
     JSR      L9B18                     ; 0x1902f $901F 20 18 9B                ;
-    LDA      #$00                      ; 0x19032 $9022 A9 00                   ;;A = #$00 0000_0000
-    STA      $EF                       ; 0x19034 $9024 85 EF                   ;; Sound Effects Type 4; Sound Effects Type 4
-    STA      $EE                       ; 0x19036 $9026 85 EE                   ;; Sound Effects Type 3; Sound Effects Type 3
-    STA      $ED                       ; 0x19038 $9028 85 ED                   ;; Sound Effects Type 2; Sound Effects Type 2
-    STA      $EC                       ; 0x1903a $902A 85 EC                   ;; Sound Effects Type 1; Sound Effects Type 1
-    STA      $EB                       ; 0x1903c $902C 85 EB                   ;; Music; Music
+    LDA      #$00                      ; 0x19032 $9022 A9 00                   ; A = #$00 0000_0000
+    STA      $EF                       ; 0x19034 $9024 85 EF                   ; Sound Effects Type 4; Sound Effects Type 4
+    STA      $EE                       ; 0x19036 $9026 85 EE                   ; Sound Effects Type 3; Sound Effects Type 3
+    STA      $ED                       ; 0x19038 $9028 85 ED                   ; Sound Effects Type 2; Sound Effects Type 2
+    STA      $EC                       ; 0x1903a $902A 85 EC                   ; Sound Effects Type 1; Sound Effects Type 1
+    STA      $EB                       ; 0x1903c $902C 85 EB                   ; Music; Music
     STA      $E9                       ; 0x1903e $902E 85 E9                   ;
-L9030:                                                                          ;
+@Ret:                                                                          ;
     RTS                                ; 0x19040 $9030 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;

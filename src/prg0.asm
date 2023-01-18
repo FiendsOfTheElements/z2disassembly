@@ -53,7 +53,6 @@ LC2A6 = $C2A6
 LC72D = $C72D
 LCB18_fill_hp_or_mp_to_full__provide_x_register__maybe = $CB18 ;???
 LD20A = $D20A
-LD2EC = $D2EC
 LD55E = $D55E
 LDF01 = $DF01
 LDF3F = $DF3F
@@ -84,6 +83,7 @@ LEC02 = $EC02
 .import bank7_Remove_All_Sprites
 .import bank7_Turn_Palaces_into_Stone_Bank_1
 .import bank7_XY_Movements_Routine
+.import bank7_LD2EC
 .import SwapCHR
 .import ConfigureMMC1
 
@@ -1365,7 +1365,7 @@ L882C:                                                                          
     STA      $00                       ; 0x849 $8839 85 00                     ;
     LDA      #$03                      ; 0x84b $883B A9 03                     ; A = 03
     STA      $01                       ; 0x84d $883D 85 01                     ;
-    JSR      LD2EC                     ; 0x84f $883F 20 EC D2                  ;
+    JSR      bank7_LD2EC               ; 0x84f $883F 20 EC D2                  ;
     LDA      #$00                      ; 0x852 $8842 A9 00                     ; A = 00
     STA      $0301                     ; 0x854 $8844 8D 01 03                  ;;ppu number of bytes following (counts both instructions and tile data values); Used when writing text to screen
     LDA      #$FF                      ; 0x857 $8847 A9 FF                     ; A = FF

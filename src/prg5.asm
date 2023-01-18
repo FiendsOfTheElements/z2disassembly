@@ -9,6 +9,10 @@
 ;.setcpu  "6502"                                                               ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
+.include "nes.asm"
+.include "mmc1.asm"
+.include "variables.asm"
+
 L0000 = $0000
 L000E = $000E
 L02AD = $02AD
@@ -104,7 +108,6 @@ LCF05 = $CF05
 LD168 = $D168
 LD174 = $D174
 LD293 = $D293
-LD2EC = $D2EC
 LDAC7 = $DAC7
 LDD3D = $DD3D
 LDE3D = $DE3D
@@ -190,11 +193,13 @@ LFCA5 = $FCA5
 .import bank7_Simple_Vertical_Movement
 .import bank7_Spawn_New_Projectile
 .import bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least
+.import bank7_LD2EC
 .import SwapCHR
 .import ConfigureMMC1
 .import L_Bank6Code0
 
 .export bank5_PowerON__Reset_Memory
+.export bank5_A610
 
 .segment "PRG5"
 
@@ -4615,42 +4620,40 @@ LA5AF:                                                                          
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x165ff $A5EF FF FF FF FF FF FF FF FF ;
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x16607 $A5F7 FF FF FF FF FF FF FF FF ;
 .byt    $FF                            ; 0x1660f $A5FF FF                      ;
-bank5_table_A600:                                                               ;
-.byt    $02                            ; 0x16610 $A600 02                      ;
-LA601:                                                                          ;
-.byt    $03,$3D,$AF,$F5,$BB,$BD,$D0,$61; 0x16611 $A601 03 3D AF F5 BB BD D0 61 ;
-.byt    $AF,$00,$7F,$BF,$BC,$55,$BD    ; 0x16619 $A609 AF 00 7F BF BC 55 BD    ;
+bank5_table_A600:                                                              ;
+.byt    $02,$03,$3D,$AF,$F5,$BB,$BD,$D0; 0x16611 $A601 02 03 3D AF F5 BB BD D0 ;
+.byt    $61,$AF,$00,$7F,$BF,$BC,$55,$BD; 0x16619 $A609 61 AF 00 7F BF BC 55 BD ;
 ; ---------------------------------------------------------------------------- ;
-LA610:                                                                          ;
+bank5_A610:                                                                    ;
     LDA      $FF                       ; 0x16620 $A610 A5 FF                   ;; Sprite Bank ?
     AND      #$7C                      ; 0x16622 $A612 29 7C                   ;;Keep Bits:0111_1100
     ORA      $0747                     ; 0x16624 $A614 0D 47 07                ;
     STA      $FF                       ; 0x16627 $A617 85 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x16629 $A619 8D 00 20                ;
+    STA      PPU_CTRL                  ; 0x16629 $A619 8D 00 20                ;
     LDA      $FE                       ; 0x1662c $A61C A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
     AND      #$E0                      ; 0x1662e $A61E 29 E0                   ;;Keep Bits:1110_0000
-    STA      $2001                     ; 0x16630 $A620 8D 01 20                ;
+    STA      PPU_MASK                  ; 0x16630 $A620 8D 01 20                ;
     LDY      $0726                     ; 0x16633 $A623 AC 26 07                ;;?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
-    BNE      LA62C                     ; 0x16636 $A626 D0 04                   ;
+    BNE      :+                        ; 0x16636 $A626 D0 04                   ;
     LDA      $FE                       ; 0x16638 $A628 A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
     ORA      #$1E                      ; 0x1663a $A62A 09 1E                   ;;Set Bits:0001_1110
-LA62C:                                                                          ;
+:                                                                          ;
     STA      $FE                       ; 0x1663c $A62C 85 FE                   ;;does interesting effects when changed, perhaps involves palette? 
-    LDX      $2002                     ; 0x1663e $A62E AE 02 20                ;
+    LDX      PPU_STATUS                ; 0x1663e $A62E AE 02 20                ;
     LDA      #$00                      ; 0x16641 $A631 A9 00                   ;;A = #$00 0000_0000
-    STA      $2005                     ; 0x16643 $A633 8D 05 20                ;
-    STA      $2005                     ; 0x16646 $A636 8D 05 20                ;
-    STA      $2003                     ; 0x16649 $A639 8D 03 20                ;
+    STA      PPU_SCROLL                ; 0x16643 $A633 8D 05 20                ;
+    STA      PPU_SCROLL                ; 0x16646 $A636 8D 05 20                ;
+    STA      OAM_ADDR                  ; 0x16649 $A639 8D 03 20                ;
     LDA      #$02                      ; 0x1664c $A63C A9 02                   ;;A = #$02 0000_0010
-    STA      $4014                     ; 0x1664e $A63E 8D 14 40                ;
+    STA      OAM_DMA                   ; 0x1664e $A63E 8D 14 40                ;
     LDA      $0725                     ; 0x16651 $A641 AD 25 07                ;; PPU Macro Selector	
     ASL                                ; 0x16654 $A644 0A                      ;
     TAX                                ; 0x16655 $A645 AA                      ;
     LDA      bank5_table_A600,x        ; 0x16656 $A646 BD 00 A6                ;
-    STA      L0000                     ; 0x16659 $A649 85 00                   ;
-    LDA      LA601,x                   ; 0x1665b $A64B BD 01 A6                ;
+    STA      $00                       ; 0x16659 $A649 85 00                   ;
+    LDA      bank5_table_A600+1,x      ; 0x1665b $A64B BD 01 A6                ;
     STA      $01                       ; 0x1665e $A64E 85 01                   ;
-    JSR      LD2EC                     ; 0x16660 $A650 20 EC D2                ;
+    JSR      bank7_LD2EC               ; 0x16660 $A650 20 EC D2                ;
     LDA      #$3F                      ; 0x16663 $A653 A9 3F                   ;;A = #$3f 0011_1111
     STA      $2006                     ; 0x16665 $A655 8D 06 20                ;
 LA658:

@@ -95,7 +95,9 @@ LBF00 = $BF00
 .import bank0_unknown39
 .import bank0_unknown4
 .import bank5_PowerON__Reset_Memory
+.import bank5_A610
 .import Bank6Code0
+.import Bank6Code2
 .import Chandeliers_in_North_Castle
 .import Check_for_Fire_Spell
 .import Hub_Update_Routine
@@ -184,6 +186,7 @@ LBF00 = $BF00
 .export bank7_forest_chop_with_hammer
 .export bank7_idem__maybe
 .export bank7_remove_enemy_or_item
+.export bank7_LD2EC
 .export Set_Item_RAM_bit_to_0__Bits_0_3
 .export ConfigureMMC1
 .export SwapCHR
@@ -254,9 +257,9 @@ bank7_code1:                                                                    
     TYA                                ; 0x1c073 $C063 98                      ;
     PHA                                ; 0x1c074 $C064 48                      ;
     LDA      #$06                      ; 0x1c075 $C065 A9 06                   ; A = 06
-    JSR      SwapPRG                     ; 0x1c077 $C067 20 CC FF                ; Load Bank 6
-    JSR      L9000                     ; 0x1c07a $C06A 20 00 90                ; Play Sounds
-    JSR      SwapToSavedPRG; 0x1c07d $C06D 20 C9 FF                ; Load Bank X at 0x8000 (X = $0769)
+    JSR      SwapPRG                   ; 0x1c077 $C067 20 CC FF                ; Load Bank 6
+    JSR      Bank6Code2                ; 0x1c07a $C06A 20 00 90                ; Play Sounds
+    JSR      SwapToSavedPRG            ; 0x1c07d $C06D 20 C9 FF                ; Load Bank X at 0x8000 (X = $0769)
     PLA                                ; 0x1c080 $C070 68                      ;
     TAY                                ; 0x1c081 $C071 A8                      ;
     PLA                                ; 0x1c082 $C072 68                      ;
@@ -266,137 +269,137 @@ bank7_code1:                                                                    
     RTI                                ; 0x1c086 $C076 40                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-LC077:                                                                          ;
+LC077:                                                                         ;
     PLP                                ; 0x1c087 $C077 28                      ;
-    JMP      LA610                     ; 0x1c088 $C078 4C 10 A6                ;
-                                                                               ;
+    JMP      bank5_A610                ; 0x1c088 $C078 4C 10 A6                ; This seems to assume bank 5 is loaded?
+                                                                               ; Bank 5 is the only bank with code here that has an RTI
 ; ---------------------------------------------------------------------------- ;
-bank7_NMI_Entry_Point:                                                          ;
+bank7_NMI_Entry_Point:                                                         ;
     PHP                                ; 0x1c08b $C07B 08                      ;
     BIT      $0100                     ; 0x1c08c $C07C 2C 00 01                ;
     BPL      bank7_code1               ; 0x1c08f $C07F 10 DF                   ; Switch to Bank 6, Play Sounds
     BVC      LC077                     ; 0x1c091 $C081 50 F4                   ;
     PLP                                ; 0x1c093 $C083 28                      ;
     PHA                                ; 0x1c094 $C084 48                      ;
-    LDA      $FF                       ; 0x1c095 $C085 A5 FF                   ;; Sprite Bank ?
+    LDA      $FF                       ; 0x1c095 $C085 A5 FF                   ; Sprite Bank ?
     AND      #$7C                      ; 0x1c097 $C087 29 7C                   ; keep bits .xxx xx..
     ORA      $0747                     ; 0x1c099 $C089 0D 47 07                ;
-    STA      $FF                       ; 0x1c09c $C08C 85 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x1c09e $C08E 8D 00 20                ; PPU Control Register 1
+    STA      $FF                       ; 0x1c09c $C08C 85 FF                   ; Sprite Bank ?
+    STA      PPU_CTRL                  ; 0x1c09e $C08E 8D 00 20                ; PPU Control Register 1
     LDA      $0727                     ; 0x1c0a1 $C091 AD 27 07                ;
-    BEQ      LC096                     ; 0x1c0a4 $C094 F0 00                   ; useless branching
-LC096:                                                                          ;
+    BEQ      :+                        ; 0x1c0a4 $C094 F0 00                   ; useless branching
+:                                                                              ;
     LDY      #$00                      ; 0x1c0a6 $C096 A0 00                   ; Y = 00
-    LDA      $FE                       ; 0x1c0a8 $C098 A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
+    LDA      $FE                       ; 0x1c0a8 $C098 A5 FE                   ; does interesting effects when changed, perhaps involves palette? 
     AND      #$E0                      ; 0x1c0aa $C09A 29 E0                   ; keep bits xxx. ....
-    LDY      $0726                     ; 0x1c0ac $C09C AC 26 07                ;;?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
-    BNE      LC0A8                     ; 0x1c0af $C09F D0 07                   ;
-    LDA      $FE                       ; 0x1c0b1 $C0A1 A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
+    LDY      $0726                     ; 0x1c0ac $C09C AC 26 07                ; ?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
+    BNE      :+                        ; 0x1c0af $C09F D0 07                   ;
+    LDA      $FE                       ; 0x1c0b1 $C0A1 A5 FE                   ; does interesting effects when changed, perhaps involves palette? 
     ORA      #$18                      ; 0x1c0b3 $C0A3 09 18                   ; set bits  ...x x...
-    ORA      $0768                     ; 0x1c0b5 $C0A5 0D 68 07                ;;makes weird ppu effect
-LC0A8:                                                                          ;
-    STA      $FE                       ; 0x1c0b8 $C0A8 85 FE                   ;;does interesting effects when changed, perhaps involves palette? 
+    ORA      $0768                     ; 0x1c0b5 $C0A5 0D 68 07                ; makes weird ppu effect
+:                                                                              ;
+    STA      $FE                       ; 0x1c0b8 $C0A8 85 FE                   ; does interesting effects when changed, perhaps involves palette? 
     AND      #$E1                      ; 0x1c0ba $C0AA 29 E1                   ; keep bits xxx. ...x
-    STA      $2001                     ; 0x1c0bc $C0AC 8D 01 20                ; PPU Control Register 2
-    LDX      $2002                     ; 0x1c0bf $C0AF AE 02 20                ; PPU Status Register
+    STA      PPU_MASK                  ; 0x1c0bc $C0AC 8D 01 20                ; PPU Control Register 2
+    LDX      PPU_STATUS                ; 0x1c0bf $C0AF AE 02 20                ; PPU Status Register
     LDA      #$00                      ; 0x1c0c2 $C0B2 A9 00                   ; A = 00
-    STA      $2005                     ; 0x1c0c4 $C0B4 8D 05 20                ; Screen Scroll Offsets
-    STA      $2005                     ; 0x1c0c7 $C0B7 8D 05 20                ;
-    STA      $2003                     ; 0x1c0ca $C0BA 8D 03 20                ; Sprite Memory Address
+    STA      PPU_SCROLL                ; 0x1c0c4 $C0B4 8D 05 20                ; Screen Scroll Offsets
+    STA      PPU_SCROLL                ; 0x1c0c7 $C0B7 8D 05 20                ;
+    STA      OAM_ADDR                  ; 0x1c0ca $C0BA 8D 03 20                ; Sprite Memory Address
     LDA      #$02                      ; 0x1c0cd $C0BD A9 02                   ; A = 02
-    STA      $4014                     ; 0x1c0cf $C0BF 8D 14 40                ; DMA Sprite Memory ($100 * 02)
+    STA      OAM_DMA                   ; 0x1c0cf $C0BF 8D 14 40                ; DMA Sprite Memory ($100 * 02)
     LDA      $07AE                     ; 0x1c0d2 $C0C2 AD AE 07                ;
-    BEQ      LC0CA                     ; 0x1c0d5 $C0C5 F0 03                   ;
+    BEQ      :+                        ; 0x1c0d5 $C0C5 F0 03                   ;
     JSR      bank7_code52              ; 0x1c0d7 $C0C7 20 82 FD                ; related to palette loading (side view)
-LC0CA:                                                                          ;
-    LDA      $0725                     ; 0x1c0da $C0CA AD 25 07                ;; PPU Macro Selector	
+:                                                                              ;
+    LDA      $0725                     ; 0x1c0da $C0CA AD 25 07                ; PPU Macro Selector	
     ASL                                ; 0x1c0dd $C0CD 0A                      ;
     TAX                                ; 0x1c0de $C0CE AA                      ;
     LDA      bank7_PPU_Adresses_according_to_725_as_index,x; 0x1c0df $C0CF BD 3D C0; refer to table at $1C03D
     STA      $00                       ; 0x1c0e2 $C0D2 85 00                   ;
     LDA      bank7_PPU_Adresses_according_to_725_as_index+$01,x; 0x1c0e4 $C0D4 BD 3E C0; refer to table at $1C03D
     STA      $01                       ; 0x1c0e7 $C0D7 85 01                   ;
-    JSR      LD2EC                     ; 0x1c0e9 $C0D9 20 EC D2                ;
+    JSR      bank7_LD2EC               ; 0x1c0e9 $C0D9 20 EC D2                ;
     LDA      #$3F                      ; 0x1c0ec $C0DC A9 3F                   ; A = 3F
-    STA      $2006                     ; 0x1c0ee $C0DE 8D 06 20                ; PPU Memory Address
+    STA      PPU_ADDR                  ; 0x1c0ee $C0DE 8D 06 20                ; PPU Memory Address
     LDY      #$00                      ; 0x1c0f1 $C0E1 A0 00                   ; Y = 00
-    STY      $2006                     ; 0x1c0f3 $C0E3 8C 06 20                ; PPU Memory Address
-    STY      $2006                     ; 0x1c0f6 $C0E6 8C 06 20                ; PPU Memory Address
-    STY      $2006                     ; 0x1c0f9 $C0E9 8C 06 20                ; PPU Memory Address
-    LDA      $0768                     ; 0x1c0fc $C0EC AD 68 07                ;;makes weird ppu effect
-    BNE      LC103                     ; 0x1c0ff $C0EF D0 12                   ;
-    LDA      $FF                       ; 0x1c101 $C0F1 A5 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x1c103 $C0F3 8D 00 20                ; PPU Control Register 1
-    LDX      $2002                     ; 0x1c106 $C0F6 AE 02 20                ; PPU Status Register
+    STY      PPU_ADDR                  ; 0x1c0f3 $C0E3 8C 06 20                ; PPU Memory Address
+    STY      PPU_ADDR                  ; 0x1c0f6 $C0E6 8C 06 20                ; PPU Memory Address
+    STY      PPU_ADDR                  ; 0x1c0f9 $C0E9 8C 06 20                ; PPU Memory Address
+    LDA      $0768                     ; 0x1c0fc $C0EC AD 68 07                ; makes weird ppu effect
+    BNE      :+                        ; 0x1c0ff $C0EF D0 12                   ;
+    LDA      $FF                       ; 0x1c101 $C0F1 A5 FF                   ; Sprite Bank ?
+    STA      PPU_CTRL                  ; 0x1c103 $C0F3 8D 00 20                ; PPU Control Register 1
+    LDX      PPU_STATUS                ; 0x1c106 $C0F6 AE 02 20                ; PPU Status Register
     LDA      $FD                       ; 0x1c109 $C0F9 A5 FD                   ;
-    STA      $2005                     ; 0x1c10b $C0FB 8D 05 20                ; Screen Scroll Offsets
+    STA      PPU_SCROLL                ; 0x1c10b $C0FB 8D 05 20                ; Screen Scroll Offsets
     LDA      $FC                       ; 0x1c10e $C0FE A5 FC                   ;
-    STA      $2005                     ; 0x1c110 $C100 8D 05 20                ; Screen Scroll Offsets
-LC103:                                                                          ;
-    LDA      $FE                       ; 0x1c113 $C103 A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
-    STA      $2001                     ; 0x1c115 $C105 8D 01 20                ; PPU Control Register 2
-    LDX      $0725                     ; 0x1c118 $C108 AE 25 07                ;; PPU Macro Selector	
-    BEQ      LC11C                     ; 0x1c11b $C10B F0 0F                   ;
+    STA      PPU_SCROLL                ; 0x1c110 $C100 8D 05 20                ; Screen Scroll Offsets
+:                                                                              ;
+    LDA      $FE                       ; 0x1c113 $C103 A5 FE                   ; does interesting effects when changed, perhaps involves palette? 
+    STA      PPU_MASK                  ; 0x1c115 $C105 8D 01 20                ; PPU Control Register 2
+    LDX      $0725                     ; 0x1c118 $C108 AE 25 07                ; PPU Macro Selector	
+    BEQ      :++                       ; 0x1c11b $C10B F0 0F                   ;
     INY                                ; 0x1c11d $C10D C8                      ;
     CPX      #$01                      ; 0x1c11e $C10E E0 01                   ;
-    BEQ      LC119                     ; 0x1c120 $C110 F0 07                   ;
+    BEQ      :+                        ; 0x1c120 $C110 F0 07                   ;
     INY                                ; 0x1c122 $C112 C8                      ;
     LDA      #$00                      ; 0x1c123 $C113 A9 00                   ; A = 00
     CPX      #$02                      ; 0x1c125 $C115 E0 02                   ;
-    BNE      LC12C                     ; 0x1c127 $C117 D0 13                   ;
-LC119:                                                                          ;
-    DEC      $0725                     ; 0x1c129 $C119 CE 25 07                ;; PPU Macro Selector	
-LC11C:                                                                          ;
+    BNE      :+++                      ; 0x1c127 $C117 D0 13                   ;
+:                                                                              ;
+    DEC      $0725                     ; 0x1c129 $C119 CE 25 07                ; PPU Macro Selector	
+:                                                                              ;
     LDX      bank7_table0,y            ; 0x1c12c $C11C BE 5D C0                ;
     LDA      #$00                      ; 0x1c12f $C11F A9 00                   ; A = 00
     STA      $0301,x                   ; 0x1c131 $C121 9D 01 03                ;
     LDA      #$FF                      ; 0x1c134 $C124 A9 FF                   ; A = FF
     STA      L0302,x                   ; 0x1c136 $C126 9D 02 03                ;
-    LDA      $0725                     ; 0x1c139 $C129 AD 25 07                ;; PPU Macro Selector	
-LC12C:                                                                          ;
-    STA      $0725                     ; 0x1c13c $C12C 8D 25 07                ;; PPU Macro Selector	
+    LDA      $0725                     ; 0x1c139 $C129 AD 25 07                ; PPU Macro Selector	
+:                                                                              ;
+    STA      $0725                     ; 0x1c13c $C12C 8D 25 07                ; PPU Macro Selector	
     JSR      bank7_related_to_sound    ; 0x1c13f $C12F 20 C1 C1                ; related to sound
     LDA      $F7                       ; 0x1c142 $C132 A5 F7                   ; Controller 1 Buttons Held
-    STA      $0744                     ; 0x1c144 $C134 8D 44 07                ;; Controller 1 Input; Controller 1 Buttons Held
+    STA      $0744                     ; 0x1c144 $C134 8D 44 07                ; Controller 1 Input; Controller 1 Buttons Held
     JSR      bank7_Controllers_Input   ; 0x1c147 $C137 20 46 D3                ; Controllers Input
-    LDA      $DE                       ; 0x1c14a $C13A A5 DE                   ;;prevent movement/actions, occur when a chat is occuring; Spell Spell modifier (1 = Spell spell active) (and more)	;set to 1 to prevent moving, 0 to allow??
-    BEQ      LC146                     ; 0x1c14c $C13C F0 08                   ;
-    LDA      $0763                     ; 0x1c14e $C13E AD 63 07                ;; Counter for Big Door in Hidden Kasuto
-    ORA      $0764                     ; 0x1c151 $C141 0D 64 07                ;; Counter for Big Door in Hidden Kasuto
-    BNE      LC14E                     ; 0x1c154 $C144 D0 08                   ;
-LC146:                                                                          ;
+    LDA      $DE                       ; 0x1c14a $C13A A5 DE                   ; prevent movement/actions, occur when a chat is occuring; Spell Spell modifier (1 = Spell spell active) (and more)	;set to 1 to prevent moving, 0 to allow??
+    BEQ      :+                        ; 0x1c14c $C13C F0 08                   ;
+    LDA      $0763                     ; 0x1c14e $C13E AD 63 07                ; Counter for Big Door in Hidden Kasuto
+    ORA      $0764                     ; 0x1c151 $C141 0D 64 07                ; Counter for Big Door in Hidden Kasuto
+    BNE      :++                       ; 0x1c154 $C144 D0 08                   ;
+:                                                                              ;
     LDA      $0729                     ; 0x1c156 $C146 AD 29 07                ;
-    BEQ      LC14E                     ; 0x1c159 $C149 F0 03                   ;
-    JSR      bank7_related_to_Pause_Pane_routine; 0x1c15b $C14B 20 CD C1           ; related to Pause Pane routine
-LC14E:                                                                          ;
-    LDA      $074C                     ; 0x1c15e $C14E AD 4C 07                ;; Dialog Type (00 - None, 01 - Level Up, 02 - Talking); * related to Raft Animation * (and other events, like spell learning)
-    BEQ      LC164                     ; 0x1c161 $C151 F0 11                   ;
+    BEQ      :+                        ; 0x1c159 $C149 F0 03                   ;
+    JSR      bank7_related_to_Pause_Pane_routine; 0x1c15b $C14B 20 CD C1       ; related to Pause Pane routine
+:                                                                              ;
+    LDA      $074C                     ; 0x1c15e $C14E AD 4C 07                ; Dialog Type (00 - None, 01 - Level Up, 02 - Talking); * related to Raft Animation * (and other events, like spell learning)
+    BEQ      :+                        ; 0x1c161 $C151 F0 11                   ;
     CMP      #$02                      ; 0x1c163 $C153 C9 02                   ;
-    BCC      LC1A8                     ; 0x1c165 $C155 90 51                   ;
+    BCC      @End                      ; 0x1c165 $C155 90 51                   ;
     LDA      $0524                     ; 0x1c167 $C157 AD 24 05                ; Routine Index
     CMP      #$03                      ; 0x1c16a $C15A C9 03                   ;
-    BCC      LC169                     ; 0x1c16c $C15C 90 0B                   ;
+    BCC      :++                       ; 0x1c16c $C15C 90 0B                   ;
     CMP      #$07                      ; 0x1c16e $C15E C9 07                   ;
-    BCS      LC169                     ; 0x1c170 $C160 B0 07                   ;
-    BCC      LC1A8                     ; 0x1c172 $C162 90 44                   ;
-LC164:                                                                          ;
+    BCS      :++                       ; 0x1c170 $C160 B0 07                   ;
+    BCC      @End                      ; 0x1c172 $C162 90 44                   ;
+:                                                                              ;
     LDA      $0524                     ; 0x1c174 $C164 AD 24 05                ; Routine Index
-    BNE      LC1A8                     ; 0x1c177 $C167 D0 3F                   ;
-LC169:                                                                          ;
+    BNE      @End                      ; 0x1c177 $C167 D0 3F                   ;
+:                                                                              ;
     LDX      #$0C                      ; 0x1c179 $C169 A2 0C                   ; X = 0C
-    DEC      $0500                     ; 0x1c17b $C16B CE 00 05                ;; Timer frequency		;?Invincibility after stun counter (counts down, nonzero = invincible)
-    BPL      LC177                     ; 0x1c17e $C16E 10 07                   ;
+    DEC      $0500                     ; 0x1c17b $C16B CE 00 05                ; Timer frequency		;?Invincibility after stun counter (counts down, nonzero = invincible)
+    BPL      :+                        ; 0x1c17e $C16E 10 07                   ;
     LDA      #$14                      ; 0x1c180 $C170 A9 14                   ; A = 14
-    STA      $0500                     ; 0x1c182 $C172 8D 00 05                ;; Timer frequency		;?Invincibility after stun counter (counts down, nonzero = invincible)
+    STA      $0500                     ; 0x1c182 $C172 8D 00 05                ; Timer frequency		;?Invincibility after stun counter (counts down, nonzero = invincible)
     LDX      #$18                      ; 0x1c185 $C175 A2 18                   ; X = 18
-LC177:                                                                          ;
+:                                                                              ;
     LDA      $0501,x                   ; 0x1c187 $C177 BD 01 05                ;
-    BEQ      LC17F                     ; 0x1c18a $C17A F0 03                   ;
+    BEQ      :+                        ; 0x1c18a $C17A F0 03                   ;
     DEC      $0501,x                   ; 0x1c18c $C17C DE 01 05                ; decrease all 5xx timers (if > 0)
-LC17F:                                                                          ;
+:                                                                              ;
     DEX                                ; 0x1c18f $C17F CA                      ;
-    BPL      LC177                     ; 0x1c190 $C180 10 F5                   ;
-    INC       a:$12                     ; 0x1c192 $C182 EE 12 00                ;
+    BPL      :-                        ; 0x1c190 $C180 10 F5                   ;
+    INC      a:$12                     ; 0x1c192 $C182 EE 12 00                ;
     LDX      #$00                      ; 0x1c195 $C185 A2 00                   ; X = 00
     LDY      #$09                      ; 0x1c197 $C187 A0 09                   ; Y = 09
     LDA      $051A                     ; 0x1c199 $C189 AD 1A 05                ;
@@ -406,21 +409,21 @@ LC17F:                                                                          
     AND      #$02                      ; 0x1c1a3 $C193 29 02                   ; keep bits .... ..x.
     EOR      $00                       ; 0x1c1a5 $C195 45 00                   ;
     CLC                                ; 0x1c1a7 $C197 18                      ;
-    BEQ      LC19B                     ; 0x1c1a8 $C198 F0 01                   ;
+    BEQ      :+                        ; 0x1c1a8 $C198 F0 01                   ;
     SEC                                ; 0x1c1aa $C19A 38                      ;
-LC19B:                                                                          ;
+:                                                                              ;
     ROR      $051A,x                   ; 0x1c1ab $C19B 7E 1A 05                ;
     INX                                ; 0x1c1ae $C19E E8                      ;
     DEY                                ; 0x1c1af $C19F 88                      ;
-    BNE      LC19B                     ; 0x1c1b0 $C1A0 D0 F9                   ;
-    JSR      bank7_Remove_All_Sprites_except_Sprite0; 0x1c1b2 $C1A2 20 50 D2       ; Remove All Sprites, except Sprite 0
+    BNE      :-                        ; 0x1c1b0 $C1A0 D0 F9                   ;
+    JSR      bank7_Remove_All_Sprites_except_Sprite0; 0x1c1b2 $C1A2 20 50 D2   ; Remove All Sprites, except Sprite 0
     JSR      LC2CA                     ; 0x1c1b5 $C1A5 20 CA C2                ;
-LC1A8:                                                                          ;
-    LDA      $2002                     ; 0x1c1b8 $C1A8 AD 02 20                ; PPU Status Register
-    LDA      $FF                       ; 0x1c1bb $C1AB A5 FF                   ;; Sprite Bank ?
+@End:                                                                          ;
+    LDA      PPU_STATUS                ; 0x1c1b8 $C1A8 AD 02 20                ; PPU Status Register
+    LDA      $FF                       ; 0x1c1bb $C1AB A5 FF                   ; Sprite Bank ?
     ORA      #$80                      ; 0x1c1bd $C1AD 09 80                   ; set bits  x... ....
-    STA      $FF                       ; 0x1c1bf $C1AF 85 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x1c1c1 $C1B1 8D 00 20                ; PPU Status Register
+    STA      $FF                       ; 0x1c1bf $C1AF 85 FF                   ; Sprite Bank ?
+    STA      PPU_CTRL                  ; 0x1c1c1 $C1B1 8D 00 20                ; PPU Status Register
     PLA                                ; 0x1c1c4 $C1B4 68                      ;
     RTI                                ; 0x1c1c5 $C1B5 40                      ;
                                                                                ;
@@ -3008,15 +3011,14 @@ LD2E5:                                                                          
     STA      $2007                     ; 0x1d2f5 $D2E5 8D 07 20                ;
     INY                                ; 0x1d2f8 $D2E8 C8                      ;
     BNE      LD2E5                     ; 0x1d2f9 $D2E9 D0 FA                   ;
-LD2EB:                                                                          ;
     RTS                                ; 0x1d2fb $D2EB 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-LD2EC:                                                                          ;
+bank7_LD2EC:                                                                   ;
     LDY      #$00                      ; 0x1d2fc $D2EC A0 00                   ; Y = 00			;07:D2EC
     LDA      ($00),y                   ; 0x1d2fe $D2EE B1 00                   ;
     CMP      #$FF                      ; 0x1d300 $D2F0 C9 FF                   ;
-    BEQ      LD2EB                     ; 0x1d302 $D2F2 F0 F7                   ;RTS is here
+    BEQ      bank7_LD2EC-1             ; 0x1d302 $D2F2 F0 F7                   ;RTS is here
     CMP      #$4C                      ; 0x1d304 $D2F4 C9 4C                   ;
     BNE      LD307                     ; 0x1d306 $D2F6 D0 0F                   ;
     INY                                ; 0x1d308 $D2F8 C8                      ;
@@ -3028,7 +3030,7 @@ LD2EC:                                                                          
     STX      $00                       ; 0x1d311 $D301 86 00                   ;
     LDY      #$00                      ; 0x1d313 $D303 A0 00                   ; Y = 00
     LDA      ($00),y                   ; 0x1d315 $D305 B1 00                   ;
-LD307:                                                                          ;
+LD307:                                                                         ;
     LDX      $2002                     ; 0x1d317 $D307 AE 02 20                ; PPU Status Register
     STA      $2006                     ; 0x1d31a $D30A 8D 06 20                ; PPU Memory Address
     INY                                ; 0x1d31d $D30D C8                      ;
@@ -3038,27 +3040,27 @@ LD307:                                                                          
     LDA      ($00),y                   ; 0x1d324 $D314 B1 00                   ;
     ASL                                ; 0x1d326 $D316 0A                      ;
     PHA                                ; 0x1d327 $D317 48                      ;
-    LDA      $FF                       ; 0x1d328 $D318 A5 FF                   ;; Sprite Bank ?
+    LDA      $FF                       ; 0x1d328 $D318 A5 FF                   ; Sprite Bank ?
     ORA      #$04                      ; 0x1d32a $D31A 09 04                   ; set bits  .... .x..
     BCS      LD320                     ; 0x1d32c $D31C B0 02                   ;
     AND      #$FB                      ; 0x1d32e $D31E 29 FB                   ; keep bits xxxx x.xx
-LD320:                                                                          ;
+LD320:                                                                         ;
     STA      $2000                     ; 0x1d330 $D320 8D 00 20                ;
-LD323:                                                                          ;
+LD323:                                                                         ;
     PLA                                ; 0x1d333 $D323 68                      ;
     ASL                                ; 0x1d334 $D324 0A                      ;
     BCC      LD32A                     ; 0x1d335 $D325 90 03                   ;
     ORA      #$02                      ; 0x1d337 $D327 09 02                   ; set bits  .... ..x.
     INY                                ; 0x1d339 $D329 C8                      ;
-LD32A:                                                                          ;
+LD32A:                                                                         ;
     LSR                                ; 0x1d33a $D32A 4A                      ;
     LSR                                ; 0x1d33b $D32B 4A                      ;
     TAX                                ; 0x1d33c $D32C AA                      ;
-LD32D:                                                                          ;
+LD32D:                                                                         ;
     BCS      LD330                     ; 0x1d33d $D32D B0 01                   ;
     INY                                ; 0x1d33f $D32F C8                      ;
-LD330:                                                                          ;
-    LDA      ($00),y                   ; 0x1d340 $D330 B1 00                   ;top status bar text "MAGIC" gets read here
+LD330:                                                                         ;
+    LDA      ($00),y                   ; 0x1d340 $D330 B1 00                   ; top status bar text "MAGIC" gets read here
     STA      $2007                     ; 0x1d342 $D332 8D 07 20                ;
     DEX                                ; 0x1d345 $D335 CA                      ;
     BNE      LD32D                     ; 0x1d346 $D336 D0 F5                   ;
@@ -3067,9 +3069,9 @@ LD330:                                                                          
     CLC                                ; 0x1d34a $D33A 18                      ;
     ADC      $00                       ; 0x1d34b $D33B 65 00                   ;
     STA      $00                       ; 0x1d34d $D33D 85 00                   ;
-    BCC      LD2EC                     ; 0x1d34f $D33F 90 AB                   ;
+    BCC      bank7_LD2EC               ; 0x1d34f $D33F 90 AB                   ;
     INC      $01                       ; 0x1d351 $D341 E6 01                   ;
-    JMP      LD2EC                     ; 0x1d353 $D343 4C EC D2                ;
+    JMP      bank7_LD2EC               ; 0x1d353 $D343 4C EC D2                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
 bank7_Controllers_Input:                                                        ;
