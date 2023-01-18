@@ -160,7 +160,7 @@ LBF00 = $BF00
 .export bank7_Remove_All_Sprites_except_Sprite0
 .export bank7_Reset_Memory_Ranges
 .export bank7_Set_0E_0F_pointer_according_to_Object_Group
-.export bank7_Set_Memory_200_4FF_and_00_DF_to_Zero
+.export bank7_Set_Memory_300_4FF_and_00_DF_to_Zero
 .export bank7_Set_RAM_Address_for_Object0E0F
 .export bank7_Set_Ram_Addy_for_Object__0E_0F
 .export bank7_Set_tile_and_go_down_1_row_in_2x2_tiles_units
@@ -891,15 +891,15 @@ bank7_Pointer_table_for_Area_and_Enemy_Pointers:                                
 .word    L85A1                         ; 0x1c4d7 $C4C7 A1 85                   ;West Hyrule - Enemy Pointers
 .word    LA07E                         ; 0x1c4d9 $C4C9 7E A0                   ;Death Moutain - Enemy Pointers
 ; ---------------------------------------------------------------------------- ;
-bank7_code13:                                                                   ;
+bank7_code13:                                                                  ;
     LDA      #$30                      ; 0x1c4db $C4CB A9 30                   ; A = 30
-    STA      $2000                     ; 0x1c4dd $C4CD 8D 00 20                ;
+    STA      PPU_CTRL                  ; 0x1c4dd $C4CD 8D 00 20                ;
     LDA      #$0E                      ; 0x1c4e0 $C4D0 A9 0E                   ; A = 0E
-    JSR      ConfigureMMC1     ; 0x1c4e2 $C4D2 20 9D FF                ;
-    JSR      SwapToSavedPRG; 0x1c4e5 $C4D5 20 C9 FF                ;
-    LDA      $FF                       ; 0x1c4e8 $C4D8 A5 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x1c4ea $C4DA 8D 00 20                ;
-    JSR      bank7_Set_Memory_200_4FF_and_00_DF_to_Zero; 0x1c4ed $C4DD 20 9C D2    ; Set Memory 200-4FF and 00-DF to Zero
+    JSR      ConfigureMMC1             ; 0x1c4e2 $C4D2 20 9D FF                ;
+    JSR      SwapToSavedPRG            ; 0x1c4e5 $C4D5 20 C9 FF                ;
+    LDA      $FF                       ; 0x1c4e8 $C4D8 A5 FF                   ; Sprite Bank ?
+    STA      PPU_CTRL                  ; 0x1c4ea $C4DA 8D 00 20                ;
+    JSR      bank7_Set_Memory_300_4FF_and_00_DF_to_Zero; 0x1c4ed $C4DD 20 9C D2; Set Memory 200-4FF and 00-DF to Zero
     STA      a:$FD                     ; 0x1c4f0 $C4E0 8D FD 00                ;
     STA      $0747                     ; 0x1c4f3 $C4E3 8D 47 07                ;
     STA      $072A                     ; 0x1c4f6 $C4E6 8D 2A 07                ; Scrolling Offset High Byte
@@ -2942,46 +2942,46 @@ LD27D:                                                                          
     RTS                                ; 0x1d290 $D280 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_Reset_Memory_Ranges:                                                      ;
+bank7_Reset_Memory_Ranges:                                                     ;
     LDX      #$00                      ; 0x1d291 $D281 A2 00                   ; X = 00
     TXA                                ; 0x1d293 $D283 8A                      ;
-LD284:                                                                          ;
+@Loop0700:                                                                     ;
     STA      $0700,x                   ; 0x1d294 $D284 9D 00 07                ;
     DEX                                ; 0x1d297 $D287 CA                      ;
-    BNE      LD284                     ; 0x1d298 $D288 D0 FA                   ;
+    BNE      @Loop0700                 ; 0x1d298 $D288 D0 FA                   ;
     LDX      #$00                      ; 0x1d29a $D28A A2 00                   ; X = 00
     TXA                                ; 0x1d29c $D28C 8A                      ;
-LD28D:                                                                          ;
+@Loop0600:                                                                     ;
     STA      L0600,x                   ; 0x1d29d $D28D 9D 00 06                ;
     DEX                                ; 0x1d2a0 $D290 CA                      ;
-    BNE      LD28D                     ; 0x1d2a1 $D291 D0 FA                   ;
-LD293:                                                                          ;
+    BNE      @Loop0600                 ; 0x1d2a1 $D291 D0 FA                   ;
+LD293:                                                                         ;
     LDX      #$00                      ; 0x1d2a3 $D293 A2 00                   ; X = 00
     TXA                                ; 0x1d2a5 $D295 8A                      ;
-LD296:                                                                          ;
+@Loop0500:                                                                     ;
     STA      $0500,x                   ; 0x1d2a6 $D296 9D 00 05                ;
     DEX                                ; 0x1d2a9 $D299 CA                      ;
-    BNE      LD296                     ; 0x1d2aa $D29A D0 FA                   ;
-bank7_Set_Memory_200_4FF_and_00_DF_to_Zero:                                     ;
+    BNE      @Loop0500                 ; 0x1d2aa $D29A D0 FA                   ;
+bank7_Set_Memory_300_4FF_and_00_DF_to_Zero:                                    ;
     LDX      #$00                      ; 0x1d2ac $D29C A2 00                   ; X = 00
     TXA                                ; 0x1d2ae $D29E 8A                      ;
-LD29F:                                                                          ;
-    STA      $0400,x                   ; 0x1d2af $D29F 9D 00 04                ;;sword_slash_frame (animation frame)
+@Loop0400:                                                                     ;
+    STA      $0400,x                   ; 0x1d2af $D29F 9D 00 04                ; sword_slash_frame (animation frame)
     DEX                                ; 0x1d2b2 $D2A2 CA                      ;
-    BNE      LD29F                     ; 0x1d2b3 $D2A3 D0 FA                   ;
+    BNE      @Loop0400                 ; 0x1d2b3 $D2A3 D0 FA                   ;
     LDX      #$00                      ; 0x1d2b5 $D2A5 A2 00                   ; X = 00
     TXA                                ; 0x1d2b7 $D2A7 8A                      ;
-LD2A8:                                                                          ;
+@Loop0300:                                                                     ;
     STA      $0300,x                   ; 0x1d2b8 $D2A8 9D 00 03                ;
     DEX                                ; 0x1d2bb $D2AB CA                      ;
-    BNE      LD2A8                     ; 0x1d2bc $D2AC D0 FA                   ;
+    BNE      @Loop0300                 ; 0x1d2bc $D2AC D0 FA                   ;
     LDX      #$DF                      ; 0x1d2be $D2AE A2 DF                   ; X = DF
-LD2B0:                                                                          ;
+@LoopZeroPage:                                                                 ;
     STA      $00,x                     ; 0x1d2c0 $D2B0 95 00                   ;
     DEX                                ; 0x1d2c2 $D2B2 CA                      ;
     CPX      #$FF                      ; 0x1d2c3 $D2B3 E0 FF                   ;
-    BNE      LD2B0                     ; 0x1d2c5 $D2B5 D0 F9                   ;
-    STX      L0302                     ; 0x1d2c7 $D2B7 8E 02 03                ;; Used when writing text to screen
+    BNE      @LoopZeroPage             ; 0x1d2c5 $D2B5 D0 F9                   ;
+    STX      L0302                     ; 0x1d2c7 $D2B7 8E 02 03                ; Used when writing text to screen
     STX      L0363                     ; 0x1d2ca $D2BA 8E 63 03                ;
     RTS                                ; 0x1d2cd $D2BD 60                      ;
                                                                                ;
@@ -8247,10 +8247,10 @@ bank7_reset:                                                                   ;
     SEI                                ; 0x1ff80 $FF70 78                      ;
     CLD                                ; 0x1ff81 $FF71 D8                      ;
     LDX      #$00                      ; 0x1ff82 $FF72 A2 00                   ; X = 00
-    STX      $2000                     ; 0x1ff84 $FF74 8E 00 20                ;
+    STX      PPU_CTRL                  ; 0x1ff84 $FF74 8E 00 20                ;
     INX                                ; 0x1ff87 $FF77 E8                      ;
 @PPUSpin:                                                                      ;
-    LDA      $2002                     ; 0x1ff88 $FF78 AD 02 20                ; Wait 2 frames for PPU to warm up
+    LDA      PPU_STATUS                ; 0x1ff88 $FF78 AD 02 20                ; Wait 2 frames for PPU to warm up
     BPL      @PPUSpin                  ; 0x1ff8b $FF7B 10 FB                   ;
     DEX                                ; 0x1ff8d $FF7D CA                      ;
     BEQ      @PPUSpin                  ; 0x1ff8e $FF7E F0 F8                   ;

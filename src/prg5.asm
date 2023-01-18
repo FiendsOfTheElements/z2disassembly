@@ -186,7 +186,7 @@ LFCA5 = $FCA5
 .import bank7_Remove_All_Sprites
 .import bank7_Remove_All_Sprites_except_Sprite0
 .import bank7_Reset_Memory_Ranges
-.import bank7_Set_Memory_200_4FF_and_00_DF_to_Zero
+.import bank7_Set_Memory_300_4FF_and_00_DF_to_Zero
 .import bank7_Set_RAM_Address_for_Object0E0F
 .import bank7_Set_tile_and_move_right_1_column
 .import bank7_Simple_Horizontal_Movement
@@ -4746,7 +4746,7 @@ bank5_pointer_table3:                                                           
 .word    LAB6D                         ; 0x1671d $A70D 6D AB                   ;
 ; ---------------------------------------------------------------------------- ;
 bank5_code20:                                                                   ;
-    JSR      bank7_Set_Memory_200_4FF_and_00_DF_to_Zero; 0x1671f $A70F 20 9C D2    ;
+    JSR      bank7_Set_Memory_300_4FF_and_00_DF_to_Zero; 0x1671f $A70F 20 9C D2    ;
     LDA      #$0F                      ; 0x16722 $A712 A9 0F                   ; A = 0F
     JSR      ConfigureMMC1             ; 0x16724 $A714 20 9D BF                ;
     LDA      $0568                     ; 0x16727 $A717 AD 68 05                ;; Related to Flute in Overworld
