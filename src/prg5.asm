@@ -4625,28 +4625,28 @@ bank5_table_A600:                                                              ;
 .byt    $61,$AF,$00,$7F,$BF,$BC,$55,$BD; 0x16619 $A609 61 AF 00 7F BF BC 55 BD ;
 ; ---------------------------------------------------------------------------- ;
 bank5_A610:                                                                    ;
-    LDA      $FF                       ; 0x16620 $A610 A5 FF                   ;; Sprite Bank ?
-    AND      #$7C                      ; 0x16622 $A612 29 7C                   ;;Keep Bits:0111_1100
+    LDA      $FF                       ; 0x16620 $A610 A5 FF                   ; Sprite Bank ?
+    AND      #$7C                      ; 0x16622 $A612 29 7C                   ; Keep Bits:0111_1100
     ORA      $0747                     ; 0x16624 $A614 0D 47 07                ;
-    STA      $FF                       ; 0x16627 $A617 85 FF                   ;; Sprite Bank ?
+    STA      $FF                       ; 0x16627 $A617 85 FF                   ; Sprite Bank ?
     STA      PPU_CTRL                  ; 0x16629 $A619 8D 00 20                ;
-    LDA      $FE                       ; 0x1662c $A61C A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
-    AND      #$E0                      ; 0x1662e $A61E 29 E0                   ;;Keep Bits:1110_0000
+    LDA      $FE                       ; 0x1662c $A61C A5 FE                   ; does interesting effects when changed, perhaps involves palette? 
+    AND      #$E0                      ; 0x1662e $A61E 29 E0                   ; Keep Bits:1110_0000
     STA      PPU_MASK                  ; 0x16630 $A620 8D 01 20                ;
-    LDY      $0726                     ; 0x16633 $A623 AC 26 07                ;;?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
+    LDY      $0726                     ; 0x16633 $A623 AC 26 07                ; ?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
     BNE      :+                        ; 0x16636 $A626 D0 04                   ;
-    LDA      $FE                       ; 0x16638 $A628 A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
-    ORA      #$1E                      ; 0x1663a $A62A 09 1E                   ;;Set Bits:0001_1110
-:                                                                          ;
-    STA      $FE                       ; 0x1663c $A62C 85 FE                   ;;does interesting effects when changed, perhaps involves palette? 
+    LDA      $FE                       ; 0x16638 $A628 A5 FE                   ; does interesting effects when changed, perhaps involves palette? 
+    ORA      #$1E                      ; 0x1663a $A62A 09 1E                   ; Set Bits:0001_1110
+:                                                                              ;
+    STA      $FE                       ; 0x1663c $A62C 85 FE                   ; does interesting effects when changed, perhaps involves palette? 
     LDX      PPU_STATUS                ; 0x1663e $A62E AE 02 20                ;
-    LDA      #$00                      ; 0x16641 $A631 A9 00                   ;;A = #$00 0000_0000
+    LDA      #$00                      ; 0x16641 $A631 A9 00                   ; A = #$00 0000_0000
     STA      PPU_SCROLL                ; 0x16643 $A633 8D 05 20                ;
     STA      PPU_SCROLL                ; 0x16646 $A636 8D 05 20                ;
     STA      OAM_ADDR                  ; 0x16649 $A639 8D 03 20                ;
-    LDA      #$02                      ; 0x1664c $A63C A9 02                   ;;A = #$02 0000_0010
+    LDA      #$02                      ; 0x1664c $A63C A9 02                   ; A = #$02 0000_0010
     STA      OAM_DMA                   ; 0x1664e $A63E 8D 14 40                ;
-    LDA      $0725                     ; 0x16651 $A641 AD 25 07                ;; PPU Macro Selector	
+    LDA      $0725                     ; 0x16651 $A641 AD 25 07                ; PPU Macro Selector	
     ASL                                ; 0x16654 $A644 0A                      ;
     TAX                                ; 0x16655 $A645 AA                      ;
     LDA      bank5_table_A600,x        ; 0x16656 $A646 BD 00 A6                ;
@@ -4654,66 +4654,63 @@ bank5_A610:                                                                    ;
     LDA      bank5_table_A600+1,x      ; 0x1665b $A64B BD 01 A6                ;
     STA      $01                       ; 0x1665e $A64E 85 01                   ;
     JSR      bank7_LD2EC               ; 0x16660 $A650 20 EC D2                ;
-    LDA      #$3F                      ; 0x16663 $A653 A9 3F                   ;;A = #$3f 0011_1111
-    STA      $2006                     ; 0x16665 $A655 8D 06 20                ;
-LA658:
-    LDY      #$00                      ; 0x16668 $A658 A0 00                   ;;Y = #$00 0000_0000
-    STY      $2006                     ; 0x1666a $A65A 8C 06 20                ;
-    STY      $2006                     ; 0x1666d $A65D 8C 06 20                ;
-    STY      $2006                     ; 0x16670 $A660 8C 06 20                ;
-    LDA      $FF                       ; 0x16673 $A663 A5 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x16675 $A665 8D 00 20                ;
-    LDA      $2002                     ; 0x16678 $A668 AD 02 20                ;
+    LDA      #$3F                      ; 0x16663 $A653 A9 3F                   ; A = #$3f 0011_1111
+    STA      PPU_ADDR                  ; 0x16665 $A655 8D 06 20                ;
+    LDY      #$00                      ; 0x16668 $A658 A0 00                   ; Y = #$00 0000_0000
+    STY      PPU_ADDR                  ; 0x1666a $A65A 8C 06 20                ;
+    STY      PPU_ADDR                  ; 0x1666d $A65D 8C 06 20                ;
+    STY      PPU_ADDR                  ; 0x16670 $A660 8C 06 20                ;
+    LDA      $FF                       ; 0x16673 $A663 A5 FF                   ; Sprite Bank ?
+    STA      PPU_CTRL                  ; 0x16675 $A665 8D 00 20                ;
+    LDA      PPU_STATUS                ; 0x16678 $A668 AD 02 20                ;
     LDA      $FC                       ; 0x1667b $A66B A5 FC                   ;
-    STY      $2005                     ; 0x1667d $A66D 8C 05 20                ;
-    STA      $2005                     ; 0x16680 $A670 8D 05 20                ;
-    LDA      $FE                       ; 0x16683 $A673 A5 FE                   ;;does interesting effects when changed, perhaps involves palette? 
-    STA      $2001                     ; 0x16685 $A675 8D 01 20                ;
-    STY      $0301                     ; 0x16688 $A678 8C 01 03                ;;ppu number of bytes following (counts both instructions and tile data values); Used when writing text to screen
-    STY      $0725                     ; 0x1668b $A67B 8C 25 07                ;; PPU Macro Selector	
+    STY      PPU_SCROLL                ; 0x1667d $A66D 8C 05 20                ;
+    STA      PPU_SCROLL                ; 0x16680 $A670 8D 05 20                ;
+    LDA      $FE                       ; 0x16683 $A673 A5 FE                   ; does interesting effects when changed, perhaps involves palette? 
+    STA      PPU_MASK                  ; 0x16685 $A675 8D 01 20                ;
+    STY      $0301                     ; 0x16688 $A678 8C 01 03                ; ppu number of bytes following (counts both instructions and tile data values); Used when writing text to screen
+    STY      $0725                     ; 0x1668b $A67B 8C 25 07                ; PPU Macro Selector	
     DEY                                ; 0x1668e $A67E 88                      ;
-    STY      L0302                     ; 0x1668f $A67F 8C 02 03                ;; Used when writing text to screen
+    STY      L0302                     ; 0x1668f $A67F 8C 02 03                ; Used when writing text to screen
     JSR      L_Bank6Code0              ; 0x16692 $A682 20 32 C0                ;
-    LDA      $F7                       ; 0x16695 $A685 A5 F7                   ;; Controller 1 Buttons Held
-LA687:                                                                          ;
-    STA      $0744                     ; 0x16697 $A687 8D 44 07                ;; Controller 1 Input; Controller 1 Buttons Held
+    LDA      $F7                       ; 0x16695 $A685 A5 F7                   ; Controller 1 Buttons Held
+LA687:                                                                         ;
+    STA      $0744                     ; 0x16697 $A687 8D 44 07                ; Controller 1 Input; Controller 1 Buttons Held
     JSR      bank7_Controllers_Input   ; 0x1669a $A68A 20 46 D3                ;
-    INC       a:$12                     ; 0x1669d $A68D EE 12 00                ;
+    INC      a:$12                     ; 0x1669d $A68D EE 12 00                ;
     JSR      LA6D9                     ; 0x166a0 $A690 20 D9 A6                ;
-    LDA      $2002                     ; 0x166a3 $A693 AD 02 20                ;
-    LDA      $FF                       ; 0x166a6 $A696 A5 FF                   ;; Sprite Bank ?
-    ORA      #$80                      ; 0x166a8 $A698 09 80                   ;;Set Bits:1000_0000
-    STA      $FF                       ; 0x166aa $A69A 85 FF                   ;; Sprite Bank ?
-    STA      $2000                     ; 0x166ac $A69C 8D 00 20                ;
+    LDA      PPU_STATUS                ; 0x166a3 $A693 AD 02 20                ;
+    LDA      $FF                       ; 0x166a6 $A696 A5 FF                   ; Sprite Bank ?
+    ORA      #$80                      ; 0x166a8 $A698 09 80                   ; Set Bits:1000_0000
+    STA      $FF                       ; 0x166aa $A69A 85 FF                   ; Sprite Bank ?
+    STA      PPU_CTRL                  ; 0x166ac $A69C 8D 00 20                ;
     RTI                                ; 0x166af $A69F 40                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank5_PowerON__Reset_Memory:                                                    ;
+bank5_PowerON__Reset_Memory:                                                   ;
     JSR      bank5_code27              ; 0x166b0 $A6A0 20 60 B9                ;
     JSR      bank7_Reset_Memory_Ranges ; 0x166b3 $A6A3 20 81 D2                ;
-    LDY      #$1F                      ; 0x166b6 $A6A6 A0 1F                   ;;Y = #$1f 0001_1111
-LA6A8:                                                                          ;
+    LDY      #$1F                      ; 0x166b6 $A6A6 A0 1F                   ; Y = #$1f 0001_1111
+@Loop:                                                                         ;
     STA      $E0,y                     ; 0x166b8 $A6A8 99 E0 00                ;
     DEY                                ; 0x166bb $A6AB 88                      ;
-    BPL      LA6A8                     ; 0x166bc $A6AC 10 FA                   ;
-    STA      $4011                     ; 0x166be $A6AE 8D 11 40                ;
-    LDA      #$0F                      ; 0x166c1 $A6B1 A9 0F                   ;;A = #$0f 0000_1111
-    STA      $4015                     ; 0x166c3 $A6B3 8D 15 40                ;; Sound Channel Switch
+    BPL      @Loop                     ; 0x166bc $A6AC 10 FA                   ;
+    STA      DMC_RAW                   ; 0x166be $A6AE 8D 11 40                ;
+    LDA      #$0F                      ; 0x166c1 $A6B1 A9 0F                   ; A = #$0f 0000_1111
+    STA      SND_CHN                   ; 0x166c3 $A6B3 8D 15 40                ; Sound Channel Switch
     STA      $076B                     ; 0x166c6 $A6B6 8D 6B 07                ;
-    LDA      #$00                      ; 0x166c9 $A6B9 A9 00                   ;;A = #$00 0000_0000
-    STA      $2001                     ; 0x166cb $A6BB 8D 01 20                ;
+    LDA      #$00                      ; 0x166c9 $A6B9 A9 00                   ; A = #$00 0000_0000
+    STA      PPU_MASK                  ; 0x166cb $A6BB 8D 01 20                ;
     JSR      bank7_Remove_All_Sprites  ; 0x166ce $A6BE 20 4C D2                ;
     JSR      bank7_Erase_Name_Tables_0and1__set_scroll_to_0_0; 0x166d1 $A6C1 20 66 D2;
-    INC      $0726                     ; 0x166d4 $A6C4 EE 26 07                ;;?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
-    LDA      #$06                      ; 0x166d7 $A6C7 A9 06                   ;;A = #$06 0000_0110
-    STA      $0768                     ; 0x166d9 $A6C9 8D 68 07                ;;makes weird ppu effect
-    LDA      #$80                      ; 0x166dc $A6CC A9 80                   ;;A = #$80 1000_0000
+    INC      $0726                     ; 0x166d4 $A6C4 EE 26 07                ; ?which is the black transition screen when loading a battle scene.  It hides the loading gfx.; Dialog Box Drawing Flag (00-01) Toggles while a dialog box is being drawn.
+    LDA      #$06                      ; 0x166d7 $A6C7 A9 06                   ; A = #$06 0000_0110
+    STA      $0768                     ; 0x166d9 $A6C9 8D 68 07                ; makes weird ppu effect
+    LDA      #$80                      ; 0x166dc $A6CC A9 80                   ; A = #$80 1000_0000
     STA      $0100                     ; 0x166de $A6CE 8D 00 01                ;
-.byt    $A9                            ; 0x166e1 $A6D1 A9                      ;
-LA6D2:                                                                          ;
-    BCS      LA658+1                   ; 0x166e2 $A6D2 B0 85                   ;jumps to the middle of an instruction. iono. $00 is a BRK
-.byt    $FF                            ; 0x166e4 $A6D4 FF                      ;
-    STA      $2000                     ; 0x166e5 $A6D5 8D 00 20                ;
+	LDA      #$B0                      ; 0x166e1 $A6D1 A9 B0                   ; PPU_CTRL will be $B0 1011_0000
+	STA      $FF                       ; 0x166e3 $A6D3 85 FF                   ; Save PPU_CTRL to $FF
+    STA      PPU_CTRL                  ; 0x166e5 $A6D5 8D 00 20                ; Set PPU_CTRL
     RTS                                ; 0x166e8 $A6D8 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;

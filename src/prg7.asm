@@ -3074,42 +3074,42 @@ LD330:                                                                         ;
     JMP      bank7_LD2EC               ; 0x1d353 $D343 4C EC D2                ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_Controllers_Input:                                                        ;
-    JSR      bank7_Controllers_Input_Capture; 0x1d356 $D346 20 67 D3               ;
-    LDA      $F5                       ; 0x1d359 $D349 A5 F5                   ; Controller 1 buttons pressed
+bank7_Controllers_Input:                                                       ;
+    JSR      bank7_Controllers_Input_Capture; 0x1d356 $D346 20 67 D3           ;
+    LDA      joy1_pressed              ; 0x1d359 $D349 A5 F5                   ; Controller 1 buttons pressed
     STA      $00                       ; 0x1d35b $D34B 85 00                   ;
-    JSR      bank7_Controllers_Input_Capture; 0x1d35d $D34D 20 67 D3               ;
-    LDA      $F5                       ; 0x1d360 $D350 A5 F5                   ; Controller 1 buttons pressed
+    JSR      bank7_Controllers_Input_Capture; 0x1d35d $D34D 20 67 D3           ;
+    LDA      joy1_pressed              ; 0x1d360 $D350 A5 F5                   ; Controller 1 buttons pressed
     CMP      $00                       ; 0x1d362 $D352 C5 00                   ;
     BNE      bank7_Controllers_Input   ; 0x1d364 $D354 D0 F0                   ;
     LDX      #$01                      ; 0x1d366 $D356 A2 01                   ; X = 01
-LD358:                                                                          ;
-    LDA      $F5,x                     ; 0x1d368 $D358 B5 F5                   ;
+@Loop:                                                                         ;
+    LDA      joy1_pressed,x            ; 0x1d368 $D358 B5 F5                   ;
     TAY                                ; 0x1d36a $D35A A8                      ;
-    EOR      $F7,x                     ; 0x1d36b $D35B 55 F7                   ;
-    AND      $F5,x                     ; 0x1d36d $D35D 35 F5                   ;
-    STA      $F5,x                     ; 0x1d36f $D35F 95 F5                   ;
-    STY      $F7,x                     ; 0x1d371 $D361 94 F7                   ;
+    EOR      joy1_held,x               ; 0x1d36b $D35B 55 F7                   ;
+    AND      joy1_pressed,x            ; 0x1d36d $D35D 35 F5                   ;
+    STA      joy1_pressed,x            ; 0x1d36f $D35F 95 F5                   ;
+    STY      joy1_held,x               ; 0x1d371 $D361 94 F7                   ;
     DEX                                ; 0x1d373 $D363 CA                      ;
-    BPL      LD358                     ; 0x1d374 $D364 10 F2                   ;
+    BPL      @Loop                     ; 0x1d374 $D364 10 F2                   ;
     RTS                                ; 0x1d376 $D366 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
-bank7_Controllers_Input_Capture:                                                ;
-    LDX      #$01                      ; 0x1d377 $D367 A2 01                   ;;X = #$01 0000_0001
-    STX      $4016                     ; 0x1d379 $D369 8E 16 40                ; controllers strobe (01)
+bank7_Controllers_Input_Capture:                                               ;
+    LDX      #$01                      ; 0x1d377 $D367 A2 01                   ; X = #$01 0000_0001
+    STX      JOY1                      ; 0x1d379 $D369 8E 16 40                ; controllers strobe (01)
     DEX                                ; 0x1d37c $D36C CA                      ;
-    STX      $4016                     ; 0x1d37d $D36D 8E 16 40                ; controllers strobe (00)
-    LDX      #$08                      ; 0x1d380 $D370 A2 08                   ;;X = #$08 0000_1000
-LD372:                                                                          ;
-    LDA      $4016                     ; 0x1d382 $D372 AD 16 40                ;
+    STX      JOY1                      ; 0x1d37d $D36D 8E 16 40                ; controllers strobe (00)
+    LDX      #$08                      ; 0x1d380 $D370 A2 08                   ; X = #$08 0000_1000
+@Loop:                                                                         ;
+    LDA      JOY1                      ; 0x1d382 $D372 AD 16 40                ;
     LSR                                ; 0x1d385 $D375 4A                      ;
-    ROL      $F5                       ; 0x1d386 $D376 26 F5                   ;; Controller 1 Buttons Pressed
-    LDA      $4017                     ; 0x1d388 $D378 AD 17 40                ;
+    ROL      $F5                       ; 0x1d386 $D376 26 F5                   ; Controller 1 Buttons Pressed
+    LDA      JOY2                      ; 0x1d388 $D378 AD 17 40                ;
     LSR                                ; 0x1d38b $D37B 4A                      ;
-    ROL      $F6                       ; 0x1d38c $D37C 26 F6                   ;; Controller 2 Buttons Pressed
+    ROL      $F6                       ; 0x1d38c $D37C 26 F6                   ; Controller 2 Buttons Pressed
     DEX                                ; 0x1d38e $D37E CA                      ;
-    BNE      LD372                     ; 0x1d38f $D37F D0 F1                   ;
+    BNE      @Loop                     ; 0x1d38f $D37F D0 F1                   ;
     RTS                                ; 0x1d391 $D381 60                      ;
                                                                                ;
 ; ---------------------------------------------------------------------------- ;
