@@ -4571,7 +4571,7 @@ LA502:                                                                          
 bank5_Enemy_Routines1_HiddenRedJar:                                             ;
     LDA      $C9                       ; 0x16531 $A521 A5 C9                   ;
     BNE      LA54E                     ; 0x16533 $A523 D0 29                   ;
-    JSR      bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least; 0x16535 $A525 20 77 E6;
+    JSR      bank7_Sword_Hit_Detection_maybe__probably_part_of_it_at_least ; 0x16535 $A525 20 77 E6;
     LDA      $A8,x                     ; 0x16538 $A528 B5 A8                   ;; Enemy State
     AND      #$20                      ; 0x1653a $A52A 29 20                   ;;Keep Bits:0010_0000
     BEQ      LA54E                     ; 0x1653c $A52C F0 20                   ;
@@ -4620,9 +4620,15 @@ LA5AF:                                                                          
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x165ff $A5EF FF FF FF FF FF FF FF FF ;
 .byt    $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF; 0x16607 $A5F7 FF FF FF FF FF FF FF FF ;
 .byt    $FF                            ; 0x1660f $A5FF FF                      ;
-bank5_table_A600:                                                              ;
-.byt    $02,$03,$3D,$AF,$F5,$BB,$BD,$D0; 0x16611 $A601 02 03 3D AF F5 BB BD D0 ;
-.byt    $61,$AF,$00,$7F,$BF,$BC,$55,$BD; 0x16619 $A609 61 AF 00 7F BF BC 55 BD ;
+bank5_ppu_write_pointer_table:                                                 ;; Each address is used as pointer to where a full buffer of PPU updates will be loaded from
+.word($0302)                           ; 0x16611 $A601 02 03                   ; This is a common destination for data drawn to a RAM buffer.
+.word(bank5_table_AF3D_PPU_maybe)      ; 0x16613 $A603 3D AF                   ;
+.word(bank5_Table_for_some_palettes)   ; 0x16615 $A605 F5 BB                   ;
+.word(bank7_Table_for_some_Palettes)   ; 0x16617 $A601 BD D0                   ;
+.word(bank5_Title_Screen_BG_Data)      ; 0x16619 $A609 61 AF                   ;
+.word($7F00)                           ; 0x1661a $A60A 00 7F                   ; Z2 seems to store the Character select screen data directly into here and just draws it.
+.word(bank5_Register_Your_Name)        ; 0x1661c $A60C BF BC                   ;
+.word(bank5_Elimiation_Mode)           ; 0x1661e $A60E 55 BD                   ;
 ; ---------------------------------------------------------------------------- ;
 bank5_A610:                                                                    ;
     LDA      $FF                       ; 0x16620 $A610 A5 FF                   ; Sprite Bank ?
@@ -4649,9 +4655,9 @@ bank5_A610:                                                                    ;
     LDA      $0725                     ; 0x16651 $A641 AD 25 07                ; PPU Macro Selector	
     ASL                                ; 0x16654 $A644 0A                      ;
     TAX                                ; 0x16655 $A645 AA                      ;
-    LDA      bank5_table_A600,x        ; 0x16656 $A646 BD 00 A6                ;
+    LDA      bank5_ppu_write_pointer_table,x   ; 0x16656 $A646 BD 00 A6        ;
     STA      $00                       ; 0x16659 $A649 85 00                   ;
-    LDA      bank5_table_A600+1,x      ; 0x1665b $A64B BD 01 A6                ;
+    LDA      bank5_ppu_write_pointer_table+1,x ; 0x1665b $A64B BD 01 A6        ;
     STA      $01                       ; 0x1665e $A64E 85 01                   ;
     JSR      bank7_LD2EC               ; 0x16660 $A650 20 EC D2                ;
     LDA      #$3F                      ; 0x16663 $A653 A9 3F                   ; A = #$3f 0011_1111
@@ -5576,8 +5582,10 @@ bank5_table_AF3D_PPU_maybe:                                                     
 .byt    $2B,$0F,$00,$0F,$01,$12,$21,$0F; 0x16f55 $AF45 2B 0F 00 0F 01 12 21 0F ;
 .byt    $0F,$0A,$12,$0F,$30,$12,$02,$0F; 0x16f5d $AF4D 0F 0A 12 0F 30 12 02 0F ;
 .byt    $2B,$0F,$00,$0F,$16,$26,$30,$0F; 0x16f65 $AF55 2B 0F 00 0F 16 26 30 0F ;
-.byt    $0F,$19,$21,$FF,$20,$1F,$DE,$FD; 0x16f6d $AF5D 0F 19 21 FF 20 1F DE FD ;
-.byt    $28,$1F,$DE,$FD,$22,$6B,$09,$0F; 0x16f75 $AF65 28 1F DE FD 22 6B 09 0F ;
+.byt    $0F,$19,$21,$FF                ; 0x16f6d $AF5D 0F 19 21 FF             ;
+bank5_Title_Screen_BG_Data:                                                    ; Draws the background for the main title screen.
+.byt    $20,$1F,$DE,$FD                ; 0x16f6d $AF61 20 1F DE FD             ; The first two writes are a solid "white" bar along the right edge that is given a black palette to hide it
+.byt    $28,$1F,$DE,$FD,$22,$6B,$09,$0F; 0x16f75 $AF65 28 1F DE FD 22 6B 09 0F ; This is used for a sprite 0 hit in order to do the scroll split on the intro title screen.
 .byt    $10,$11,$12,$13,$14,$15,$16,$17; 0x16f7d $AF6D 10 11 12 13 14 15 16 17 ;
 .byt    $22,$7F,$01,$FD,$23,$E0,$08,$00; 0x16f85 $AF75 22 7F 01 FD 23 E0 08 00 ;
 .byt    $00,$00,$00,$00,$00,$00,$CC,$22; 0x16f8d $AF7D 00 00 00 00 00 00 CC 22 ;
@@ -7230,7 +7238,8 @@ bank5_Tables_for_Selection_Screen_Text_:                                        
                                                                                ;
 .byt    $FF                            ; 0x17cce $BCBE FF                      ;
                                                                                ;
-.byt    $20,$64,$58,$CB                ; 0x17ccf $BCBF 20 64 58 CB             ;
+bank5_Register_Your_Name:                                                      ;
+.byt    $20,$64,$58,$CB                ; 0x17ccf $BCBF 20 64 58 CB             ;; Start address for drawing register new file menu
                                                                                ;
 .byt    $20,$66,$14,$F4                ; 0x17cd3 $BCC3 20 66 14 F4             ;
                                                                                ;
@@ -7283,6 +7292,7 @@ bank5_Tables_for_Selection_Screen_Text_:                                        
                                                                                ;
 .byt    $FF                            ; 0x17d64 $BD54 FF                      ;
                                                                                ;
+bank5_Elimiation_Mode:                                                         ; Start address for drawing the elimination mode screen
 .byt    $20,$64,$58,$CB                ; 0x17d65 $BD55 20 64 58 CB             ;
                                                                                ;
 .byt    $20,$67,$12                    ; 0x17d69 $BD59 20 67 12                ;
